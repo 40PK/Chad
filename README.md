@@ -6,14 +6,12 @@ Cross-platform tool for writing posts in telegram channels with markdown and HTM
 
 
 ## Features
----
 - Post preview (HTML, markdown, plain text)
 - Sending posts in multiple channels
 - Formatting constrols (link, bold, italic)
 - OS X design 😊
 
 ## How to use
----
 If you have own bot token in telegram, you can start from step 4
 1. Goto `@BotFather` in telegram
 2. Create new bot with `/newbot` command
@@ -23,7 +21,6 @@ If you have own bot token in telegram, you can start from step 4
 6. Write your post and send ![Write and send post](images/step6.png)
 
 ## Roadmap
----
 - Drafts
 - Change published posts
 - Attachments
@@ -33,7 +30,6 @@ If you have own bot token in telegram, you can start from step 4
 - Two-column writing design
 
 ## Used libraries and frameworks
----
 - [Electron](http://electron.atom.io/) - framework for create cross-platform desktop applications using JavaScript, HTML and CSS
 - [Angular.js](https://angularjs.org) - JavaScript MVW Framework
 - [jQuery](https://jquery.com/) - JavaScript DOM manipulation library
@@ -42,7 +38,6 @@ If you have own bot token in telegram, you can start from step 4
 - [electron-input-menu](https://www.npmjs.com/package/electron-input-menu) - Context menu for `Electron` input elements
 
 ## How to build
----
 1. Install `electron-packager`:
 ```
 npm install electron-packager -g
