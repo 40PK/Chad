@@ -29,7 +29,6 @@ If you have own bot token in telegram, you can start from step 4
 - Telegram-style preview
 - Sync scroll
 - Two-column writing design
-- Bot avatar reload
 - Auto update
 - Autosave
 - Hotkeys and other user settings
