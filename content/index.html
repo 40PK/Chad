@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html ng-app="Chad">
+  <head>
+    <meta charset="UTF-8">
+    <title>Chad</title>
+    <link rel="stylesheet" href="./css/photon.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body ng-controller="AppController">
+    <div class="window">
+      <div class="window-content">
+        <div class="pane-group">
+          <div class="pane pane-sm sidebar">
+            <ul class="list-group">
+              <li class="list-group-header">
+                <strong>Channels:</strong>
+                <div class="btn-group pull-right">
+                  <button class="btn btn-mini btn-default" ng-class="{active: multiple}" ng-click="toggleMultiple()">
+                    multiple
+                  </button>
+                  <button class="btn btn-mini btn-default" ng-click="OpenChannelDialog()">
+                    <span class="icon icon-plus"></span>
+                  </button>
+                </div>
+              </li>
+              <li 
+                class="list-group-item"
+                ng-class="{'checkbox': multiple, 'radio': !multiple}"
+                ng-repeat="channel in channels track by channel.uid" 
+                ng-mouseover="hover=true" 
+                ng-mouseleave="hover=false"
+                ng-init="hover=false">
+                <label>
+                  <input 
+                    type="{{multiple ? 'checkbox' : 'radio'}}" 
+                    name="broadcasting" 
+                    ng-click="toggleSelection(channel.uid)"
+                    ng-init="selected[channel.uid]=false"
+                    ng-checked="selected[channel.uid]">
+                  {{channel.name}}
+                </label>
+                
+                <button ng-if="hover" class="btn btn-default borderless btn-mini pull-right" ng-click="RemoveChannel(channel.uid)">
+                  <span class="icon icon-minus"></span>
+                </button>
+              </li>
+            </ul>
+
+            <nav class="nav-group bot-info">
+              <h5 class="nav-group-title">Admin bot</h5>
+              <button ng-if="!adminbot.token" class="btn btn-default btn-mini add-bot" ng-click="OpenBotDialog()">
+                Set
+              </button>
+              <button ng-if="adminbot.token" class="btn btn-default btn-mini pull-right bot-change borderless" ng-click="OpenChangeBotDialog()">
+                <span class="icon icon-pencil bot-change-icon"></span>
+              </button>
+              <br>
+              <div ng-if="adminbot.token" class="nav-group-item bot-profile">
+                <a href="#">
+                  <div class="avatar-overlay"></div>
+                  <img ng-src="{{botavatar}}" class="bot-avatar"/>
+                </a>
+                <p class="bot-name">{{adminbot.first_name}}</p>
+                <p class="bot-username">@{{adminbot.username}}</p>
+              </div>
+              
+            </nav>
+          </div>
+
+          <div class="pane content">
+            <h5 class="pull-left" style="margin: 0">Formatting style:&nbsp;</h5> 
+            <div class="btn-group">
+              <button class="btn btn-default" ng-class="{active: (parser == 'HTML')}" ng-click="selectParser('HTML');updatePreview()">
+                HTML
+              </button>
+              <button class="btn btn-default" ng-class="{active: (parser == 'markdown')}" ng-click="selectParser('markdown');updatePreview()">
+                Markdown
+              </button>
+            </div>
+            <div class="pull-right">
+              <button class="btn btn-default" ng-click="insertLink()">
+                Link
+              </button>
+              <button class="btn btn-default" ng-click="insertBold()">
+                <b>Bold</b>
+              </button>
+              <button class="btn btn-default" ng-click="insertItalic()">
+                <i>Italic</i>
+              </button>
+            </div>
+            <br><br>
+            <textarea ng-change="updatePreview()" ng-model="post_text" ng-init="post_text=''" id="post_text" class="form-control post-area" rows="10" wrap="off"></textarea>
+            <h4>Preview:</h4>
+            <div class="preview-overflow">
+              <pre id="preview" class="preview"></pre>
+            </div>
+            <div class="pull-left send-options">
+              <div class="checkbox send-checkbox">
+                <label>
+                  <input type="checkbox" ng-model="disablePreview" ng-init="disablePreview=false"> Disable link preview
+                </label>
+              </div>
+              <div class="checkbox send-checkbox">
+                <label>
+                  <input type="checkbox" ng-model="disableNotification" ng-init="disableNotification=false"> Disable notification
+                </label>
+              </div>
+            </div>
+            <button class="btn btn-large pull-right send-button" ng-class="{'btn-default': !channelSelected, 'btn-primary': channelSelected}" ng-disabled="!channelSelected" ng-click="sendPost()">{{sending?'Wait...':'Send'}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay" style="display: none"></div>
+
+    <div class="window dialog" style="display: none" id="addChannelDialog">
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Add channel</h1>
+      </header>
+
+      <div class="window-content">
+        <form>
+          <div class="form-group">
+            <label>Channel name:</label>
+            <input type="text" class="form-control" ng-model="inputChannelName" placeholder="My channel name">
+          </div>
+          <div class="form-group">
+            <label>Channel username:</label>
+            <input type="text" class="form-control" ng-model="inputChannelUsername" placeholder="@mychannel">
+          </div>
+        </form>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default" ng-click="CloseChannelDialog()">
+            Cancel
+          </button>
+          <button class="btn btn-primary pull-right" ng-click="SaveChannel()">
+            Save
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div class="window dialog" style="display: none; height: 140px" id="setBotDialog">
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Set admin bot</h1>
+      </header>
+
+      <div class="window-content">
+        <form>
+          <div class="form-group">
+            <label>Bot token:</label>
+            <input type="text" class="form-control" ng-model="inputBotToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
+          </div>
+        </form>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default" ng-click="CloseBotDialog()">
+            Cancel
+          </button>
+          <button class="btn btn-primary pull-right" ng-click="SaveAdminBot(inputBotToken)">
+            Save
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div class="window dialog" style="display: none; height: 140px" id="changeBotDialog">
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Change admin bot</h1>
+      </header>
+
+      <div class="window-content">
+        <form>
+          <div class="form-group">
+            <label>Bot token:</label>
+            <input type="text" class="form-control" ng-model="changeBotToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
+          </div>
+        </form>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default" ng-click="CloseChangeBotDialog()">
+            Cancel
+          </button>
+          <button class="btn btn-primary pull-right" ng-click="SaveAdminBot(changeBotToken)">
+            Save
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div class="window dialog" style="display: none; height: 210px" id="insertLinkDialog">
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Insert link</h1>
+      </header>
+
+      <div class="window-content">
+        <form>
+          <div class="form-group">
+            <label>Link title:</label>
+            <input type="text" class="form-control" ng-model="insertLinkTitle" placeholder="title">
+          </div>
+          <div class="form-group">
+            <label>Link url:</label>
+            <input type="text" class="form-control" ng-model="insertLinkURL" placeholder="URL">
+          </div>
+        </form>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default" ng-click="CloseInsertLinkDialog()">
+            Cancel
+          </button>
+          <button class="btn btn-primary pull-right" ng-click="insertLinkInText()">
+            Save
+          </button>
+        </div>
+      </footer>
+    </div>
+    
+    <script>
+      const $ = require('jquery');
+      require('angular');
+      
+      require('./renderer.js');
+    </script>
+  </body>
+</html>

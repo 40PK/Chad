@@ -1,0 +1,40 @@
+{
+  "name": "chad",
+  "version": "1.0.0",
+  "description": "Telegram channel administration tool",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-darwin": "electron-packager . Chad --platform=darwin --arch=all --icon=./icons/chad --out=./builds --overwrite",
+    "package-linux": "electron-packager . Chad --platform=linux --arch=all --icon=./icons/chad --out=./builds --overwrite",
+    "package-win": "electron-packager . Chad --platform=win32 --arch=all --icon=./icons/chad --out=./builds --overwrite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Perkovec/Chad.git"
+  },
+  "keywords": [
+    "Telegram",
+    "tool",
+    "administration",
+    "channel",
+    "Electron"
+  ],
+  "license": "GNU GPLv3",
+  "author": "Perkovec",
+  "bugs": {
+    "url": "https://github.com/Perkovec/Chad/issues"
+  },
+  "homepage": "https://github.com/Perkovec/Chad#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "electron-contextmenu-middleware": "^1.0.2",
+    "electron-input-menu": "^2.0.3",
+    "jquery": "^3.1.0",
+    "xss": "^0.2.13"
+  }
+}

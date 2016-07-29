@@ -1,0 +1,157 @@
+.dialog {
+  margin: 0 auto;
+  width: 300px;
+  height: 210px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 0 30px rgba(0,0,0,.1);
+  border: 1px solid #bebebe;
+  border-top: none;
+  z-index: 100;
+}
+
+.dialog form {
+  width: 100%;
+  padding: 5px;
+}
+
+.borderless {
+  box-shadow: none;
+  border: none;
+}
+
+.overlay {
+  background: transparent;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.bot-info {
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  padding: 5px;
+}
+
+.add-bot {
+  width: 100%;
+}
+
+.bot-profile {
+  padding: 2px 5px;
+  margin-top: -20px;
+}
+
+.bot-profile:active {
+  background-color: transparent;
+}
+
+.bot-profile .bot-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  float: left;
+}
+
+.bot-profile .avatar-overlay {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  float: left;
+  position: fixed;
+  z-index: 1;
+  background-image: url(../assets/reload.png);
+  background-size: cover;
+  opacity: .0;
+  transition: all linear .2s;
+  cursor: pointer;
+}
+
+.bot-profile .avatar-overlay:hover {
+  opacity: .8;
+}
+
+.bot-profile .avatar-overlay:hover + .bot-avatar{
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+}
+
+.bot-info .bot-change {
+  padding: 0px;
+  position: relative;
+  top: -20px;
+  margin-right: -2px;
+  float: right;
+}
+
+.bot-info .bot-change-icon {
+  margin-top: -1px;
+  height: 17px;
+  width: 18px;
+  line-height: 20px;
+  margin-right: 0px;
+}
+
+.bot-info .bot-name {
+  padding-left: 10px;
+  margin-top: 5px; 
+  float: left;
+  width: 50px;
+}
+
+.bot-info .bot-username {
+  float: left;
+  width: 50px;
+  left: 70px;
+  margin-top: 25px;
+  position: absolute;
+  color: #bebebe;
+  font-size: 12px;
+}
+
+.content {
+  padding: 5px;
+}
+
+.preview {
+  font-family: inherit;
+  margin: 5px;
+}
+
+.preview-code {
+  margin: 1em 0;
+}
+
+.preview-code-inline {
+  margin: 0;
+  display: inline;
+}
+
+.preview-overflow {
+  overflow: auto;
+  height: 200px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.post-area {
+  resize: none;
+  height: 200px;
+}
+
+.send-button {
+  margin-top: 20px;
+}
+
+.send-options {
+  margin-top: 10px;
+}
+
+.send-checkbox {
+  margin: 0;
+  margin-top: -4px;
+}
