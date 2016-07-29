@@ -13,6 +13,7 @@ Cross-platform tool for writing posts in telegram channels with markdown and HTM
 
 ## How to use
 If you have own bot token in telegram, you can start from step 4
+
 1. Goto `@BotFather` in telegram
 2. Create new bot with `/newbot` command
 3. `@BotFather` give you bot `token` (`'123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'`)
