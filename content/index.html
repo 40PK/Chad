@@ -57,7 +57,7 @@
               <br>
               <div ng-if="adminbot.token" class="nav-group-item bot-profile">
                 <a href="#">
-                  <div class="avatar-overlay"></div>
+                  <div class="avatar-overlay" ng-click="UpdateBotProfilePhoto()"></div>
                   <img ng-src="{{botavatar}}" class="bot-avatar"/>
                 </a>
                 <p class="bot-name">{{adminbot.first_name}}</p>

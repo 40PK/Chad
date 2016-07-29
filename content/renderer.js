@@ -1,7 +1,8 @@
 const electron = require('electron');
 const context = require('electron-contextmenu-middleware');
 const inputMenu = require('electron-input-menu');
-const parser = require('./parser');
+const parser = require('./js/parser');
+const tgAPI = require('./js/API');
 const remote = electron.remote;
 const BrowserWindow = remote.BrowserWindow;
 
@@ -27,6 +28,8 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.parser = null;
   $scope.channelSelected = false;
   $scope.sending = false;
+
+  let API = $scope.token !== null ? new tgAPI($scope.token) : null;
 
   if ($scope.token !== null) {
     $scope.changeBotToken = $scope.token;
@@ -108,6 +111,38 @@ Chad.controller('AppController', function AppController($scope, $http) {
     CloseChannelDialog();
   }
 
+  function UpdateBotProfilePhoto() {
+    API.getUserProfilePhotos({
+      user_id: $scope.adminbot.id,
+      limit: 1
+    }).then((photos) => {
+      if (photos.ok && photos.result.photos.length > 0) {
+        let photo = photos.result.photos[0];
+
+        API.getFile({
+          file_id: photo[photo.length-1].file_id
+        }).then((getFile) => {
+          if (getFile.ok) {
+            API.getBlobFile(getFile.result.file_path).then((getBlob) => {
+              if (getBlob) {
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                  localStorage.setItem('botavatar', reader.result);
+                  $scope.botavatar = reader.result;
+                  $scope.$apply();
+                }
+                reader.readAsDataURL(getBlob);
+              }
+            });
+          }
+        });
+      } else if (photos.result.photos.length == 0) {
+        localStorage.removeItem('botavatar');
+        $scope.botavatar = './assets/botavatar.png';
+      }
+    });
+  }
+
   function SaveAdminBot(token) {
     if (!token || token.length < 30) {
       alert('Invalid token');
@@ -119,70 +154,22 @@ Chad.controller('AppController', function AppController($scope, $http) {
       return;
     }
 
-    let url = baseUrl + token;
-    let fileUrl = filebaseUrl + token + '/';
+    API = new tgAPI(token);
 
-    $http.post(
-      url + '/getMe',
-      {}
-    ).then((getMe) => {
-      if (getMe.data.ok && getMe.data.result.id) {
-        getMe.data.result.token = token;
-        localStorage.setItem('bot', JSON.stringify(getMe.data.result));
-        $scope.adminbot = getMe.data.result;
+    API.getMe().then((getMe) => {
+      if (getMe.ok) {
+        getMe.result.token = token;
+        localStorage.setItem('bot', JSON.stringify(getMe.result));
+        $scope.adminbot = getMe.result;
         $scope.token = token;
         token = null;
 
         CloseChangeBotDialog();
         CloseBotDialog();
 
-        $http.post(
-          url + '/getUserProfilePhotos',
-          {
-            user_id: getMe.data.result.id,
-            limit: 1
-          }
-        ).then((getUserProfilePhotos) => {
-          if (getUserProfilePhotos.data.ok && getUserProfilePhotos.data.result.total_count === 1) {
-            let photo = getUserProfilePhotos.data.result.photos[0];
-            $http.post(
-              url + '/getFile',
-              {
-                file_id: photo[photo.length-1].file_id
-              }
-            ).then((getFile) => {
-              if (getFile.data.ok && getFile.data.result.file_path) {
-                $http.get(
-                  fileUrl + getFile.data.result.file_path,
-                  {
-                    responseType: 'blob'
-                  }
-                ).then((getAvatar) => {
-                  if (getAvatar.data) {
-                    var reader = new FileReader();
-                    reader.onloadend = function() {
-                      localStorage.setItem('botavatar', reader.result);
-                      $scope.botavatar = reader.result;
-                      $scope.$apply();
-                    }
-                    reader.readAsDataURL(getAvatar.data);
-                  }
-                }, (error) => {
-
-                });
-              }
-            }, (error) => {
-
-            });
-          } else {
-            localStorage.removeItem('botavatar');
-            $scope.botavatar = './assets/botavatar.png';
-          }
-        }, (error) => {
-
-        });
+        UpdateBotProfilePhoto();
       }
-    }, (error) => {
+    }, (err) => {
       alert('Can\'t find bot with this token');
     });
   }
@@ -393,6 +380,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.insertBold = insertBold;
   $scope.insertItalic = insertItalic;
   $scope.sendPost = sendPost;
+  $scope.UpdateBotProfilePhoto = UpdateBotProfilePhoto;
 });
 
 function uid() {
