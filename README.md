@@ -8,7 +8,7 @@ Cross-platform tool for writing posts in telegram channels with markdown and HTM
 ## Features
 - Post preview (HTML, markdown, plain text)
 - Sending posts in multiple channels
-- Formatting constrols (link, bold, italic)
+- Formatting controls (link, bold, italic)
 - OS X design 😊
 
 ## How to use
@@ -29,6 +29,10 @@ If you have own bot token in telegram, you can start from step 4
 - Telegram-style preview
 - Sync scroll
 - Two-column writing design
+- Bot avatar reload
+- Auto update
+- Autosave
+- Hotkeys and other user settings
 
 ## Used libraries and frameworks
 - [Electron](http://electron.atom.io/) - framework for create cross-platform desktop applications using JavaScript, HTML and CSS
