@@ -35,6 +35,7 @@
     "electron-contextmenu-middleware": "^1.0.2",
     "electron-input-menu": "^2.0.3",
     "jquery": "^3.1.0",
+    "universal-analytics": "^0.4.2",
     "xss": "^0.2.13"
   }
 }

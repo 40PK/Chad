@@ -1,6 +1,7 @@
 const electron = require('electron');
 const context = require('electron-contextmenu-middleware');
 const inputMenu = require('electron-input-menu');
+const ua = require('universal-analytics');
 const parser = require('./js/parser');
 const tgAPI = require('./js/API');
 const remote = electron.remote;
@@ -19,6 +20,8 @@ let defaultSettings = JSON.stringify({
   lang: 'en'
 });
 
+let analytics = ua('UA-81643761-1', {https: true});
+
 Chad.controller('AppController', function AppController($scope, $http) {
   $scope.settings = JSON.parse(localStorage.getItem('settings') || defaultSettings);
   $scope.channels = JSON.parse(localStorage.getItem('channels') || '[]');
@@ -33,6 +36,8 @@ Chad.controller('AppController', function AppController($scope, $http) {
 
   $scope.local = require('./langs/' + $scope.settings.lang);
   
+  analytics.event('Main events', 'Chad run').send();
+
   let API = $scope.token !== null ? new tgAPI($scope.token) : null;
   
   $scope.changeBotToken = $scope.token !== null ? $scope.token : null;
@@ -52,6 +57,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
   function OpenDialog(id) {
     $('#overlay').show();
     $('#' + id).slideDown();
+    analytics.event('Main events', 'Open dialog: ' + id).send()
   }
 
   function CloseDialog(id) {
@@ -327,12 +333,15 @@ Chad.controller('AppController', function AppController($scope, $http) {
       updatePreview();
       $scope.$apply();
     });
+
+    analytics.event('Main events', 'Used parser: ' + ($scope.parser || 'none')).send();
   }
 
   function saveSettings() {
     localStorage.setItem('settings', JSON.stringify($scope.settings));
     $scope.local = require('./langs/' + $scope.settings.lang);
     CloseDialog('preferencesDialog');
+    analytics.event('Main events', 'Used language: ' + $scope.settings.lang).send()
   }
 
   $scope.OpenDialog = OpenDialog;
