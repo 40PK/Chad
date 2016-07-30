@@ -35,8 +35,12 @@ html, body {
   margin-top: 10px; 
 }
 
+.head-form {
+  display: inline-block;
+  margin: 0 !important;
+}
+
 .head-button {
-  display: block;
   margin: 0 auto;
   text-align: right;
   border: 5px solid #FFF;
