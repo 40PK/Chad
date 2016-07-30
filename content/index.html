@@ -18,7 +18,7 @@
                   <button class="btn btn-mini btn-default" ng-class="{active: multiple}" ng-click="toggleMultiple()">
                     multiple
                   </button>
-                  <button class="btn btn-mini btn-default" ng-click="OpenChannelDialog()">
+                  <button class="btn btn-mini btn-default" ng-click="OpenDialog('addChannelDialog')">
                     <span class="icon icon-plus"></span>
                   </button>
                 </div>
@@ -48,10 +48,10 @@
 
             <nav class="nav-group bot-info">
               <h5 class="nav-group-title">Admin bot</h5>
-              <button ng-if="!adminbot.token" class="btn btn-default btn-mini add-bot" ng-click="OpenBotDialog()">
+              <button ng-if="!adminbot.token" class="btn btn-default btn-mini add-bot" ng-click="OpenDialog('setBotDialog')">
                 Set
               </button>
-              <button ng-if="adminbot.token" class="btn btn-default btn-mini pull-right bot-change borderless" ng-click="OpenChangeBotDialog()">
+              <button ng-if="adminbot.token" class="btn btn-default btn-mini pull-right bot-change borderless" ng-click="OpenDialog('changeBotDialog')">
                 <span class="icon icon-pencil bot-change-icon"></span>
               </button>
               <br>
@@ -134,7 +134,7 @@
 
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
-          <button class="btn btn-default" ng-click="CloseChannelDialog()">
+          <button class="btn btn-default" ng-click="CloseDialog('addChannelDialog')">
             Cancel
           </button>
           <button class="btn btn-primary pull-right" ng-click="SaveChannel()">
@@ -160,7 +160,7 @@
 
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
-          <button class="btn btn-default" ng-click="CloseBotDialog()">
+          <button class="btn btn-default" ng-click="CloseDialog('setBotDialog')">
             Cancel
           </button>
           <button class="btn btn-primary pull-right" ng-click="SaveAdminBot(inputBotToken)">
@@ -186,7 +186,7 @@
 
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
-          <button class="btn btn-default" ng-click="CloseChangeBotDialog()">
+          <button class="btn btn-default" ng-click="CloseDialog('changeBotDialog')">
             Cancel
           </button>
           <button class="btn btn-primary pull-right" ng-click="SaveAdminBot(changeBotToken)">
@@ -216,7 +216,7 @@
 
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
-          <button class="btn btn-default" ng-click="CloseInsertLinkDialog()">
+          <button class="btn btn-default" ng-click="CloseDialog('insertLinkDialog')">
             Cancel
           </button>
           <button class="btn btn-primary pull-right" ng-click="insertLinkInText()">

@@ -30,10 +30,8 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.sending = false;
 
   let API = $scope.token !== null ? new tgAPI($scope.token) : null;
-
-  if ($scope.token !== null) {
-    $scope.changeBotToken = $scope.token;
-  }
+  
+  $scope.changeBotToken = $scope.token !== null ? $scope.token : null;
 
   $scope.$watchCollection('selected', (newVal, oldVal) => {
     let channelSelected = false;
@@ -47,44 +45,14 @@ Chad.controller('AppController', function AppController($scope, $http) {
     $scope.channelSelected = channelSelected;
   }, true);
 
-  function OpenChannelDialog() {
+  function OpenDialog(id) {
     $('#overlay').show();
-    $('#addChannelDialog').slideDown();
+    $('#' + id).slideDown();
   }
 
-  function CloseChannelDialog() {
+  function CloseDialog(id) {
     $('#overlay').hide();
-    $('#addChannelDialog').slideUp();
-  }
-
-  function OpenBotDialog() {
-    $('#overlay').show();
-    $('#setBotDialog').slideDown();
-  }
-
-  function CloseBotDialog() {
-    $('#overlay').hide();
-    $('#setBotDialog').slideUp();
-  }
-
-  function OpenChangeBotDialog() {
-    $('#overlay').show();
-    $('#changeBotDialog').slideDown();
-  }
-
-  function CloseChangeBotDialog() {
-    $('#overlay').hide();
-    $('#changeBotDialog').slideUp();
-  }
-
-  function OpenInsertLinkDialog() {
-    $('#overlay').show();
-    $('#insertLinkDialog').slideDown();
-  }
-
-  function CloseInsertLinkDialog() {
-    $('#overlay').hide();
-    $('#insertLinkDialog').slideUp();
+    $('#' + id).slideUp();
   }
 
   function SaveChannel() {
@@ -108,7 +76,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
     $scope.inputChannelName = null;
     $scope.inputChannelUsername = null;
 
-    CloseChannelDialog();
+    CloseDialog('addChannelDialog');
   }
 
   function UpdateBotProfilePhoto() {
@@ -164,8 +132,8 @@ Chad.controller('AppController', function AppController($scope, $http) {
         $scope.token = token;
         token = null;
 
-        CloseChangeBotDialog();
-        CloseBotDialog();
+        CloseDialog('changeBotDialog');
+        CloseDialog('setBotDialog');
 
         UpdateBotProfilePhoto();
       }
@@ -238,7 +206,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
       $scope.insertLinkTitle = $scope.post_text.substring(selStart, selEnd);
     }
     
-    OpenInsertLinkDialog();
+    OpenDialog('insertLinkDialog');
   }
 
   function insertLinkInText() {
@@ -259,7 +227,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
     postDOM.setSelectionRange(selStart, selStart + res.length);
     postDOM.focus();
 
-    CloseInsertLinkDialog();
+    CloseDialog('insertLinkDialog');
     updatePreview();
   }
 
@@ -358,16 +326,8 @@ Chad.controller('AppController', function AppController($scope, $http) {
     });
   }
 
-  
-  
-  $scope.OpenChannelDialog = OpenChannelDialog;
-  $scope.CloseChannelDialog = CloseChannelDialog;
-  $scope.OpenBotDialog = OpenBotDialog;
-  $scope.CloseBotDialog = CloseBotDialog;
-  $scope.OpenChangeBotDialog = OpenChangeBotDialog;
-  $scope.CloseChangeBotDialog = CloseChangeBotDialog;
-  $scope.OpenInsertLinkDialog = OpenInsertLinkDialog;
-  $scope.CloseInsertLinkDialog = CloseInsertLinkDialog;
+  $scope.OpenDialog = OpenDialog;
+  $scope.CloseDialog = CloseDialog;
   $scope.SaveChannel = SaveChannel;
   $scope.RemoveChannel = RemoveChannel;
   $scope.SaveAdminBot = SaveAdminBot;
