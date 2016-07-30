@@ -129,7 +129,7 @@ html, body {
   animation-delay: 1.6s;
 }
 
-@media screen and (max-width: 870px) {
+@media screen and (max-width: 960px) {
   .intro-img {
     display: none;
   }
