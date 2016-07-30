@@ -1,9 +1,9 @@
 const xss = require('xss');
 
-const strongRegex = /\*(.*)\*/g;
-const italicRegex = /_(.*)_/g;
-const urlRegex = /\[.*\]\(.*\)/g;
-const inlinecodeRegex = /`(.*)`/g;
+const strongRegex = /\*([\s\S]+?)\*(?!\*)/g;
+const italicRegex = /_([\s\S]+?)_(?!_)/g;
+const urlRegex = /\[([\s\S]+?)\](?!\])\(([\s\S]+?)\)(?!\))/g;
+const inlinecodeRegex = /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/g;
 const blockcodeRegex = /(```)\s*([\s\S]*?[^`])\s*\1(?!```)\n?/g;
 const linkRegex = /\((.*)\)/g;
 const titleRegex = /\[(.*)\]/g;
