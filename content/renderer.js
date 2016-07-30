@@ -301,11 +301,9 @@ Chad.controller('AppController', function AppController($scope, $http) {
 
     function sendRec(list, onend) {
       params.chat_id = list[0];
-      $http.post(
-        url + '/sendMessage',
-        params
-      ).then((success) => {
-        if (success.data.ok) {
+
+      API.sendMessage(params).then((success) => {
+        if (success.ok) {
           list.splice(0, 1);
           if (list.length > 0) {
             sendRec(list, onend);

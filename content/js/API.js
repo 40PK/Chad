@@ -35,6 +35,10 @@ class TelegramAPI {
       xhr.send();      
     });
   }
+
+  sendMessage(params) {
+    return this.post('sendMessage', params);
+  }
 }
 
 module.exports = TelegramAPI;
