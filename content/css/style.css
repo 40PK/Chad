@@ -176,3 +176,9 @@
 .control-group {
   height: 30px;
 }
+
+.channels-title {
+  float: left;
+  padding-top: 0;
+  padding-left: 0;
+}

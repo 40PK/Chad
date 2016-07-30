@@ -11,12 +11,32 @@
       <div class="window-content">
         <div class="pane-group">
           <div class="pane pane-sm sidebar">
+            <nav class="nav-group">
+              <h5 class="nav-group-title">{{local.menu}}</h5>
+              <a class="nav-group-item">
+                <span class="icon icon-book-open"></span>
+                {{local.menu_posts}}
+              </a>
+              <a class="nav-group-item">
+                <span class="icon icon-pencil"></span>
+                {{local.menu_drafts}}
+              </a>
+              <a class="nav-group-item" ng-click="OpenDialog('preferencesDialog')">
+                <span class="icon icon-cog"></span>
+                {{local.menu_preferences}}
+              </a>
+              <a class="nav-group-item">
+                <span class="icon icon-info-circled"></span>
+                {{local.menu_about}}
+              </a>
+            </nav>
+
             <ul class="list-group">
               <li class="list-group-header">
-                <strong>Channels:</strong>
+                <h5 class="nav-group-title channels-title">{{local.channels}}</h5>
                 <div class="btn-group pull-right">
                   <button class="btn btn-mini btn-default" ng-class="{active: multiple}" ng-click="toggleMultiple()">
-                    multiple
+                    {{local.channels_multiple}}
                   </button>
                   <button class="btn btn-mini btn-default" ng-click="OpenDialog('addChannelDialog')">
                     <span class="icon icon-plus"></span>
@@ -47,9 +67,9 @@
             </ul>
 
             <nav class="nav-group bot-info">
-              <h5 class="nav-group-title">Admin bot</h5>
+              <h5 class="nav-group-title">{{local.bot}}</h5>
               <button ng-if="!adminbot.token" class="btn btn-default btn-mini add-bot" ng-click="OpenDialog('setBotDialog')">
-                Set
+                {{local.bot_set}}
               </button>
               <button ng-if="adminbot.token" class="btn btn-default btn-mini pull-right bot-change borderless" ng-click="OpenDialog('changeBotDialog')">
                 <span class="icon icon-pencil bot-change-icon"></span>
@@ -70,31 +90,31 @@
           <div class="pane content">
             <div class="half-top">
               <div class="control-group">
-                <h5 class="pull-left" style="margin: 0">Formatting style:&nbsp;</h5> 
+                <h5 class="pull-left" style="margin: 0">{{local.controls_formatting_styles}}:&nbsp;</h5> 
                 <div class="btn-group">
                   <button class="btn btn-default" ng-class="{active: (parser == 'HTML')}" ng-click="selectParser('HTML');updatePreview()">
-                    HTML
+                    {{local.controls_html}}
                   </button>
                   <button class="btn btn-default" ng-class="{active: (parser == 'markdown')}" ng-click="selectParser('markdown');updatePreview()">
-                    Markdown
+                    {{local.controls_markdown}}
                   </button>
                 </div>
                 <div class="pull-right">
                   <button class="btn btn-default" ng-click="insertLink()">
-                    Link
+                    {{local.controls_link}}
                   </button>
                   <button class="btn btn-default" ng-click="insertBold()">
-                    <b>Bold</b>
+                    <b>{{local.controls_bold}}</b>
                   </button>
                   <button class="btn btn-default" ng-click="insertItalic()">
-                    <i>Italic</i>
+                    <i>{{local.controls_italic}}</i>
                   </button>
                 </div>
               </div>
               <textarea ng-change="updatePreview()" ng-model="post_text" ng-init="post_text=''" id="post_text" class="form-control post-area" rows="10"></textarea>
             </div>
             <div class="half-bottom">
-              <h4 class="preview-title">Preview:</h4>
+              <h4 class="preview-title">{{local.preview}}:</h4>
               <div class="preview-overflow">
                 <pre id="preview" class="preview"></pre>
               </div>
@@ -102,16 +122,16 @@
                 <div class="pull-left send-options">
                   <div class="checkbox send-checkbox">
                     <label>
-                      <input type="checkbox" ng-model="disablePreview" ng-init="disablePreview=false"> Disable link preview
+                      <input type="checkbox" ng-model="disablePreview" ng-init="disablePreview=false"> {{local.preview_disable_link_preview}}
                     </label>
                   </div>
                   <div class="checkbox send-checkbox">
                     <label>
-                      <input type="checkbox" ng-model="disableNotification" ng-init="disableNotification=false"> Disable notification
+                      <input type="checkbox" ng-model="disableNotification" ng-init="disableNotification=false"> {{local.preview_disable_notification}}
                     </label>
                   </div>
                 </div>
-                <button class="btn btn-large pull-right send-button" ng-class="{'btn-default': !channelSelected, 'btn-primary': channelSelected}" ng-disabled="!channelSelected" ng-click="sendPost()">{{sending?'Wait...':'Send'}}</button>
+                <button class="btn btn-large pull-right send-button" ng-class="{'btn-default': !channelSelected || (post_text.length == 0), 'btn-primary': channelSelected || (post_text.length > 0)}" ng-disabled="!channelSelected || (post_text.length == 0)" ng-click="sendPost()">{{sending?local.preview_wait:local.preview_send}}</button>
               </div>
             </div>
           </div>
@@ -123,17 +143,17 @@
 
     <div class="window dialog" style="display: none" id="addChannelDialog">
       <header class="toolbar toolbar-header">
-        <h1 class="title">Add channel</h1>
+        <h1 class="title">{{local.d_add_channel}}</h1>
       </header>
 
       <div class="window-content">
         <form>
           <div class="form-group">
-            <label>Channel name:</label>
-            <input type="text" class="form-control" ng-model="inputChannelName" placeholder="My channel name">
+            <label>{{local.d_add_channel_name}}:</label>
+            <input type="text" class="form-control" ng-model="inputChannelName" placeholder="{{local.d_add_channel_name_placeholder}}">
           </div>
           <div class="form-group">
-            <label>Channel username:</label>
+            <label>{{local.d_add_channel_username}}:</label>
             <input type="text" class="form-control" ng-model="inputChannelUsername" placeholder="@mychannel">
           </div>
         </form>
@@ -142,10 +162,10 @@
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
           <button class="btn btn-default" ng-click="CloseDialog('addChannelDialog')">
-            Cancel
+            {{local.d_add_channel_cancel}}
           </button>
           <button class="btn btn-primary pull-right" ng-click="SaveChannel()">
-            Save
+            {{local.d_add_channel_save}}
           </button>
         </div>
       </footer>
@@ -153,13 +173,13 @@
 
     <div class="window dialog" style="display: none; height: 140px" id="setBotDialog">
       <header class="toolbar toolbar-header">
-        <h1 class="title">Set admin bot</h1>
+        <h1 class="title">{{local.d_set_admin_bot}}</h1>
       </header>
 
       <div class="window-content">
         <form>
           <div class="form-group">
-            <label>Bot token:</label>
+            <label>{{local.d_set_admin_bot_token}}:</label>
             <input type="text" class="form-control" ng-model="inputBotToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
           </div>
         </form>
@@ -168,10 +188,10 @@
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
           <button class="btn btn-default" ng-click="CloseDialog('setBotDialog')">
-            Cancel
+            {{local.d_set_admin_bot_cancel}}
           </button>
           <button class="btn btn-primary pull-right" ng-click="SaveAdminBot(inputBotToken)">
-            Save
+            {{local.d_set_admin_bot_save}}
           </button>
         </div>
       </footer>
@@ -179,13 +199,13 @@
 
     <div class="window dialog" style="display: none; height: 140px" id="changeBotDialog">
       <header class="toolbar toolbar-header">
-        <h1 class="title">Change admin bot</h1>
+        <h1 class="title">{{local.d_change_admin_bot}}</h1>
       </header>
 
       <div class="window-content">
         <form>
           <div class="form-group">
-            <label>Bot token:</label>
+            <label>{{local.d_change_admin_bot_token}}:</label>
             <input type="text" class="form-control" ng-model="changeBotToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
           </div>
         </form>
@@ -194,10 +214,10 @@
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
           <button class="btn btn-default" ng-click="CloseDialog('changeBotDialog')">
-            Cancel
+            {{local.d_change_admin_bot_cancel}}
           </button>
           <button class="btn btn-primary pull-right" ng-click="SaveAdminBot(changeBotToken)">
-            Save
+            {{local.d_change_admin_bot_save}}
           </button>
         </div>
       </footer>
@@ -205,17 +225,17 @@
 
     <div class="window dialog" style="display: none; height: 210px" id="insertLinkDialog">
       <header class="toolbar toolbar-header">
-        <h1 class="title">Insert link</h1>
+        <h1 class="title">{{local.d_insert_link}}</h1>
       </header>
 
       <div class="window-content">
         <form>
           <div class="form-group">
-            <label>Link title:</label>
+            <label>{{local.d_insert_link_title}}:</label>
             <input type="text" class="form-control" ng-model="insertLinkTitle" placeholder="title">
           </div>
           <div class="form-group">
-            <label>Link url:</label>
+            <label>{{local.d_insert_link_url}}:</label>
             <input type="text" class="form-control" ng-model="insertLinkURL" placeholder="URL">
           </div>
         </form>
@@ -224,10 +244,39 @@
       <footer class="toolbar toolbar-footer">
         <div class="toolbar-actions">
           <button class="btn btn-default" ng-click="CloseDialog('insertLinkDialog')">
-            Cancel
+            {{local.d_insert_link_cancel}}
           </button>
           <button class="btn btn-primary pull-right" ng-click="insertLinkInText()">
-            Save
+            {{local.d_insert_link_save}}
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div class="window dialog" style="display: none; height: 130px" id="preferencesDialog">
+      <header class="toolbar toolbar-header">
+        <h1 class="title">{{local.d_preferences}}</h1>
+      </header>
+
+      <div class="window-content">
+        <form>
+          <div class="form-group">
+            <label>{{local.d_preferences_language}}</label>
+            <select class="form-control" ng-model="settings.lang">
+              <option value="en">English</option>
+              <option value="ru">Русский</option>
+            </select>
+          </div>
+        </form>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default" ng-click="CloseDialog('preferencesDialog')">
+            {{local.d_preferences_cancel}}
+          </button>
+          <button class="btn btn-primary pull-right" ng-click="saveSettings()">
+            {{local.d_preferences_save}}
           </button>
         </div>
       </footer>

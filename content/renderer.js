@@ -11,14 +11,16 @@ let Chad = angular.module('Chad', []);
 const usernameRegex = /@.{5,}/;
 const tokenRegex = /\d{9}:.{30,}/;
 
-const baseUrl = 'https://api.telegram.org/bot';
-const filebaseUrl = 'https://api.telegram.org/file/bot';
-
 inputMenu.registerShortcuts();
 context.use(inputMenu);
 context.activate();
 
+let defaultSettings = JSON.stringify({
+  lang: 'en'
+});
+
 Chad.controller('AppController', function AppController($scope, $http) {
+  $scope.settings = JSON.parse(localStorage.getItem('settings') || defaultSettings);
   $scope.channels = JSON.parse(localStorage.getItem('channels') || '[]');
   $scope.adminbot = JSON.parse(localStorage.getItem('bot') || '{}');
   $scope.botavatar = localStorage.getItem('botavatar') || './assets/botavatar.png';
@@ -29,6 +31,8 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.channelSelected = false;
   $scope.sending = false;
 
+  $scope.local = require('./langs/' + $scope.settings.lang);
+  
   let API = $scope.token !== null ? new tgAPI($scope.token) : null;
   
   $scope.changeBotToken = $scope.token !== null ? $scope.token : null;
@@ -305,23 +309,30 @@ Chad.controller('AppController', function AppController($scope, $http) {
       API.sendMessage(params).then((success) => {
         if (success.ok) {
           list.splice(0, 1);
-          if (list.length > 0) {
+          if (list.length) {
             sendRec(list, onend);
           }
         } else {
           alert('Something went wrong');
         }
-        if (list.length === 0) {
+        if (!list.length) {
           onend();
         }
       });
     }
 
     sendRec(listToSend, () => {
-      $scope.post_text = null;
-      updatePreview();
+      $scope.post_text = '';
       $scope.sending = false;
+      updatePreview();
+      $scope.$apply();
     });
+  }
+
+  function saveSettings() {
+    localStorage.setItem('settings', JSON.stringify($scope.settings));
+    $scope.local = require('./langs/' + $scope.settings.lang);
+    CloseDialog('preferencesDialog');
   }
 
   $scope.OpenDialog = OpenDialog;
@@ -339,6 +350,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.insertItalic = insertItalic;
   $scope.sendPost = sendPost;
   $scope.UpdateBotProfilePhoto = UpdateBotProfilePhoto;
+  $scope.saveSettings = saveSettings;
 });
 
 function uid() {
