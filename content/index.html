@@ -25,7 +25,7 @@
                 <span class="icon icon-cog"></span>
                 {{local.menu_preferences}}
               </a>
-              <a class="nav-group-item">
+              <a class="nav-group-item" ng-click="OpenDialog('aboutDialog')">
                 <span class="icon icon-info-circled"></span>
                 {{local.menu_about}}
               </a>
@@ -277,6 +277,33 @@
           </button>
           <button class="btn btn-primary pull-right" ng-click="saveSettings()">
             {{local.d_preferences_save}}
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <div class="window dialog" style="display: none; height: 250px" id="aboutDialog">
+      <header class="toolbar toolbar-header">
+        <h1 class="title">{{local.d_about}}</h1>
+      </header>
+
+      <div class="window-content">
+        <form>
+          Source code: <a href="#" ng-click="openBrowser('https://github.com/Perkovec/Chad')">Github</a><br>
+          Site: <a href="#" ng-click="openBrowser('https://perkovec.github.io/Chad/')">perkovec.github.io/Chad</a><br>
+          <br>
+          Developed by Perkovec:<br>
+          Telegram: <a href="#" ng-click="openBrowser('https://telegram.me/perkovec/')">@Perkovec</a><br>
+          VK: <a href="#" ng-click="openBrowser('https://vk.com/id120146182')">Ilya Perkovec</a><br>
+          E-mail: <a href="#" ng-click="openBrowser('mailto:perkovec24@gmail.com')">perkovec24@gmail.com</a><br>
+          LinkedIn: <a href="#" ng-click="openBrowser('https://www.linkedin.com/in/perkovec')">Ilya Perkovec</a>
+        </form>
+      </div>
+
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-default" ng-click="CloseDialog('aboutDialog')">
+            {{local.d_about_close}}
           </button>
         </div>
       </footer>

@@ -6,6 +6,7 @@ const parser = require('./js/parser');
 const tgAPI = require('./js/API');
 const remote = electron.remote;
 const BrowserWindow = remote.BrowserWindow;
+const shell = electron.shell;
 
 let Chad = angular.module('Chad', []);
 
@@ -344,6 +345,10 @@ Chad.controller('AppController', function AppController($scope, $http) {
     analytics.event('Main events', 'Used language: ' + $scope.settings.lang).send()
   }
 
+  function openBrowser(url) {
+     shell.openExternal(url);
+  }
+
   $scope.OpenDialog = OpenDialog;
   $scope.CloseDialog = CloseDialog;
   $scope.SaveChannel = SaveChannel;
@@ -360,6 +365,7 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.sendPost = sendPost;
   $scope.UpdateBotProfilePhoto = UpdateBotProfilePhoto;
   $scope.saveSettings = saveSettings;
+  $scope.openBrowser = openBrowser;
 });
 
 function uid() {

@@ -50,5 +50,8 @@ module.exports = {
   d_preferences: 'Preferences',
   d_preferences_language: 'Language',
   d_preferences_cancel: 'Cancel',
-  d_preferences_save: 'Save'
+  d_preferences_save: 'Save',
+
+  d_about: 'About Chad',
+  d_about_close: 'Close'
 }

@@ -50,5 +50,8 @@ module.exports = {
   d_preferences: 'Настройки',
   d_preferences_language: 'Язык',
   d_preferences_cancel: 'Отменить',
-  d_preferences_save: 'Сохранить'
+  d_preferences_save: 'Сохранить',
+
+  d_about: 'О Chad',
+  d_about_close: 'Закрыть'
 }
