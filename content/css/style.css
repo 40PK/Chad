@@ -120,6 +120,7 @@
 .preview {
   font-family: inherit;
   margin: 5px;
+  white-space: pre-wrap;
 }
 
 .preview-code {
