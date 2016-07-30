@@ -141,7 +141,7 @@
 
 .post-area {
   resize: none;
-  height: 200px;
+  height: 100%;
 }
 
 .send-button {
@@ -155,4 +155,24 @@
 .send-checkbox {
   margin: 0;
   margin-top: -4px;
+}
+
+.half-top {
+  height: 50%;
+  display: flex;
+  flex-flow: column;
+}
+
+.half-bottom {
+  height: 50%;
+  display: flex;
+  flex-flow: column;
+}
+
+.preview-title {
+  margin: 5px 0px;
+}
+
+.control-group {
+  height: 30px;
 }

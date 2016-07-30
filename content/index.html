@@ -68,45 +68,52 @@
           </div>
 
           <div class="pane content">
-            <h5 class="pull-left" style="margin: 0">Formatting style:&nbsp;</h5> 
-            <div class="btn-group">
-              <button class="btn btn-default" ng-class="{active: (parser == 'HTML')}" ng-click="selectParser('HTML');updatePreview()">
-                HTML
-              </button>
-              <button class="btn btn-default" ng-class="{active: (parser == 'markdown')}" ng-click="selectParser('markdown');updatePreview()">
-                Markdown
-              </button>
-            </div>
-            <div class="pull-right">
-              <button class="btn btn-default" ng-click="insertLink()">
-                Link
-              </button>
-              <button class="btn btn-default" ng-click="insertBold()">
-                <b>Bold</b>
-              </button>
-              <button class="btn btn-default" ng-click="insertItalic()">
-                <i>Italic</i>
-              </button>
-            </div>
-            <br><br>
-            <textarea ng-change="updatePreview()" ng-model="post_text" ng-init="post_text=''" id="post_text" class="form-control post-area" rows="10"></textarea>
-            <h4>Preview:</h4>
-            <div class="preview-overflow">
-              <pre id="preview" class="preview"></pre>
-            </div>
-            <div class="pull-left send-options">
-              <div class="checkbox send-checkbox">
-                <label>
-                  <input type="checkbox" ng-model="disablePreview" ng-init="disablePreview=false"> Disable link preview
-                </label>
+            <div class="half-top">
+              <div class="control-group">
+                <h5 class="pull-left" style="margin: 0">Formatting style:&nbsp;</h5> 
+                <div class="btn-group">
+                  <button class="btn btn-default" ng-class="{active: (parser == 'HTML')}" ng-click="selectParser('HTML');updatePreview()">
+                    HTML
+                  </button>
+                  <button class="btn btn-default" ng-class="{active: (parser == 'markdown')}" ng-click="selectParser('markdown');updatePreview()">
+                    Markdown
+                  </button>
+                </div>
+                <div class="pull-right">
+                  <button class="btn btn-default" ng-click="insertLink()">
+                    Link
+                  </button>
+                  <button class="btn btn-default" ng-click="insertBold()">
+                    <b>Bold</b>
+                  </button>
+                  <button class="btn btn-default" ng-click="insertItalic()">
+                    <i>Italic</i>
+                  </button>
+                </div>
               </div>
-              <div class="checkbox send-checkbox">
-                <label>
-                  <input type="checkbox" ng-model="disableNotification" ng-init="disableNotification=false"> Disable notification
-                </label>
+              <textarea ng-change="updatePreview()" ng-model="post_text" ng-init="post_text=''" id="post_text" class="form-control post-area" rows="10"></textarea>
+            </div>
+            <div class="half-bottom">
+              <h4 class="preview-title">Preview:</h4>
+              <div class="preview-overflow">
+                <pre id="preview" class="preview"></pre>
+              </div>
+              <div class="options-group">
+                <div class="pull-left send-options">
+                  <div class="checkbox send-checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="disablePreview" ng-init="disablePreview=false"> Disable link preview
+                    </label>
+                  </div>
+                  <div class="checkbox send-checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="disableNotification" ng-init="disableNotification=false"> Disable notification
+                    </label>
+                  </div>
+                </div>
+                <button class="btn btn-large pull-right send-button" ng-class="{'btn-default': !channelSelected, 'btn-primary': channelSelected}" ng-disabled="!channelSelected" ng-click="sendPost()">{{sending?'Wait...':'Send'}}</button>
               </div>
             </div>
-            <button class="btn btn-large pull-right send-button" ng-class="{'btn-default': !channelSelected, 'btn-primary': channelSelected}" ng-disabled="!channelSelected" ng-click="sendPost()">{{sending?'Wait...':'Send'}}</button>
           </div>
         </div>
       </div>
