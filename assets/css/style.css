@@ -1,3 +1,121 @@
-.page-header {
-  
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500);
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.head {
+  padding:  0;
+  text-align: center;
+  height: 100%;
+}
+
+.head-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.head-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.head-icon {
+  float: left;
+  position: relative;
+}
+
+.head-icon:before {
+  font-size: 35px !important;
+  margin-top: 10px; 
+}
+
+.head-button {
+  display: block;
+  margin: 0 auto;
+  text-align: right;
+  border: 5px solid #FFF;
+  background: none;
+  color: #FFF;
+  height: 60px;
+  width: 200px;
+  line-height: 30px;
+  padding: 0 10px;
+  margin-top: 5px;
+  font-size: 16px;
+  font-family: Roboto, sans-serif;
+  font-weight: 100;
+}
+
+.head-button:hover {
+  background: #FFF;
+  color: #000;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.title {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+  color: #FFF;
+  -webkit-animation-delay: .5s;
+  -moz-animation-delay: .5s;
+  -o-animation-delay: .5s;
+  animation-delay: .5s;
+}
+
+.logo {
+  max-width: 200px;
+  margin-top: 50px;
+  -webkit-animation-delay: .5s;
+  -moz-animation-delay: .5s;
+  -o-animation-delay: .5s;
+  animation-delay: .5s;
+}
+
+.s2 {
+  -webkit-animation-duration: 2s !important;
+  -moz-animation-duration: 2s !important;
+  -o-animation-duration: 2s !important;
+  animation-duration: 2s !important;
+}
+
+.fade1 {
+  -webkit-animation-delay: .7s;
+  -moz-animation-delay: .7s;
+  -o-animation-delay: .7s;
+  animation-delay: .7s;
+}
+
+.fade2 {
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay: 1s;
+  -o-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+.fade3 {
+  -webkit-animation-delay: 1.3s;
+  -moz-animation-delay: 1.3s;
+  -o-animation-delay: 1.3s;
+  animation-delay: 1.3s;
+}
+
+.fade4 {
+  -webkit-animation-delay: 1.6s;
+  -moz-animation-delay: 1.6s;
+  -o-animation-delay: 1.6s;
+  animation-delay: 1.6s;
 }
