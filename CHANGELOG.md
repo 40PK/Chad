@@ -17,5 +17,5 @@
 
 ## 1.0.0 - 2016-07-30
 ### First release
-
+---
 [2.0.0] [https://github.com/Perkovec/Chad/compare/v1.0...v2.0](https://github.com/Perkovec/Chad/compare/v1.0...v2.0)
