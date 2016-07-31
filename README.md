@@ -35,11 +35,13 @@ If you have own bot token in telegram, you can start from step 4
 
 ## Used libraries and frameworks
 - [Electron](http://electron.atom.io/) - framework for create cross-platform desktop applications using JavaScript, HTML and CSS
+- [PhotonKit](http://photonkit.com/) - OS X style UI kit
 - [Angular.js](https://angularjs.org) - JavaScript MVW Framework
 - [jQuery](https://jquery.com/) - JavaScript DOM manipulation library
-- [XSS](https://www.npmjs.com/package/xss) - HTML sanitizer
+- [XSS](https://github.com/leizongmin/js-xss) - HTML sanitizer
 - [electron-contextmenu-middleware](https://github.com/parro-it/electron-contextmenu-middleware) - `Electron` context menu
-- [electron-input-menu](https://www.npmjs.com/package/electron-input-menu) - Context menu for `Electron` input elements
+- [electron-input-menu](https://github.com/parro-it/electron-input-menu) - Context menu for `Electron` input elements
+- [universal-analytics](https://github.com/peaksandpies/universal-analytics) - Module for Google's Universal Analytics tracking
 
 ## How to build
 1. Install `electron-packager`:

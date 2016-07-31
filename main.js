@@ -9,11 +9,11 @@ function createWindow () {
     width: 800, 
     height: 600,
 
-    minWidth: 600,
+    minWidth: 630,
     minHeight: 600,
 
     maxWidth: 960,
-    maxHeight: 600,
+    maxHeight: 630,
 
     'title-bar-style': 'hidden',
     icon: __dirname + '/icons/chad.png'

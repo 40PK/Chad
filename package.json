@@ -1,6 +1,6 @@
 {
   "name": "chad",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Telegram channel administration tool",
   "main": "main.js",
   "scripts": {
