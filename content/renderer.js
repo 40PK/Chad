@@ -7,6 +7,7 @@ const tgAPI = require('./js/API');
 const remote = electron.remote;
 const BrowserWindow = remote.BrowserWindow;
 const shell = electron.shell;
+const ipcRenderer = electron.ipcRenderer;
 
 let Chad = angular.module('Chad', []);
 
@@ -23,7 +24,7 @@ let defaultSettings = JSON.stringify({
 
 let analytics = ua('UA-81643761-1', {https: true});
 
-Chad.controller('AppController', function AppController($scope, $http) {
+Chad.controller('AppController', function AppController($scope, $http, $timeout) {
   $scope.settings = JSON.parse(localStorage.getItem('settings') || defaultSettings);
   $scope.channels = JSON.parse(localStorage.getItem('channels') || '[]');
   $scope.adminbot = JSON.parse(localStorage.getItem('bot') || '{}');
@@ -293,7 +294,6 @@ Chad.controller('AppController', function AppController($scope, $http) {
   function sendPost() {
     $scope.sending = true;
 
-    let url = baseUrl + $scope.token;
     let listToSend = [];
 
     for (let i in $scope.channels) {
@@ -366,6 +366,10 @@ Chad.controller('AppController', function AppController($scope, $http) {
   $scope.UpdateBotProfilePhoto = UpdateBotProfilePhoto;
   $scope.saveSettings = saveSettings;
   $scope.openBrowser = openBrowser;
+
+  $timeout(() => {
+    ipcRenderer.send('show-window');
+  }, 100);
 });
 
 function uid() {

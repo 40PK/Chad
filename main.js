@@ -1,6 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const ipcMain = electron.ipcMain;
 
 let mainWindow
 
@@ -16,11 +17,15 @@ function createWindow () {
     maxHeight: 630,
 
     'title-bar-style': 'hidden',
-    icon: __dirname + '/icons/chad.png'
+    icon: __dirname + '/icons/chad.png',
+    show: false
   });
 
   mainWindow.loadURL(`file://${__dirname}/content/index.html`);
 
+  ipcMain.once('show-window', () => {
+    mainWindow.show();
+  });
 
   mainWindow.on('closed', function () {
     mainWindow = null
