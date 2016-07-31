@@ -2,13 +2,16 @@
 
 Cross-platform tool for writing posts in telegram channels with markdown and HTML supporting.
 
-![Main window](images/main.png)
+[Download](https://github.com/Perkovec/Chad/releases) - [Changelog](https://github.com/Perkovec/Chad/blob/master/CHANGELOG.md) - [Features](#features) - [How to use](#how-to-use) - [Roadmap](#roadmap) - [Used libraries](#used-libraries-and-frameworks) - [How to build](#how-to-build)
 
+![Main window](images/main.png)
 
 ## Features
 - Post preview (HTML, markdown, plain text)
 - Sending posts in multiple channels
+- Sending post options
 - Formatting controls (link, bold, italic)
+- Multilanguage support
 - OS X design 😊
 
 ## How to use
