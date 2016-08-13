@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 - 2016-08-14
+## [3.0.0] - 2016-08-14
 ### Added
 - "Posts" section (Changing sent posts)
 - "Drafts" section (Save drafts of post, change and send later)
@@ -14,7 +14,7 @@
 ### Fixed
 - Hide menubar on Windows
 
-## 2.0.0 - 2016-07-31
+## [2.0.0] - 2016-07-31
 ### Added
 - Menu in sidebar
 - 'Preferences' and 'About Chad' menu items ('Posts' and 'Drafts' are coming soon)
