@@ -18,6 +18,7 @@ function createWindow() {
     show: true,
   });
 
+  mainWindow.setMenu(null);
   mainWindow.loadURL(`file://${__dirname}/content/index.html`);
 
   ipcMain.once('show-window', () => {
