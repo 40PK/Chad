@@ -46,11 +46,8 @@
     "uglify-js-harmony": "^2.6.2"
   },
   "dependencies": {
-    "babel-polyfill": "^6.13.0",
-    "classnames": "^2.2.5",
     "electron-contextmenu-middleware": "^1.0.2",
     "electron-input-menu": "^2.0.3",
-    "flexboxgrid": "^6.3.0",
     "material-ui": "^0.15.3",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
