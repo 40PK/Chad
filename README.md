@@ -50,15 +50,15 @@ If you have bot token in telegram, you can start from step 4
 - [superagent](https://github.com/visionmedia/superagent) - small progressive client-side HTTP request library
 
 ## How to build
-1. Install `electron-packager` and `gulp`:
+#### 1. Install `electron-packager` and `gulp`:
 ```
 npm install electron-packager gulp -g
 ```
-2. Install dependencies:
+#### 2. Install dependencies:
 ```
 npm install
 ```
-3. Compile code:
+#### 3. Compile code:
 ```
 # Debug
 gulp build-debug
@@ -66,7 +66,7 @@ gulp build-debug
 # Relese
 gulp build-relese
 ```
-4. Run build script:
+#### 4. Run build script:
 ```
 # OS X
 npm run package-darwin
