@@ -58,6 +58,17 @@ class WPostWrite extends React.Component {
     this.inputRef = null;
   }
 
+  componentWillReceiveProps(newProps) {
+    let state = this.state;
+    if (newProps.settings) {
+      if (newProps.settings.parser) state.parser = newProps.settings.parser;
+      if (newProps.settings.disablePreview) state.disablePreview = true;
+      if (newProps.settings.disableNotification) state.disableNotification = true;
+    }
+
+    this.setState(state, () => this.updatePreview());
+  }
+
   checkParser() {
     if (this.state.parser === 'none')
       return alert('Select formatting style.');

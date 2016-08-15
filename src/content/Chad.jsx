@@ -1,4 +1,4 @@
-const { Paper, List } = require('material-ui');
+const { Paper, List, Snackbar } = require('material-ui');
 const { Layout, Fixed, Flex } = require('react-layout-pane');
 const { MuiThemeProvider, getMuiTheme } = require('material-ui/styles');
 const darkBaseTheme = require('material-ui/styles/baseThemes/darkBaseTheme').default;
@@ -16,11 +16,6 @@ const tokenRegex = /\d{9}:.{30,}/;
 
 let analytics = ua('UA-81643761-1', { https: true });
 
-const defaultSettings = JSON.stringify({
-  lang: 'en',
-  darkTheme: false,
-});
-
 const paperStyle = {
   height: '100%',
   width: 256,
@@ -33,11 +28,15 @@ class Chad extends React.Component {
     this.state = {
       posts: JSON.parse(localStorage.getItem('posts') || '[]'),
       drafts: JSON.parse(localStorage.getItem('drafts') || '[]'),
-      settings: JSON.parse(localStorage.getItem('settings') || defaultSettings),
+      settings: JSON.parse(localStorage.getItem('settings')),
       botavatar: (localStorage.getItem('botavatar') || './assets/botavatar.png'),
       bot: JSON.parse(localStorage.getItem('bot') || '{}'),
       channels: JSON.parse(localStorage.getItem('channels') || '[]'),
       sideBarOpen: false,
+      snackbar: {
+        open: false,
+        text: '',
+      },
     };
 
     this.local = require('./langs/' + this.state.settings.lang);
@@ -48,6 +47,7 @@ class Chad extends React.Component {
 
     this.signal.register('LanguageChange', (v) => this.languageChange(v));
     this.signal.register('DarkThemeChange', (v) => this.darkThemeChange(v));
+    this.signal.register('PostWriteDefaultsChange', (v) => this.postWriteDefaultsChange(v));
     this.signal.register('SendPost', (d) => this.sendPost(d));
     this.signal.register('NewChannel', (d) => this.newChannel(d));
     this.signal.register('RemoveChannel', (i) => this.removeChannel(i));
@@ -73,6 +73,31 @@ class Chad extends React.Component {
     state.settings.darkTheme = value;
     localStorage.setItem('settings', JSON.stringify(state.settings));
     this.setState(state);
+  }
+
+  postWriteDefaultsChange(value) {
+    let state = this.state;
+    state.settings.postWriteDefaults = value;
+    localStorage.setItem('settings', JSON.stringify(state.settings));
+    this.setState(state);
+  }
+
+  makeSnackbar(text) {
+    this.setState({
+      snackbar: {
+        open: true,
+        text: text,
+      },
+    });
+  }
+
+  closeSnackbar() {
+    this.setState({
+      snackbar: {
+        open: false,
+        text: '',
+      },
+    });
   }
 
   sendPost(data) {
@@ -290,44 +315,15 @@ class Chad extends React.Component {
   updateBotProfilePhoto(id) {
     id = id !== undefined ? id : this.props.bot.id;
 
-    let _this = this;
     let API = this.API;
 
     this.signal.call('SetAvatarLoadState', [true]);
-
-    API.getUserProfilePhotos({
-      user_id: id,
-      limit: 1,
-    }).then((photos) => {
-      photos = photos.body;
-      if (photos.ok && photos.result.photos.length > 0) {
-        let photo = photos.result.photos[0];
-
-        API.getFile({
-          file_id: photo[photo.length - 1].file_id,
-        }).then((getFile) => {
-          getFile = getFile.body;
-          if (getFile.ok) {
-            API.getBlobFile(getFile.result.file_path).then((getBlob) => {
-              if (getBlob) {
-                var reader = new FileReader();
-                reader.onloadend = () => {
-                  localStorage.setItem('botavatar', reader.result);
-                  this.setState({
-                    botavatar: reader.result,
-                  }, () => this.signal.call('SetAvatarLoadState', [false]));
-                };
-
-                reader.readAsDataURL(getBlob);
-              }
-            });
-          }
-        });
-      } else if (photos.result.photos.length == 0) {
-        this.setState({
-          botavatar: './assets/botavatar.png',
-        }, () => this.signal.call('SetAvatarLoadState', [false]));
-      }
+    this.API.getBase64Avatar(id).then((base64) => {
+      base64 = base64 === null ? './assets/botavatar.png' : base64;
+      localStorage.setItem('botavatar', base64);
+      this.setState({
+        botavatar: base64,
+      }, () => this.signal.call('SetAvatarLoadState', [false]));
     });
   }
 
@@ -373,7 +369,7 @@ class Chad extends React.Component {
     drafts.unshift(data);
     this.setState({
       drafts: drafts,
-    });
+    }, () => this.makeSnackbar('Draft saved!'));
     localStorage.setItem('drafts', JSON.stringify(drafts));
   }
 
@@ -393,6 +389,7 @@ class Chad extends React.Component {
     let SideBarData = {
       lang: this.state.settings.lang,
       darkTheme: this.state.settings.darkTheme,
+      postWriteDefaults: this.state.settings.postWriteDefaults,
       channels: this.state.channels,
       bot: {
         avatar: this.state.botavatar,
@@ -405,6 +402,7 @@ class Chad extends React.Component {
     let ContentBarData = {
       posts: this.state.posts,
       drafts: this.state.drafts,
+      postWriteDefaults: this.state.settings.postWriteDefaults,
     };
 
     const theme = this.state.settings.darkTheme ? darkBaseTheme : lightBaseTheme;
@@ -430,6 +428,11 @@ class Chad extends React.Component {
               </Flex>
             </Layout>
           </Flex>
+          <Snackbar
+            open={this.state.snackbar.open}
+            message={this.state.snackbar.text}
+            autoHideDuration={4000}
+            onRequestClose={() => this.closeSnackbar()}/>
         </Layout>
       </MuiThemeProvider>
     );

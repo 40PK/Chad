@@ -6,6 +6,7 @@ const {
   SelectField,
   MenuItem,
   Toggle,
+  Checkbox,
 } = require('material-ui');
 const { Layout, Fixed, Flex } = require('react-layout-pane');
 const SideBarMenu = require('./SideBarMenu');
@@ -24,6 +25,18 @@ class SideBar extends React.Component {
 
     this.props.signal.register('MenuPreferences', () => this.setState({ preferencesDialog: true }));
     this.props.signal.register('MenuAbout', () => this.setState({ aboutDialog: true }));
+  }
+
+  formattingStyleChange(event, index, value) {
+    let data = this.props.data.postWriteDefaults;
+    data.parser = value;
+    this.props.signal.call('PostWriteDefaultsChange', [data]);
+  }
+
+  checkboxChange(type, event, isInputChecked) {
+    let data = this.props.data.postWriteDefaults;
+    data[type] = isInputChecked;
+    this.props.signal.call('PostWriteDefaultsChange', [data]);
   }
 
   openBrowser(url) {
@@ -89,12 +102,14 @@ class SideBar extends React.Component {
             signal={this.props.signal}
             local={this.props.local}/>
         </Fixed>
+
         <Dialog
           title={this.props.local.d_preferences}
           actions={actionsPreferences}
           modal={true}
           contentStyle={{ width: 300 }}
           open={this.state.preferencesDialog}>
+          <h4 style={{ margin: 0 }}>{this.props.local.d_preferences_general}:</h4>
           <SelectField
             floatingLabelText={this.props.local.d_preferences_language}
             value={this.props.data.lang}
@@ -106,7 +121,29 @@ class SideBar extends React.Component {
             onToggle={(e) => this.darkThemeChange(e)}
             toggled={this.props.data.darkTheme}
             label={this.props.local.d_preferences_dark_theme} />
+          
+          <br/>
+          <h4 style={{ margin: 0 }}>{this.props.local.d_preferences_default_postwrite}:</h4>
+          <SelectField
+            floatingLabelText={this.props.local.settings_formatting_styles}
+            value={this.props.data.postWriteDefaults.parser}
+            onChange={(e, i, v) => this.formattingStyleChange(e, i, v)}>
+            <MenuItem value='none' primaryText={this.props.local.settings_none} />
+            <MenuItem value='markdown' primaryText={this.props.local.settings_markdown} />
+            <MenuItem value='HTML' primaryText={this.props.local.settings_html} />
+          </SelectField>
+          <Checkbox
+            checked={this.props.data.postWriteDefaults.disablePreview}
+            value={this.props.data.postWriteDefaults.disablePreview}
+            onCheck={(e, i) => this.checkboxChange('disablePreview', e, i)}
+            label={this.props.local.post_settings_disable_link_preview} />
+          <Checkbox
+            checked={this.props.data.postWriteDefaults.disableNotification}
+            value={this.props.data.postWriteDefaults.disableNotification}
+            onCheck={(e, i) => this.checkboxChange('disableNotification', e, i)}
+            label={this.props.local.post_settings_disable_notification} />
         </Dialog>
+
         <Dialog
           title={this.props.local.d_about}
           actions={actionsAbout}

@@ -1,11 +1,18 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const injectTapEventPlugin = require('react-tap-event-plugin');
+const Velocity = require('velocity-animate');
+require('./js/DataRepair')();
 
-const Chad = require('./Chad');
+const overlay = document.getElementById('overlay');
 
 injectTapEventPlugin();
-ReactDOM.render(
-  <Chad/>,
-  document.getElementById('container')
-);
+setTimeout(() => {
+  const Chad = require('./Chad');
+  ReactDOM.render(
+    <Chad />,
+    document.getElementById('container')
+  );
+
+  Velocity(overlay, 'fadeOut', { duration: 500 });
+}, 10);

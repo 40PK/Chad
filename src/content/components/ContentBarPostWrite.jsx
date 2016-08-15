@@ -43,6 +43,7 @@ class ContentBarPostWrite extends React.Component {
       <div>
         <WPostWrite
           ref={(ref) => this.wPostWriteRef = ref}
+          settings={this.props.defaults}
           sendButtonContent={this.state.sendButtonContent}
           onSend={(d) => this.onSend(d)}
           onSaveDraft={(d) => this.onSaveDraft(d)}

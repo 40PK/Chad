@@ -55,6 +55,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "superagent": "^2.1.0",
     "universal-analytics": "^0.4.2",
+    "velocity-animate": "^1.2.3",
     "xss": "^0.2.13"
   }
 }

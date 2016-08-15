@@ -5,6 +5,15 @@ const ipcMain = electron.ipcMain;
 
 let mainWindow;
 
+global.data_version = {
+  settings: '3.1',
+  posts: '3.0',
+  bot: '3.0',
+  channels: '3.0',
+  botavatar: '3.0',
+  drafts: '3.0',
+};
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 850,

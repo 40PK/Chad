@@ -41,6 +41,39 @@ class TelegramAPI {
     });
   }
 
+  getBase64Avatar(id) {
+    return new Promise((resolve, reject) => {
+      this.getUserProfilePhotos({
+        user_id: id,
+        limit: 1,
+      }).then((photos) => {
+        photos = photos.body;
+        if (photos.ok && photos.result.photos.length > 0) {
+          return photos.result.photos[0];
+        } else {
+          resolve(null);
+        }
+      }).then((photo) => this.getFile({
+        file_id: photo[photo.length - 1].file_id,
+      })).then((file) => {
+        file = file.body;
+        if (file.ok) {
+          return this.getBlobFile(file.result.file_path);
+        } else {
+          resolve(null);
+        }
+      }).then((blob) => {
+        if (blob) {
+          var reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
   sendMessage(params) {
     return this.post('sendMessage', params);
   }

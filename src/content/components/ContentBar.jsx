@@ -19,6 +19,7 @@ class ContentBar extends React.Component {
     let content;
     if (this.state.content === 'PostWrite') {
       content = <ContentBarPostWrite
+                  defaults={this.props.data.postWriteDefaults}
                   signal={this.props.signal}
                   local={this.props.local} />;
     } else if (this.state.content === 'Posts') {

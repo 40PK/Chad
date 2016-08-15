@@ -43,6 +43,8 @@ module.exports = {
   d_preferences: 'Preferences',
   d_preferences_language: 'Language',
   d_preferences_dark_theme: 'Dark theme',
+  d_preferences_default_postwrite: 'Post options',
+  d_preferences_general: 'General',
   d_preferences_ok: 'OK',
 
   d_set_admin_bot: 'Set admin bot',
