@@ -1,0 +1,337 @@
+{"version":3,"sources":["main.styl"],"names":[],"mappings":"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","file":"main.css","sourceRoot":"/source/","sourcesContent":["*\r\n  padding 0\r\n  margin 0\r\n\r\na\r\n  text-decoration none\r\n  color black\r\n\r\nbody\r\n  font-family Verdana, Geneva, Tahoma, sans-serif\r\n  background #f9f9f9\r\n\r\nsection#topbar\r\n  opacity 0\r\n  width 100%\r\n  position absolute\r\n  top 0\r\n\r\n  div#menu\r\n    width 70%\r\n    margin 40px auto\r\n    color white\r\n\r\n    @media screen and (max-width: 900px)\r\n      width 90%\r\n\r\n    a#openmenu\r\n      float left\r\n      color white\r\n      font-size 21px\r\n\r\n      &:hover\r\n        cursor pointer\r\n\r\n    a#opendownload\r\n      float right\r\n      padding 10px 15px\r\n      border 2px solid white\r\n      border-radius 5px\r\n      color white\r\n      font-weight normal\r\n\r\n      &:hover\r\n        cursor pointer\r\n\r\nsection#board\r\n  background #71A5DA\r\n  padding-top 5%\r\n  padding-bottom -45px\r\n  text-align center\r\n  color white\r\n\r\n  @media screen and (max-width: 900px)\r\n    padding-top 100px\r\n\r\n  *\r\n    margin-top 30px\r\n\r\n  h1.title\r\n    opacity 0\r\n    font-weight normal\r\n    font-size 50px\r\n    margin-top 55px\r\n\r\n    span.version\r\n      font-size 20px\r\n      display inline-block\r\n\r\n  div.description\r\n    margin-top 15px\r\n    opacity 0\r\n\r\n  div.application\r\n    width: 55%\r\n    display block\r\n    margin 30px auto 0px auto \r\n    opacity 0\r\n\r\n    @media screen and (max-width: 900px)\r\n      width 80%\r\n\r\n    @media screen and (max-width: 600px)\r\n      width 100%\r\n\r\n    img.app\r\n      width 100%\r\n      height auto\r\n\r\nsection#description\r\n  overflow hidden\r\n  padding 5% 0\r\n\r\n  div#description\r\n    float left\r\n    width 40%\r\n    text-align left\r\n    padding 10px 5%\r\n\r\n    @media screen and (max-width: 800px)\r\n      width 100%\r\n      display block\r\n\r\n    *\r\n      display block\r\n\r\n    h2.title\r\n      font-weight normal\r\n      font-size 30px\r\n\r\n    div.description\r\n      padding 10px 0px\r\n  \r\n  div#image\r\n    float left\r\n    width 50%\r\n\r\n    @media screen and (max-width: 800px)\r\n      width 100%\r\n      display block\r\n\r\n    img\r\n      width 100%\r\n      height auto\r\n\r\nsection#developers\r\n  width 100%\r\n  background #f1f1f1\r\n  padding 5% 0\r\n  text-align center\r\n\r\n  h2#title\r\n    font-weight normal\r\n    text-align center\r\n    margin-bottom 30px\r\n\r\n  #developer\r\n    display inline-block\r\n    width 160px\r\n    margin-top 40px\r\n    text-align center\r\n\r\n    @media screen and (max-width: 500px)\r\n      display block\r\n      margin 40px auto\r\n\r\n    img.avatar\r\n      width 100px\r\n      height 100px\r\n      border-radius 50%\r\n\r\n    h3.name\r\n      font-weight normal\r\n      margin-top 5px;\r\n\r\n    div.type\r\n      margin-top 5px\r\n      font-style italic\r\n      margin-bottom 20px\r\n\r\n    a.github\r\n      padding 10px;\r\n      border 1px solid #d9d9d9\r\n      border-radius 5px\r\n      margin 15px 0px\r\n\r\nsection#download\r\n  background #333\r\n  padding 5% 0\r\n  text-align center\r\n  color white\r\n\r\n  transform translate()\r\n\r\n  @media screen and (max-width: 600px)\r\n      padding 25% 0\r\n\r\n  a\r\n    color white\r\n\r\n  a.download\r\n    padding 15px 25px\r\n    border 2px solid white\r\n    border-radius 4px\r\n    margin 50px 0\r\n\r\n    &:hover\r\n      cursor pointer\r\n\r\n  div.social\r\n    margin-top 50px\r\n    padding 15px 0\r\n\r\n    a\r\n      margin 0px 7px\r\n      font-size 25px\r\n\r\naside#sidebar\r\n  position fixed\r\n  background #333\r\n  border-right 1px solid #222\r\n  width 250px\r\n  float left\r\n  height 100%\r\n  color white\r\n  margin-left -252px\r\n\r\n  a\r\n    color white\r\n\r\n  div\r\n    display block\r\n    margin 30px 0\r\n\r\n  a.close\r\n    float right\r\n    margin 10px 15px\r\n\r\n    &:hover\r\n      cursor pointer\r\n\r\n  div#logo\r\n    margin 35px auto\r\n    width 100px\r\n    height auto\r\n\r\n    a\r\n      width 100%\r\n      img\r\n        width 100%\r\n\r\n  div#menu\r\n    a\r\n      padding 10px 20px\r\n      display block\r\n      &:hover\r\n        background #222\r\n\r\n  a.download\r\n    display block\r\n    width 150px\r\n    padding 10px 20px\r\n    border 2px solid white\r\n    border-radius 4px\r\n    text-align center\r\n    margin 30px auto\r\n\r\n    &:hover\r\n      cursor pointer\r\n\r\nsection#modal-download\r\n  display none\r\n  width 100%\r\n  height 100%\r\n  background rgba(#333, 0.7)\r\n  position fixed\r\n\r\n  div#window\r\n    background white\r\n    width: 35%\r\n    height auto\r\n    margin 10% auto\r\n    border-radius 5px \r\n\r\n    @media screen and (max-width: 600px)\r\n      width 100%\r\n      height 100%\r\n      margin 0 auto\r\n      border-radius 0px \r\n\r\n    a.close\r\n      float right\r\n      margin 25px 20px\r\n\r\n      &:hover\r\n        cursor pointer\r\n\r\n    h2.title \r\n      font-weight normal\r\n      padding 20px\r\n      font-size 20px\r\n      border-bottom 1px solid #d9d9d9\r\n\r\n    div.os\r\n      padding 5px 10px 25px 10px\r\n      div\r\n        display block\r\n        text-align center\r\n\r\n      div.name\r\n        margin-top 10px\r\n\r\n        a\r\n          display inline-block\r\n          padding 10px\r\n          border 2px solid #d9d9d9\r\n          border-radius 4px\r\n          margin 2px 10px\r\n          min-width 130px\r\n          text-align left\r\n\r\n          &:hover\r\n            cursor pointer\r\n"]}
+* {
+  padding: 0;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: #f9f9f9;
+}
+section#topbar {
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+section#topbar div#menu {
+  width: 70%;
+  margin: 40px auto;
+  color: #fff;
+}
+@media screen and (max-width: 900px) {
+  section#topbar div#menu {
+    width: 90%;
+  }
+}
+section#topbar div#menu a#openmenu {
+  float: left;
+  color: #fff;
+  font-size: 21px;
+}
+section#topbar div#menu a#openmenu:hover {
+  cursor: pointer;
+}
+section#topbar div#menu a#opendownload {
+  float: right;
+  padding: 10px 15px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+}
+section#topbar div#menu a#opendownload:hover {
+  cursor: pointer;
+}
+section#board {
+  background: #71a5da;
+  padding-top: 5%;
+  padding-bottom: -45px;
+  text-align: center;
+  color: #fff;
+}
+@media screen and (max-width: 900px) {
+  section#board {
+    padding-top: 100px;
+  }
+}
+section#board * {
+  margin-top: 30px;
+}
+section#board h1.title {
+  opacity: 0;
+  font-weight: normal;
+  font-size: 50px;
+  margin-top: 55px;
+}
+section#board h1.title span.version {
+  font-size: 20px;
+  display: inline-block;
+}
+section#board div.description {
+  margin-top: 15px;
+  opacity: 0;
+}
+section#board div.application {
+  width: 55%;
+  display: block;
+  margin: 30px auto 0px auto;
+  opacity: 0;
+}
+@media screen and (max-width: 900px) {
+  section#board div.application {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 600px) {
+  section#board div.application {
+    width: 100%;
+  }
+}
+section#board div.application img.app {
+  width: 100%;
+  height: auto;
+}
+div#descriptions {
+  width: 49%;
+  display: inline-block;
+  overflow: hidden;
+  padding: 10px 0;
+}
+div#descriptions div#description {
+  width: 70%;
+  text-align: left;
+  padding: 10px 0px 10px 30%;
+}
+@media screen and (max-width: 800px) {
+  div#descriptions {
+    width: 100%;
+  }
+}
+div#descriptions div#description * {
+  display: block;
+}
+div#descriptions div#description h2.title {
+  font-weight: normal;
+  font-size: 30px;
+}
+div#descriptions div#description div.description {
+  padding: 10px 0px;
+}
+div#descriptions div#image {
+  float: left;
+  width: 30%;
+  padding: 10px;
+}
+@media screen and (max-width: 800px) {
+  div#descriptions div#image {
+    width: 30%;
+    display: block;
+  }
+}
+div#descriptions div#image img {
+  width: 100%;
+  height: auto;
+}
+section#developers {
+  width: 100%;
+  background: #f1f1f1;
+  padding: 5% 0;
+  text-align: center;
+}
+section#developers h2#title {
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+section#features {
+  padding: 5% 0;
+}
+
+section#features  h2#title {
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+section#developers #developer {
+  display: inline-block;
+  width: 160px;
+  margin-top: 40px;
+  text-align: center;
+}
+@media screen and (max-width: 500px) {
+  section#developers #developer {
+    display: block;
+    margin: 40px auto;
+  }
+}
+section#developers #developer img.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+section#developers #developer h3.name {
+  font-weight: normal;
+  margin-top: 5px;
+}
+section#developers #developer div.type {
+  margin-top: 5px;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+section#developers #developer a.github {
+  padding: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  margin: 15px 0px;
+}
+section#download {
+  background: #333;
+  padding: 5% 0;
+  text-align: center;
+  color: #fff;
+  transform: translate();
+}
+@media screen and (max-width: 600px) {
+  section#download {
+    padding: 25% 0;
+  }
+}
+section#download a {
+  color: #fff;
+}
+section#download a.download {
+  padding: 15px 25px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  margin: 50px 0;
+}
+section#download a.download:hover {
+  cursor: pointer;
+}
+section#download div.social {
+  margin-top: 50px;
+  padding: 15px 0;
+}
+section#download div.social a {
+  margin: 0px 7px;
+  font-size: 25px;
+}
+aside#sidebar {
+  position: fixed;
+  background: #333;
+  border-right: 1px solid #222;
+  width: 250px;
+  float: left;
+  height: 100%;
+  color: #fff;
+  margin-left: -252px;
+}
+aside#sidebar a {
+  color: #fff;
+}
+aside#sidebar div {
+  display: block;
+  margin: 30px 0;
+}
+aside#sidebar a.close {
+  float: right;
+  margin: 10px 15px;
+}
+aside#sidebar a.close:hover {
+  cursor: pointer;
+}
+aside#sidebar div#logo {
+  margin: 35px auto;
+  width: 100px;
+  height: auto;
+}
+aside#sidebar div#logo a {
+  width: 100%;
+}
+aside#sidebar div#logo a img {
+  width: 100%;
+}
+aside#sidebar div#menu a {
+  padding: 10px 20px;
+  display: block;
+}
+aside#sidebar div#menu a:hover {
+  background: #222;
+}
+aside#sidebar a.download {
+  display: block;
+  width: 150px;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  text-align: center;
+  margin: 30px auto;
+}
+aside#sidebar a.download:hover {
+  cursor: pointer;
+}
+section#modal-download {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: rgba(51,51,51,0.7);
+  position: fixed;
+}
+section#modal-download div#window {
+  background: #fff;
+  width: 35%;
+  height: auto;
+  margin: 10% auto;
+  border-radius: 5px;
+}
+@media screen and (max-width: 600px) {
+  section#modal-download div#window {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    border-radius: 0px;
+  }
+}
+section#modal-download div#window a.close {
+  float: right;
+  margin: 25px 20px;
+}
+section#modal-download div#window a.close:hover {
+  cursor: pointer;
+}
+section#modal-download div#window h2.title {
+  font-weight: normal;
+  padding: 20px;
+  font-size: 20px;
+  border-bottom: 1px solid #d9d9d9;
+}
+section#modal-download div#window div.os {
+  padding: 5px 10px 25px 10px;
+}
+section#modal-download div#window div.os div {
+  display: block;
+  text-align: center;
+}
+section#modal-download div#window div.os div.name {
+  margin-top: 10px;
+}
+section#modal-download div#window div.os div.name a {
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid #d9d9d9;
+  border-radius: 4px;
+  margin: 2px 10px;
+  min-width: 130px;
+  text-align: left;
+}
+section#modal-download div#window div.os div.name a:hover {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=maps/main.css.map */
