@@ -29,7 +29,6 @@ If you have bot token in telegram, you can start from step 4
 ## Roadmap
 - Attachments
 - Link preview
-- Telegram-style preview
 - Sync scroll
 - Two-column writing design
 - Auto update
@@ -40,6 +39,7 @@ If you have bot token in telegram, you can start from step 4
 - [Electron](http://electron.atom.io/) - framework for create cross-platform desktop applications using JavaScript, HTML and CSS
 - [React](https://facebook.github.io/react/) - JavaScript library for building user interface
   - react-dom
+  - react-addons-shallow-compare
 - [Material-UI](http://www.material-ui.com) - A Set of React Components that Implement Google's Material Design
   - [react-tap-event-plugin](https://github.com/zilverline/react-tap-event-plugin) - Instant TapEvents for React
 - [XSS](https://github.com/leizongmin/js-xss) - HTML sanitizer
@@ -48,6 +48,9 @@ If you have bot token in telegram, you can start from step 4
 - [universal-analytics](https://github.com/peaksandpies/universal-analytics) - Module for Google's Universal Analytics tracking
 - [react-layout-pane](https://github.com/tomkp/react-layout-pane) - React layout component using flexbox
 - [superagent](https://github.com/visionmedia/superagent) - small progressive client-side HTTP request library
+- [velocity-animate](https://github.com/julianshapiro/velocity) - accelerated JavaScript animation
+- [react-deep-force-update](https://github.com/gaearon/react-deep-force-update) - force-updates React component tree recursively
+
 
 ## How to build
 #### 1. Install `electron-packager` and `gulp`:

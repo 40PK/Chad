@@ -18,7 +18,7 @@ gulp.task('clean', () => del.sync(['package/**', '!package', '!package/node_modu
 gulp.task('build:jsx-release', ['clean'], () => gulp.src('src/**/*.jsx')
   .pipe(changed('package'))
   .pipe(react({ harmony: false, es6module: true }))
-  .pipe(minifier({}, uglifyjs))
+  .pipe(minifier({ mangle: true }, uglifyjs))
   .pipe(extReplace('.js'))
   .pipe(gulp.dest('package')));
 
@@ -38,7 +38,7 @@ gulp.task('build:jsx-debug', ['clean'], () => gulp.src('src/**/*.jsx')
 
 gulp.task('build:js-release', ['build:jsx-release'], () => gulp.src('src/**/*.js')
   .pipe(changed('package'))
-  .pipe(minifier({}, uglifyjs))
+  .pipe(minifier({ mangle: true }, uglifyjs))
   .pipe(gulp.dest('package')));
 
 gulp.task('build:js-debug', ['build:jsx-debug'], () => gulp.src('src/**/*.js')
