@@ -41,7 +41,7 @@ class ContentBarPosts extends React.Component {
   }
 
   deletePost(uid) {
-    this.props.signal.call('DeletePost', [uid]);
+    this.props.signal.call('DeletePost', [uid, () => this.forceUpdate()]);
   }
 
   cancelEditPost() {

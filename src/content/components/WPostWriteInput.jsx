@@ -70,7 +70,7 @@ class WPostWriteInput extends React.Component {
     let selStart = this.inputRef.selectionStart;
     let selEnd = this.inputRef.selectionEnd;
 
-    let title = (selStart === selEnd) ? this.state.text.substring(selStart, selEnd) : '';
+    let title = (selStart === selEnd) ? '' : this.state.text.substring(selStart, selEnd);
     let state = this.state;
 
     this.setState({

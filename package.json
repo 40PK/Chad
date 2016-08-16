@@ -52,6 +52,7 @@
     "material-ui": "^0.15.3",
     "react": "^15.3.0",
     "react-addons-shallow-compare": "^15.3.0",
+    "react-deep-force-update": "^2.0.1",
     "react-dom": "^15.3.0",
     "react-layout-pane": "^0.1.16",
     "react-tap-event-plugin": "^1.0.0",

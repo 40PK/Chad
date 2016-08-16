@@ -31,14 +31,10 @@ class WPostWrite extends React.Component {
 
     let state = {
       parser: 'none',
-      postText: this.props.text || '',
       disablePreview: false,
       disableNotification: false,
       preview: '',
       settingsDialog: false,
-      insertLinkDialog: false,
-      insertLinkTitle: '',
-      insertLinkURL: '',
     };
 
     if (this.props.settings) {

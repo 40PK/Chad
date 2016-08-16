@@ -85,7 +85,7 @@ class SideBarChannels extends React.Component {
   }
 
   removeChannel(uid) {
-    this.props.signal.call('RemoveChannel', [uid]);
+    this.props.signal.call('RemoveChannel', [uid, () => this.forceUpdate()]);
   }
 
   render() {

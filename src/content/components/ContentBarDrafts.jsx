@@ -46,7 +46,7 @@ class ContentBarDraft extends React.Component {
   }
 
   deleteDraft(uid) {
-    this.props.signal.call('DeleteDraft', [uid]);
+    this.props.signal.call('DeleteDraft', [uid, () => this.forceUpdate()]);
   }
 
   editDraft(uid) {

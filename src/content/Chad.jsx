@@ -5,6 +5,10 @@ const darkBaseTheme = require('material-ui/styles/baseThemes/darkBaseTheme').def
 const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
 const SideBar = require('./components/SideBar');
 const ContentBar = require('./components/ContentBar');
+const langs = {
+  ru: require('./langs/ru'),
+  en: require('./langs/en'),
+};
 
 const TGAPI = require('./js/API');
 const Signal = require('./js/Signal');
@@ -32,14 +36,13 @@ class Chad extends React.Component {
       botavatar: (localStorage.getItem('botavatar') || './assets/botavatar.png'),
       bot: JSON.parse(localStorage.getItem('bot') || '{}'),
       channels: JSON.parse(localStorage.getItem('channels') || '[]'),
-      sideBarOpen: false,
       snackbar: {
         open: false,
         text: '',
       },
     };
 
-    this.local = require('./langs/' + this.state.settings.lang);
+    this.local = langs[this.state.settings.lang];
     this.signal = new Signal();
 
     this.token = this.state.bot.token || null;
@@ -50,12 +53,12 @@ class Chad extends React.Component {
     this.signal.register('PostWriteDefaultsChange', (v) => this.postWriteDefaultsChange(v));
     this.signal.register('SendPost', (d) => this.sendPost(d));
     this.signal.register('NewChannel', (d) => this.newChannel(d));
-    this.signal.register('RemoveChannel', (i) => this.removeChannel(i));
+    this.signal.register('RemoveChannel', (i, h) => this.removeChannel(i, h));
     this.signal.register('SetAdminBot', (t, o) => this.setAdminBot(t, o));
     this.signal.register('RemoveAdminBot', () => this.removeAdminBot());
-    this.signal.register('DeletePost', (i) => this.deletePost(i));
+    this.signal.register('DeletePost', (i, h) => this.deletePost(i, h));
     this.signal.register('ChangePost', (d) => this.changePost(d));
-    this.signal.register('DeleteDraft', (i) => this.deleteDraft(i));
+    this.signal.register('DeleteDraft', (i, h) => this.deleteDraft(i, h));
     this.signal.register('SaveDraft', (d) => this.saveDraft(d));
     this.signal.register('ChangeDraft', (d) => this.changeDraft(d));
 
@@ -67,7 +70,7 @@ class Chad extends React.Component {
     let state = this.state;
     state.settings.lang = value;
     localStorage.setItem('settings', JSON.stringify(state.settings));
-    this.local = require('./langs/' + value);
+    this.local = langs[value];
     this.setState(state);
   }
 
@@ -75,7 +78,7 @@ class Chad extends React.Component {
     let state = this.state;
     state.settings.darkTheme = value;
     localStorage.setItem('settings', JSON.stringify(state.settings));
-    this.setState(state);
+    this.setState(state, this.props.deepForceUpdate);
   }
 
   postWriteDefaultsChange(value) {
@@ -269,7 +272,7 @@ class Chad extends React.Component {
     }, () => localStorage.setItem('channels', JSON.stringify(channels)));
   }
 
-  removeChannel(id) {
+  removeChannel(id, onRemove) {
     let channels = this.state.channels;
 
     for (let i = 0; i < channels.length; ++i) {
@@ -277,7 +280,10 @@ class Chad extends React.Component {
         channels.splice(i, 1);
         return this.setState({
           channels: channels,
-        }, () => localStorage.setItem('channels', JSON.stringify(channels)));
+        }, () => {
+          localStorage.setItem('channels', JSON.stringify(channels));
+          onRemove();
+        });
       }
     }
   }
@@ -339,26 +345,32 @@ class Chad extends React.Component {
     });
   }
 
-  deletePost(uid) {
+  deletePost(uid, onDelete) {
     let posts = this.state.posts;
     for (let i = 0; i < posts.length; ++i) {
       if (posts[i].uid === uid) {
         posts.splice(i, 1);
         return this.setState({
           posts: posts,
-        }, () => localStorage.setItem('posts', JSON.stringify(posts)));
+        }, () => {
+          localStorage.setItem('posts', JSON.stringify(posts));
+          onDelete();
+        });
       }
     }
   }
 
-  deleteDraft(uid) {
+  deleteDraft(uid, onDelete) {
     let drafts = this.state.drafts;
     for (let i = 0; i < drafts.length; ++i) {
       if (drafts[i].uid === uid) {
         drafts.splice(i, 1);
         return this.setState({
           drafts: drafts,
-        }, () => localStorage.setItem('drafts', JSON.stringify(drafts)));
+        }, () => {
+          localStorage.setItem('drafts', JSON.stringify(drafts));
+          onDelete();
+        });
       }
     }
   }
