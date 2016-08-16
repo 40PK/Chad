@@ -25,6 +25,13 @@ class SideBar extends React.Component {
 
     this.props.signal.register('MenuPreferences', () => this.setState({ preferencesDialog: true }));
     this.props.signal.register('MenuAbout', () => this.setState({ aboutDialog: true }));
+
+    // Binding context
+    this.closePreferencesDialog = this.closePreferencesDialog.bind(this);
+    this.closeAboutDialog = this.closeAboutDialog.bind(this);
+    this.languageChange = this.languageChange.bind(this);
+    this.darkThemeChange = this.darkThemeChange.bind(this);
+    this.formattingStyleChange = this.formattingStyleChange.bind(this);
   }
 
   formattingStyleChange(event, index, value) {
@@ -66,7 +73,7 @@ class SideBar extends React.Component {
       <FlatButton
         label={this.props.local.d_preferences_ok}
         primary={true}
-        onClick={() => this.closePreferencesDialog()}
+        onClick={this.closePreferencesDialog}
       />,
     ];
 
@@ -74,7 +81,7 @@ class SideBar extends React.Component {
       <FlatButton
         label={this.props.local.d_about_close}
         primary={true}
-        onClick={() => this.closeAboutDialog()}
+        onClick={this.closeAboutDialog}
       />,
     ];
 
@@ -113,12 +120,12 @@ class SideBar extends React.Component {
           <SelectField
             floatingLabelText={this.props.local.d_preferences_language}
             value={this.props.data.lang}
-            onChange={(e, i, v) => this.languageChange(e, i, v)}>
+            onChange={this.languageChange}>
             <MenuItem value='en' primaryText='English' />
             <MenuItem value='ru' primaryText='Русский' />
           </SelectField>
           <Toggle
-            onToggle={(e) => this.darkThemeChange(e)}
+            onToggle={this.darkThemeChange}
             toggled={this.props.data.darkTheme}
             label={this.props.local.d_preferences_dark_theme} />
           
@@ -127,7 +134,7 @@ class SideBar extends React.Component {
           <SelectField
             floatingLabelText={this.props.local.settings_formatting_styles}
             value={this.props.data.postWriteDefaults.parser}
-            onChange={(e, i, v) => this.formattingStyleChange(e, i, v)}>
+            onChange={this.formattingStyleChange}>
             <MenuItem value='none' primaryText={this.props.local.settings_none} />
             <MenuItem value='markdown' primaryText={this.props.local.settings_markdown} />
             <MenuItem value='HTML' primaryText={this.props.local.settings_html} />

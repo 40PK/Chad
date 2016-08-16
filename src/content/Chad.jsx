@@ -58,6 +58,9 @@ class Chad extends React.Component {
     this.signal.register('DeleteDraft', (i) => this.deleteDraft(i));
     this.signal.register('SaveDraft', (d) => this.saveDraft(d));
     this.signal.register('ChangeDraft', (d) => this.changeDraft(d));
+
+    // Binding context
+    this.closeSnackbar = this.closeSnackbar.bind(this);
   }
 
   languageChange(value) {
@@ -432,7 +435,7 @@ class Chad extends React.Component {
             open={this.state.snackbar.open}
             message={this.state.snackbar.text}
             autoHideDuration={4000}
-            onRequestClose={() => this.closeSnackbar()}/>
+            onRequestClose={this.closeSnackbar}/>
         </Layout>
       </MuiThemeProvider>
     );

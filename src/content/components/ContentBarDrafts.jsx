@@ -21,6 +21,17 @@ class ContentBarDraft extends React.Component {
     };
 
     this.props.signal.register('PostDraftBtn', (v) => this.setState({ sendButtonContent: v }));
+
+    // Binding context
+    this.changeDraft = this.changeDraft.bind(this);
+    this.cancelEditDraft = this.cancelEditDraft.bind(this);
+    this.sendDraft = this.sendDraft.bind(this);
+  }
+
+  cancelEditDraft() {
+    this.setState({
+      change: null
+    });
   }
 
   deleteDraft(uid) {
@@ -42,7 +53,8 @@ class ContentBarDraft extends React.Component {
     this.deleteDraft(uid);
   }
 
-  sendDraft(data, uid) {
+  sendDraft(data) {
+    let uid = this.state.change;
     data.onEnd = () => this.onSendDraftEnd(uid);
     data.onStart = () => this.setState({
       sendButtonContent: <CircularProgress style={{ marginTop: -8 }} size={0.4} color='#FFFFFF' />,
@@ -89,11 +101,11 @@ class ContentBarDraft extends React.Component {
           });
           let sendButtonContent = this.state.sending === draft.uid ?
             (<FlatButton
-              onClick={(e) => this.sendDraftByUid(draft.uid)}
+              onClick={() => this.sendDraftByUid(draft.uid)}
               primary={true}
               icon={<CircularProgress style={{ marginTop: -8 }} size={0.4} />} />) :
             (<FlatButton
-              onClick={(e) => this.sendDraftByUid(draft.uid)}
+              onClick={() => this.sendDraftByUid(draft.uid)}
               primary={true}
               label={this.props.local.drafts_send} />);
 
@@ -135,9 +147,9 @@ class ContentBarDraft extends React.Component {
           text={draft.text}
           settings={settings}
           sendButtonContent={this.state.sendButtonContent}
-          onCancel={() => this.setState({ change: null })}
-          onSend={(d) => this.sendDraft(d, this.state.change)}
-          onSaveDraft={(d) => this.changeDraft(d)}
+          onCancel={this.cancelEditDraft}
+          onSend={this.sendDraft}
+          onSaveDraft={this.changeDraft}
           local={this.props.local}/>);
     }
 

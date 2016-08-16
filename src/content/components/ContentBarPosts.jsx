@@ -21,10 +21,20 @@ class ContentBarPosts extends React.Component {
       change: null,
       sendButtonContent: this.props.local.post_send,
     };
+
+    // Binding context
+    this.onChange = this.onChange.bind(this);
+    this.cancelEditPost = this.cancelEditPost.bind(this);
   }
 
   deletePost(uid) {
     this.props.signal.call('DeletePost', [uid]);
+  }
+
+  cancelEditPost() {
+    this.setState({
+      change: null
+    });
   }
 
   editPost(uid) {
@@ -110,8 +120,8 @@ class ContentBarPosts extends React.Component {
           text={post.text}
           settings={settings}
           sendButtonContent={this.state.sendButtonContent}
-          onCancel={() => this.setState({ change: null })}
-          onSend={(d) => this.onChange(d)}
+          onCancel={this.cancelEditPost}
+          onSend={this.onChange}
           local={this.props.local}/>);
     }
 

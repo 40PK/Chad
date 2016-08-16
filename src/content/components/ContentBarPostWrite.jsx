@@ -10,6 +10,10 @@ class ContentBarPostWrite extends React.Component {
     this.state = {
       sendButtonContent: this.props.local.post_send,
     };
+
+    // Binding context
+    this.onSend = this.onSend.bind(this);
+    this.onSaveDraft = this.onSaveDraft.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,8 +49,8 @@ class ContentBarPostWrite extends React.Component {
           ref={(ref) => this.wPostWriteRef = ref}
           settings={this.props.defaults}
           sendButtonContent={this.state.sendButtonContent}
-          onSend={(d) => this.onSend(d)}
-          onSaveDraft={(d) => this.onSaveDraft(d)}
+          onSend={this.onSend}
+          onSaveDraft={this.onSaveDraft}
           local={this.props.local}/>
       </div>
     );

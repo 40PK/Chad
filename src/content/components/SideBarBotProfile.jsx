@@ -28,6 +28,13 @@ class SideBarBotProfile extends React.Component {
 
     this.props.signal.register('SetLoadState', (s) => this.setState({ load: s }));
     this.props.signal.register('SetAvatarLoadState', (s) => this.setState({ avatarLoad: s }));
+
+    // Binding context
+    this.setAdminBot = this.setAdminBot.bind(this);
+    this.openSetAdminBotDialog = this.openSetAdminBotDialog.bind(this);
+    this.closeSetAdminBotDialog = this.closeSetAdminBotDialog.bind(this);
+    this.removeAdminBot = this.removeAdminBot.bind(this);
+    this.tokenChange = this.tokenChange.bind(this);
   }
 
   openSetAdminBotDialog() {
@@ -42,12 +49,12 @@ class SideBarBotProfile extends React.Component {
     this.setState({ token: event.target.value });
   }
 
-  setAdminBot() {
-    let onPass = () => {
-      this.closeSetAdminBotDialog();
-    };
+  removeAdminBot() {
+    this.props.signal.call('RemoveAdminBot');
+  }
 
-    this.props.signal.call('SetAdminBot', [this.state.token, onPass]);
+  setAdminBot() {
+    this.props.signal.call('SetAdminBot', [this.state.token, this.closeSetAdminBotDialog]);
   }
 
   render() {
@@ -74,22 +81,22 @@ class SideBarBotProfile extends React.Component {
               anchorOrigin={{ horizontal: 'right', vertical: 'top' }} >
               <MenuItem
                 leftIcon={<RefreshIcon />}
-                onClick={() => this.props.signal.call('SetAdminBot', [this.state.token])}
+                onClick={this.setAdminBot}
                 primaryText={this.props.local.bot_refresh} />
               <MenuItem
                 leftIcon={<ChangeIcon />}
-                onClick={() => this.openSetAdminBotDialog()}
+                onClick={this.openSetAdminBotDialog}
                 primaryText={this.props.local.bot_change} />
               <MenuItem
                 leftIcon={<RemoveIcon />}
-                onClick={() => this.props.signal.call('RemoveAdminBot')}
+                onClick={this.removeAdminBot}
                 primaryText={this.props.local.bot_remove} />
             </IconMenu>
         }/>);
     } else {
       BotProfile = (
         <ListItem
-          onClick={() => this.openSetAdminBotDialog()}
+          onClick={this.openSetAdminBotDialog}
           leftAvatar={<Avatar src={this.props.avatar} />}
           primaryText={<div className='ellipsis'>{this.props.local.bot_set}</div>} />);
     }
@@ -97,12 +104,12 @@ class SideBarBotProfile extends React.Component {
     let actions = [
       <FlatButton
         label={this.props.local.d_set_admin_bot_cancel}
-        onClick={() => this.closeSetAdminBotDialog()}
+        onClick={this.closeSetAdminBotDialog}
       />,
       <FlatButton
         label={this.props.local.d_set_admin_bot_save}
         primary={true}
-        onClick={() => this.setAdminBot()}
+        onClick={this.setAdminBot}
       />,
     ];
 
@@ -118,7 +125,7 @@ class SideBarBotProfile extends React.Component {
           open={this.state.setAdminBotDialog}>
           <TextField
             value={this.state.token}
-            onChange={(e) => this.tokenChange(e)}
+            onChange={this.tokenChange}
             floatingLabelText={this.props.local.d_set_admin_bot_token}
             hintText='123456:ABC-DEF1234ghIk...'/>
         </Dialog>

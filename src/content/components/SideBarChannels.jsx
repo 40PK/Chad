@@ -24,6 +24,11 @@ class SideBarChannels extends React.Component {
     this.checkboxRefs = {};
 
     this.props.signal.register('SelectedChannels', () => this.selectedChannels());
+
+    // Binding context
+    this.closeNewChannelDialog = this.closeNewChannelDialog.bind(this);
+    this.newChannel = this.newChannel.bind(this);
+    this.openNewChannelDialog = this.openNewChannelDialog.bind(this);
   }
 
   openNewChannelDialog() {
@@ -80,12 +85,12 @@ class SideBarChannels extends React.Component {
     let actions = [
       <FlatButton
         label={this.props.local.d_add_channel_cancel}
-        onClick={() => this.closeNewChannelDialog()}
+        onClick={this.closeNewChannelDialog}
       />,
       <FlatButton
         label={this.props.local.d_add_channel_save}
         primary={true}
-        onClick={() => this.newChannel()}
+        onClick={this.newChannel}
       />,
     ];
 
@@ -109,7 +114,7 @@ class SideBarChannels extends React.Component {
 
     nestedItems.push(
         <ListItem
-          onClick={() => this.openNewChannelDialog()}
+          onClick={this.openNewChannelDialog}
           leftIcon={<ContentAdd/>}
           key={100500}
           primaryText={this.props.local.channels_add_channel}

@@ -56,6 +56,17 @@ class WPostWrite extends React.Component {
     this.state = state;
 
     this.inputRef = null;
+
+    // Binding context
+    this.onSend = this.onSend.bind(this);
+    this.insertLink = this.insertLink.bind(this);
+    this.insertBold = this.insertBold.bind(this);
+    this.insertItalic = this.insertItalic.bind(this);
+    this.onInputRef = this.onInputRef.bind(this);
+    this.postTextChange = this.postTextChange.bind(this);
+    this.saveDraft = this.saveDraft.bind(this);
+    this.openSettingsDialog = this.openSettingsDialog.bind(this);
+    this.formattingStyleChange = this.formattingStyleChange.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -66,7 +77,7 @@ class WPostWrite extends React.Component {
       if (newProps.settings.disableNotification) state.disableNotification = true;
     }
 
-    this.setState(state, () => this.updatePreview());
+    this.setState(state, this.updatePreview);
   }
 
   checkParser() {
@@ -263,35 +274,35 @@ class WPostWrite extends React.Component {
                     label={this.props.sendButtonContent}
                     style={buttonStyle}
                     primary={true}
-                    onClick={() => this.onSend()}/>;
+                    onClick={this.onSend}/>;
     } else {
       sendButton = <RaisedButton
                     icon={this.props.sendButtonContent}
                     style={buttonStyle}
                     primary={true}
-                    onClick={() => this.onSend()}/>;
+                    onClick={this.onSend}/>;
     }
 
     return (
       <Layout type='column' style={{ padding: '0 8px 8px 8px' }}>
         <Fixed>
           <RaisedButton
-            onClick={() => this.insertLink()}
+            onClick={this.insertLink}
             label={this.props.local.settings_link}
             style={constrolButtonStyle} />
           <RaisedButton
-            onClick={() => this.insertBold()}
+            onClick={this.insertBold}
             label={this.props.local.settings_bold}
             style={constrolButtonStyle} />
           <RaisedButton
-            onClick={() => this.insertItalic()}
+            onClick={this.insertItalic}
             label={this.props.local.settings_italic}
             style={constrolButtonStyle} />
           <Divider style={{ marginTop: 10 }} />
           
           <TextField
-            ref={(ref) => this.onInputRef(ref)}
-            onChange={(e) => this.postTextChange(e)}
+            ref={this.onInputRef}
+            onChange={this.postTextChange}
             value={this.state.postText}
             multiLine={true}
             rowsMax={11}
@@ -321,7 +332,7 @@ class WPostWrite extends React.Component {
               {sendButton}
               <RaisedButton label={this.props.local.post_save_draft}
                 style={buttonStyle}
-                onClick={() => this.saveDraft()}/>
+                onClick={this.saveDraft}/>
               {this.props.onCancel && (
                 <RaisedButton label={this.props.local.post_cancel}
                   style={buttonStyle}
@@ -329,7 +340,7 @@ class WPostWrite extends React.Component {
               )}
               <RaisedButton label={this.props.local.settings}
                 style={{ margin: '8px 8px 0 0' }}
-                onClick={() => this.openSettingsDialog()}/>
+                onClick={this.openSettingsDialog}/>
 
               <Dialog
                 title={this.props.local.post_settings}
@@ -340,7 +351,7 @@ class WPostWrite extends React.Component {
                 <SelectField
                   floatingLabelText={this.props.local.settings_formatting_styles}
                   value={this.state.parser}
-                  onChange={(e, i, v) => this.formattingStyleChange(e, i, v)}>
+                  onChange={this.formattingStyleChange}>
                   <MenuItem value='none' primaryText={this.props.local.settings_none} />
                   <MenuItem value='markdown' primaryText={this.props.local.settings_markdown} />
                   <MenuItem value='HTML' primaryText={this.props.local.settings_html} />
