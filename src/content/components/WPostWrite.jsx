@@ -10,19 +10,18 @@ const {
   Checkbox,
 } = require('material-ui');
 const { Layout, Fixed, Flex } = require('react-layout-pane');
-const parser = require('../js/parser');
 const shallowCompare = require('react-addons-shallow-compare');
 const WPostWriteInput = require('./WPostWriteInput');
+const WPostWritePreview = require('./WPostWritePreview');
 
 const tags = {
   buttonStyle: {
     margin: '8px 0 0 8px',
     float: 'right',
   },
-  previewStyle: { width: '100%', height: '100%' },
   constentStyle: { padding: '0 8px 8px 8px' },
-  previewContainerStyle: { height: 100 },
   settingsButtonStyle: { margin: '8px 8px 0 0' },
+  previewContainerStyle: { height: 100 },
   dialogStyle: { width: 350 },
 };
 
@@ -41,10 +40,6 @@ class WPostWrite extends React.Component {
       insertLinkTitle: '',
       insertLinkURL: '',
     };
-    state.preview = parser({
-      data: state.postText,
-      mode: state.parser,
-    });
 
     if (this.props.settings) {
       if (this.props.settings.parser) state.parser = this.props.settings.parser;
@@ -55,6 +50,7 @@ class WPostWrite extends React.Component {
     this.state = state;
 
     this.inputRef = null;
+    this.previewRef = null;
 
     // Binding context
     this.onSend = this.onSend.bind(this);
@@ -64,7 +60,9 @@ class WPostWrite extends React.Component {
     this.formattingStyleChange = this.formattingStyleChange.bind(this);
     this.checkParser = this.checkParser.bind(this);
     this.onInputRef = this.onInputRef.bind(this);
+    this.onPreviewRef = this.onPreviewRef.bind(this);
     this.updatePreview = this.updatePreview.bind(this);
+    this.getParser = this.getParser.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -79,7 +77,7 @@ class WPostWrite extends React.Component {
       if (newProps.settings.disableNotification) state.disableNotification = true;
     }
 
-    this.setState(state, this.updatePreview);
+    this.setState(state, () => this.updatePreview(this.inputRef.getText()));
   }
 
   checkParser() {
@@ -110,16 +108,11 @@ class WPostWrite extends React.Component {
   formattingStyleChange(event, index, value) {
     this.setState({
       parser: value,
-    }, this.updatePreview);
+    }, () => this.updatePreview(this.inputRef.getText()));
   }
 
   updatePreview(text) {
-    this.setState({
-      preview: parser({
-        data: text,
-        mode: this.state.parser,
-      }),
-    });
+    this.previewRef.updatePreview(text, this.state.parser);
   }
 
   checkboxChange(type, event, isInputChecked) {
@@ -150,8 +143,16 @@ class WPostWrite extends React.Component {
     this.inputRef = ref;
   }
 
+  onPreviewRef(ref) {
+    this.previewRef = ref;
+  }
+
   clearText() {
     this.inputRef.clearText();
+  }
+
+  getParser() {
+    return this.state.parser;
   }
 
   render() {
@@ -186,26 +187,17 @@ class WPostWrite extends React.Component {
             text={this.props.text}
             updatePreview={this.updatePreview}
             checkParser={this.checkParser}
+            getParser={this.getParser}
             local={this.props.local}/>
         </Fixed>
         <Flex>
           <Layout type='column'>
             <Flex style={tags.previewContainerStyle}>
-              <Paper style={tags.previewStyle} zDepth={1} rounded={false}>
-                <Layout type='column'>
-                  <Fixed>
-                    <Subheader>{this.props.local.preview}</Subheader>
-                    <Divider />
-                  </Fixed>
-                  <Flex style={tags.previewContainerStyle}>
-                    <div className='preview-overflow'>
-                      <pre
-                        dangerouslySetInnerHTML={{ __html: this.state.preview }}
-                        className='preview'></pre>
-                    </div>
-                  </Flex>
-                </Layout>
-              </Paper>
+              <WPostWritePreview
+                ref={this.onPreviewRef}
+                parser={this.state.parser}
+                text={this.props.text || ''}
+                local={this.props.local} />
             </Flex>
             <Fixed>
               {sendButton}

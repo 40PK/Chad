@@ -59,8 +59,8 @@ class WPostWriteInput extends React.Component {
   replaceText(start, end, text) {
     let postText = this.state.text;
     this.setState({
-      postText: postText.substring(0, start) +
-                text + postText.substring(end, postText.length),
+      text: postText.substring(0, start) +
+            text + postText.substring(end, postText.length),
     }, () => this.props.updatePreview(this.state.text));
   }
 
@@ -83,10 +83,12 @@ class WPostWriteInput extends React.Component {
     let selStart = this.inputRef.selectionStart;
     let selEnd = this.inputRef.selectionEnd;
 
+    let parser = this.props.getParser();
+
     let res;
-    if (this.state.parser === 'markdown')  {
+    if (parser === 'markdown')  {
       res = `[${this.state.insertLinkTitle}](${this.state.insertLinkURL})`;
-    } else if (this.state.parser === 'HTML') {
+    } else if (parser === 'HTML') {
       res = `<a href="${this.state.insertLinkURL}">${this.state.insertLinkTitle}</a>`;
     }
 
@@ -104,10 +106,12 @@ class WPostWriteInput extends React.Component {
     let text = this.state.text.substring(selStart, selEnd);
     if (text.length === 0) text = 'bold';
 
+    let parser = this.props.getParser();
+
     let res;
-    if (this.state.parser === 'markdown')  {
+    if (parser === 'markdown')  {
       res = `*${text}*`;
-    } else if (this.state.parser === 'HTML') {
+    } else if (parser === 'HTML') {
       res = `<b>${text}</b>`;
     }
 
@@ -124,10 +128,12 @@ class WPostWriteInput extends React.Component {
     let text = this.state.text.substring(selStart, selEnd);
     if (text.length === 0) text = 'italic';
 
+    let parser = this.props.getParser();
+
     let res;
-    if (this.state.parser === 'markdown')  {
+    if (parser === 'markdown')  {
       res = `_${text}_`;
-    } else if (this.state.parser === 'HTML') {
+    } else if (parser === 'HTML') {
       res = `<i>${text}</i>`;
     }
 

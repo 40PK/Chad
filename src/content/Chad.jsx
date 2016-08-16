@@ -16,9 +16,9 @@ const tokenRegex = /\d{9}:.{30,}/;
 
 let analytics = ua('UA-81643761-1', { https: true });
 
-const paperStyle = {
-  height: '100%',
-  width: 256,
+const tags = {
+  paperStyle: { height: '100%', width: 256 },
+  contentStyle: { overflow: 'auto' },
 };
 
 class Chad extends React.Component {
@@ -416,14 +416,14 @@ class Chad extends React.Component {
           <Flex>
             <Layout type="row">
               <Fixed>
-                <Paper style={paperStyle} zDepth={1} rounded={false}>
+                <Paper style={tags.paperStyle} zDepth={1} rounded={false}>
                   <SideBar
                     signal={this.signal}
                     data={SideBarData}
                     local={this.local}/>
                 </Paper>
               </Fixed>
-              <Flex>
+              <Flex style={tags.contentStyle}>
                 <ContentBar
                   data={ContentBarData}
                   local={this.local}
