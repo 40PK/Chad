@@ -1,6 +1,7 @@
 const ContentBarPostWrite = require('./ContentBarPostWrite');
 const ContentBarPosts = require('./ContentBarPosts');
 const ContentBarDrafts = require('./ContentBarDrafts');
+const shallowCompare = require('react-addons-shallow-compare');
 
 class ContentBar extends React.Component {
   constructor(props) {
@@ -13,6 +14,10 @@ class ContentBar extends React.Component {
     this.props.signal.register('MenuWritePost', () => this.setState({ content: 'PostWrite' }));
     this.props.signal.register('MenuPosts', () => this.setState({ content: 'Posts' }));
     this.props.signal.register('MenuDrafts', () => this.setState({ content: 'Drafts' }));
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

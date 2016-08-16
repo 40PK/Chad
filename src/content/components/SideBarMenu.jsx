@@ -1,4 +1,5 @@
 const { ListItem } = require('material-ui');
+const shallowCompare = require('react-addons-shallow-compare');
 
 class SideBarMenu extends React.Component {
   constructor(props) {
@@ -27,6 +28,10 @@ class SideBarMenu extends React.Component {
         onClick: () => this.props.signal.call('MenuAbout'),
       },
     ];
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   render() {

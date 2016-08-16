@@ -13,6 +13,14 @@ const SideBarMenu = require('./SideBarMenu');
 const SideBarChannels = require('./SideBarChannels');
 const SideBarBotProfile = require('./SideBarBotProfile');
 const { shell } = require('electron');
+const shallowCompare = require('react-addons-shallow-compare');
+
+const tags = {
+  topSideBarStyle: { height: '100%', overflow: 'auto' },
+  listStyle: { width: '100%' },
+  h4Style: { margin: 0 },
+  dialogStyle: { width: 300 },
+};
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -32,6 +40,17 @@ class SideBar extends React.Component {
     this.languageChange = this.languageChange.bind(this);
     this.darkThemeChange = this.darkThemeChange.bind(this);
     this.formattingStyleChange = this.formattingStyleChange.bind(this);
+
+    this.openGithub = () => this.openBrowser('https://github.com/Perkovec/Chad');
+    this.openSite = () => this.openBrowser('https://perkovec.github.io/Chad/');
+    this.openTelegram = () => this.openBrowser('https://telegram.me/perkovec/');
+    this.openVK = () => this.openBrowser('https://vk.com/id120146182');
+    this.openEmail = () => this.openBrowser('mailto:perkovec24@gmail.com');
+    this.openLinkedIn = () => this.openBrowser('https://www.linkedin.com/in/perkovec');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   formattingStyleChange(event, index, value) {
@@ -87,8 +106,8 @@ class SideBar extends React.Component {
 
     return (
       <Layout type='column'>
-        <Flex style={{ height: '100%', overflow: 'auto' }}>
-          <List style={{ width: '100%' }}>
+        <Flex style={tags.topSideBarStyle}>
+          <List style={tags.listStyle}>
             <SideBarMenu
               signal={this.props.signal}
               local={this.props.local}/>
@@ -114,9 +133,9 @@ class SideBar extends React.Component {
           title={this.props.local.d_preferences}
           actions={actionsPreferences}
           modal={true}
-          contentStyle={{ width: 300 }}
+          contentStyle={tags.dialogStyle}
           open={this.state.preferencesDialog}>
-          <h4 style={{ margin: 0 }}>{this.props.local.d_preferences_general}:</h4>
+          <h4 style={tags.h4Style}>{this.props.local.d_preferences_general}:</h4>
           <SelectField
             floatingLabelText={this.props.local.d_preferences_language}
             value={this.props.data.lang}
@@ -130,7 +149,7 @@ class SideBar extends React.Component {
             label={this.props.local.d_preferences_dark_theme} />
           
           <br/>
-          <h4 style={{ margin: 0 }}>{this.props.local.d_preferences_default_postwrite}:</h4>
+          <h4 style={tags.h4Style}>{this.props.local.d_preferences_default_postwrite}:</h4>
           <SelectField
             floatingLabelText={this.props.local.settings_formatting_styles}
             value={this.props.data.postWriteDefaults.parser}
@@ -155,34 +174,16 @@ class SideBar extends React.Component {
           title={this.props.local.d_about}
           actions={actionsAbout}
           modal={true}
-          contentStyle={{ width: 300 }}
+          contentStyle={tags.dialogStyle}
           open={this.state.aboutDialog}>
-          Source code: 
-            <a href="#" onClick={() => this.openBrowser('https://github.com/Perkovec/Chad')}>
-              Github
-            </a><br/>
-          Site: 
-            <a href="#" onClick={() => this.openBrowser('https://perkovec.github.io/Chad/')}>
-              perkovec.github.io/Chad
-            </a><br/>
+          Source code: <a href="#" onClick={this.openGithub}>Github</a><br/>
+          Site: <a href="#" onClick={this.openSite}>perkovec.github.io/Chad</a><br/>
           <br/>
           Developed by Perkovec:<br/>
-          Telegram: 
-            <a href="#" onClick={() => this.openBrowser('https://telegram.me/perkovec/')}>
-              @Perkovec
-            </a><br/>
-          VK: 
-            <a href="#" onClick={() => this.openBrowser('https://vk.com/id120146182')}>
-              Ilya Perkovec
-            </a><br/>
-          E-mail: 
-            <a href="#" onClick={() => this.openBrowser('mailto:perkovec24@gmail.com')}>
-              perkovec24@gmail.com
-            </a><br/>
-          LinkedIn: 
-            <a href="#" onClick={() => this.openBrowser('https://www.linkedin.com/in/perkovec')}>
-              Ilya Perkovec
-            </a>
+          Telegram: <a href="#" onClick={this.openTelegram}>@Perkovec</a><br/>
+          VK: <a href="#" onClick={this.openVK}>Ilya Perkovec</a><br/>
+          E-mail: <a href="#" onClick={this.openEmail}>perkovec24@gmail.com</a><br/>
+          LinkedIn: <a href="#" onClick={this.openLinkedIn}>Ilya Perkovec</a>
         </Dialog>
       </Layout>
     );

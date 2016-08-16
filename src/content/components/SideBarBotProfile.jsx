@@ -14,6 +14,13 @@ const MoreVertIcon = require('material-ui/svg-icons/navigation/more-vert').defau
 const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default;
 const ChangeIcon = require('material-ui/svg-icons/editor/mode-edit').default;
 const RemoveIcon = require('material-ui/svg-icons/action/delete').default;
+const shallowCompare = require('react-addons-shallow-compare');
+
+const tags = {
+  circProgressStyle: { marginTop: -5 },
+  origin: { horizontal: 'right', vertical: 'top' },
+  dialogStyle: { width: 300 },
+};
 
 class SideBarBotProfile extends React.Component {
   constructor(props) {
@@ -35,6 +42,10 @@ class SideBarBotProfile extends React.Component {
     this.closeSetAdminBotDialog = this.closeSetAdminBotDialog.bind(this);
     this.removeAdminBot = this.removeAdminBot.bind(this);
     this.tokenChange = this.tokenChange.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   openSetAdminBotDialog() {
@@ -61,13 +72,13 @@ class SideBarBotProfile extends React.Component {
     let BotProfile;
 
     let BotAvatar = this.state.avatarLoad ?
-      (<CircularProgress style={{ marginTop: -5 }} size={.5} />) :
+      (<CircularProgress style={tags.circProgressStyle} size={.5} />) :
       (<Avatar src={this.props.avatar} />);
 
     if (this.state.load) {
       BotProfile = <ListItem
         primaryText={this.props.local.loading}
-        leftAvatar={<CircularProgress style={{ marginTop: -5 }} size={.5}/>} />;
+        leftAvatar={<CircularProgress style={tags.circProgressStyle} size={.5}/>} />;
     } else if (this.props.name) {
       BotProfile = (
         <ListItem
@@ -77,8 +88,8 @@ class SideBarBotProfile extends React.Component {
           rightIconButton={
             <IconMenu
               iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'top' }} >
+              targetOrigin={tags.origin}
+              anchorOrigin={tags.origin} >
               <MenuItem
                 leftIcon={<RefreshIcon />}
                 onClick={this.setAdminBot}
@@ -121,7 +132,7 @@ class SideBarBotProfile extends React.Component {
           title={this.props.local.d_set_admin_bot}
           actions={actions}
           modal={true}
-          contentStyle={{ width: 300 }}
+          contentStyle={tags.dialogStyle}
           open={this.state.setAdminBotDialog}>
           <TextField
             value={this.state.token}

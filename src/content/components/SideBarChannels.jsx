@@ -11,6 +11,11 @@ const {
 const { grey400 } = require('material-ui/styles/colors');
 const ContentAdd = require('material-ui/svg-icons/content/add').default;
 const MoreVertIcon = require('material-ui/svg-icons/navigation/more-vert').default;
+const shallowCompare = require('react-addons-shallow-compare');
+
+const tags = {
+  dialogStyle: { width: 300 },
+};
 
 class SideBarChannels extends React.Component {
   constructor(props) {
@@ -29,6 +34,10 @@ class SideBarChannels extends React.Component {
     this.closeNewChannelDialog = this.closeNewChannelDialog.bind(this);
     this.newChannel = this.newChannel.bind(this);
     this.openNewChannelDialog = this.openNewChannelDialog.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   openNewChannelDialog() {
@@ -130,7 +139,7 @@ class SideBarChannels extends React.Component {
           title={this.props.local.d_add_channel}
           actions={actions}
           modal={true}
-          contentStyle={{ width: 300 }}
+          contentStyle={tags.dialogStyle}
           open={this.state.newChannelDialog}>
           <TextField
             value={this.state.newChannelName}

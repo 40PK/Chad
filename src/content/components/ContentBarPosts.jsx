@@ -12,6 +12,15 @@ const EmptyIcon = require('material-ui/svg-icons/action/assignment-late').defaul
 const WPostWrite = require('./WPostWrite');
 const parser = require('../js/parser');
 const Utils = require('../js/Utils');
+const shallowCompare = require('react-addons-shallow-compare');
+
+const tags = {
+  circProgressStyel: { marginTop: -8 },
+  cardStyle: { marginTop: 8 },
+  emptyStyle: { width: 180, height: 180 },
+  h1Style: { color: grey300, fontWeight: 300 },
+  contentStyle: { padding: '0px 8px 8px 8px' },
+};
 
 class ContentBarPosts extends React.Component {
   constructor(props) {
@@ -27,13 +36,17 @@ class ContentBarPosts extends React.Component {
     this.cancelEditPost = this.cancelEditPost.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   deletePost(uid) {
     this.props.signal.call('DeletePost', [uid]);
   }
 
   cancelEditPost() {
     this.setState({
-      change: null
+      change: null,
     });
   }
 
@@ -55,7 +68,11 @@ class ContentBarPosts extends React.Component {
   onChange(data) {
     data.onEnd = () => this.onChangeEnd();
     data.onStart = () => this.setState({
-      sendButtonContent: <CircularProgress style={{ marginTop: -8 }} size={0.4} color='#FFFFFF' />,
+      sendButtonContent:
+        <CircularProgress
+          style={tags.circProgressStyle}
+          size={0.4}
+          color='#FFFFFF' />,
     });
     data.post = this.getPostByUid(this.state.change.uid);
 
@@ -81,7 +98,7 @@ class ContentBarPosts extends React.Component {
           });
 
           content.push(
-            <Card key={post.uid} style={{ marginTop: 8 }}>
+            <Card key={post.uid} style={tags.cardStyle}>
               <CardHeader
                 title={post.chats.map((chat) => <Chip key={chat.chat_id}>{chat.name}</Chip>)}
                 subtitle={Utils.getDateString(new Date(post.date * 1000))}/>
@@ -103,8 +120,8 @@ class ContentBarPosts extends React.Component {
       } else {
         content = (
           <div className='empty-placeholder'>
-            <EmptyIcon color={grey300} style={{ width: 180, height: 180 }}/>
-            <h1 style={{ color: grey300, fontWeight: 300 }}>{this.props.local.posts_empty}</h1>
+            <EmptyIcon color={grey300} style={tags.emptyStyle}/>
+            <h1 style={tags.h1Style}>{this.props.local.posts_empty}</h1>
           </div>
         );
       }
@@ -126,7 +143,7 @@ class ContentBarPosts extends React.Component {
     }
 
     return (
-      <div style={{ padding: '0px 8px 8px 8px' }}>
+      <div style={tags.contentStyle}>
         {content}
       </div>
     );

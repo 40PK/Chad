@@ -9,6 +9,13 @@ const { grey300 } = require('material-ui/styles/colors');
 const EmptyIcon = require('material-ui/svg-icons/action/assignment-late').default;
 const WPostWrite = require('./WPostWrite');
 const parser = require('../js/parser');
+const shallowCompare = require('react-addons-shallow-compare');
+
+const tags = {
+  circProgressStyle: { marginTop: -8 },
+  cardStyle: { marginTop: 8 },
+  contentStyle: { padding: '0px 8px 8px 8px' },
+};
 
 class ContentBarDraft extends React.Component {
   constructor(props) {
@@ -28,9 +35,13 @@ class ContentBarDraft extends React.Component {
     this.sendDraft = this.sendDraft.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  }
+
   cancelEditDraft() {
     this.setState({
-      change: null
+      change: null,
     });
   }
 
@@ -57,7 +68,11 @@ class ContentBarDraft extends React.Component {
     let uid = this.state.change;
     data.onEnd = () => this.onSendDraftEnd(uid);
     data.onStart = () => this.setState({
-      sendButtonContent: <CircularProgress style={{ marginTop: -8 }} size={0.4} color='#FFFFFF' />,
+      sendButtonContent:
+        <CircularProgress
+          style={tags.circProgressStyle}
+          size={0.4}
+          color='#FFFFFF' />,
     });
 
     this.props.signal.call('SendPost', [data]);
@@ -103,14 +118,14 @@ class ContentBarDraft extends React.Component {
             (<FlatButton
               onClick={() => this.sendDraftByUid(draft.uid)}
               primary={true}
-              icon={<CircularProgress style={{ marginTop: -8 }} size={0.4} />} />) :
+              icon={<CircularProgress style={tags.circProgressStyle} size={0.4} />} />) :
             (<FlatButton
               onClick={() => this.sendDraftByUid(draft.uid)}
               primary={true}
               label={this.props.local.drafts_send} />);
 
           content.push(
-            <Card key={draft.uid} style={{ marginTop: 8 }}>
+            <Card key={draft.uid} style={tags.cardStyle}>
               <CardText>
                 <pre dangerouslySetInnerHTML={{ __html: html }} className='preview'></pre>
               </CardText>
@@ -154,7 +169,7 @@ class ContentBarDraft extends React.Component {
     }
 
     return (
-      <div style={{ padding: '0px 8px 8px 8px' }}>
+      <div style={tags.contentStyle}>
         {content}
       </div>
     );

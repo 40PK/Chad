@@ -2,7 +2,6 @@ const {
   SelectField,
   MenuItem,
   RaisedButton,
-  TextField,
   Paper,
   Subheader,
   Divider,
@@ -12,19 +11,19 @@ const {
 } = require('material-ui');
 const { Layout, Fixed, Flex } = require('react-layout-pane');
 const parser = require('../js/parser');
+const shallowCompare = require('react-addons-shallow-compare');
+const WPostWriteInput = require('./WPostWriteInput');
 
-const buttonStyle = {
-  margin: '8px 0 0 8px',
-  float: 'right',
-};
-
-const constrolButtonStyle = {
-  margin: '8px 0 0 8px',
-};
-
-const previewStyle = {
-  width: '100%',
-  height: '100%',
+const tags = {
+  buttonStyle: {
+    margin: '8px 0 0 8px',
+    float: 'right',
+  },
+  previewStyle: { width: '100%', height: '100%' },
+  constentStyle: { padding: '0 8px 8px 8px' },
+  previewContainerStyle: { height: 100 },
+  settingsButtonStyle: { margin: '8px 8px 0 0' },
+  dialogStyle: { width: 350 },
 };
 
 class WPostWrite extends React.Component {
@@ -59,14 +58,17 @@ class WPostWrite extends React.Component {
 
     // Binding context
     this.onSend = this.onSend.bind(this);
-    this.insertLink = this.insertLink.bind(this);
-    this.insertBold = this.insertBold.bind(this);
-    this.insertItalic = this.insertItalic.bind(this);
-    this.onInputRef = this.onInputRef.bind(this);
-    this.postTextChange = this.postTextChange.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
     this.openSettingsDialog = this.openSettingsDialog.bind(this);
+    this.closeSettingsDialog = this.closeSettingsDialog.bind(this);
     this.formattingStyleChange = this.formattingStyleChange.bind(this);
+    this.checkParser = this.checkParser.bind(this);
+    this.onInputRef = this.onInputRef.bind(this);
+    this.updatePreview = this.updatePreview.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   componentWillReceiveProps(newProps) {
@@ -89,14 +91,6 @@ class WPostWrite extends React.Component {
 
   // DIALOGS - START
 
-  openInsertLinkDialog() {
-    this.setState({ insertLinkDialog: true });
-  }
-
-  closeInsertLinkDialog() {
-    this.setState({ insertLinkDialog: false });
-  }
-
   openSettingsDialog() {
     this.setState({ settingsDialog: true });
   }
@@ -113,110 +107,16 @@ class WPostWrite extends React.Component {
     this.setState(state);
   }
 
-  replaceText(start, end, text) {
-    let postText = this.state.postText;
-    this.setState({
-      postText: postText.substring(0, start) +
-                text + postText.substring(end, postText.length),
-    }, this.updatePreview);
-  }
-
-  insertLink() {
-    if (!this.checkParser()) return;
-
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
-
-    let title = (selStart === selEnd) ? this.state.postText.substring(selStart, selEnd) : '';
-    let state = this.state;
-
-    this.setState({
-      insertLinkTitle: title,
-      insertLinkURL: '',
-    }, this.openInsertLinkDialog);
-  }
-
-  insertLinkInText() {
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
-
-    let res;
-    if (this.state.parser === 'markdown')  {
-      res = `[${this.state.insertLinkTitle}](${this.state.insertLinkURL})`;
-    } else if (this.state.parser === 'HTML') {
-      res = `<a href="${this.state.insertLinkURL}">${this.state.insertLinkTitle}</a>`;
-    }
-
-    this.replaceText(selStart, selEnd, res);
-    this.closeInsertLinkDialog();
-  }
-
-  insertBold() {
-    if (!this.checkParser()) return;
-
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
-
-    let state = this.state;
-    let text = this.state.postText.substring(selStart, selEnd);
-    if (text.length === 0) text = 'bold';
-
-    let res;
-    if (this.state.parser === 'markdown')  {
-      res = `*${text}*`;
-    } else if (this.state.parser === 'HTML') {
-      res = `<b>${text}</b>`;
-    }
-
-    this.replaceText(selStart, selEnd, res);
-  }
-
-  insertItalic() {
-    if (!this.checkParser()) return;
-
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
-
-    let state = this.state;
-    let text = this.state.postText.substring(selStart, selEnd);
-    if (text.length === 0) text = 'italic';
-
-    let res;
-    if (this.state.parser === 'markdown')  {
-      res = `_${text}_`;
-    } else if (this.state.parser === 'HTML') {
-      res = `<i>${text}</i>`;
-    }
-
-    this.replaceText(selStart, selEnd, res);
-  }
-
-  onInputRef(ref) {
-    if (this.inputRef === null) this.inputRef = ref.input.refs.input;
-  }
-
   formattingStyleChange(event, index, value) {
     this.setState({
       parser: value,
     }, this.updatePreview);
   }
 
-  postTextChange(event) {
-    this.setState({
-      postText: event.target.value,
-    }, this.updatePreview);
-  }
-
-  clearText() {
-    this.setState({
-      postText: '',
-    }, this.updatePreview);
-  }
-
-  updatePreview() {
+  updatePreview(text) {
     this.setState({
       preview: parser({
-        data: this.state.postText,
+        data: text,
         mode: this.state.parser,
       }),
     });
@@ -230,7 +130,7 @@ class WPostWrite extends React.Component {
 
   onSend() {
     this.props.onSend({
-      text: this.state.postText,
+      text: this.inputRef.getText(),
       parser: this.state.parser,
       disablePreview: this.state.disablePreview,
       disableNotification: this.state.disableNotification,
@@ -239,11 +139,19 @@ class WPostWrite extends React.Component {
 
   saveDraft() {
     this.props.onSaveDraft({
-      text: this.state.postText,
+      text: this.inputRef.getText(),
       parser: this.state.parser,
       disablePreview: this.state.disablePreview,
       disableNotification: this.state.disableNotification,
     });
+  }
+
+  onInputRef(ref) {
+    this.inputRef = ref;
+  }
+
+  clearText() {
+    this.inputRef.clearText();
   }
 
   render() {
@@ -251,20 +159,7 @@ class WPostWrite extends React.Component {
       <FlatButton
         label={this.props.local.post_settings_ok}
         primary={true}
-        onClick={() => this.closeSettingsDialog()}
-      />,
-    ];
-
-    let linkActions = [
-      <FlatButton
-        label={this.props.local.d_insert_link_cancel}
-        primary={true}
-        onClick={() => this.closeInsertLinkDialog()}
-      />,
-      <FlatButton
-        label={this.props.local.d_insert_link_save}
-        primary={true}
-        onClick={() => this.insertLinkInText()}
+        onClick={this.closeSettingsDialog}
       />,
     ];
 
@@ -272,53 +167,37 @@ class WPostWrite extends React.Component {
     if (typeof this.props.sendButtonContent === 'string') {
       sendButton = <RaisedButton
                     label={this.props.sendButtonContent}
-                    style={buttonStyle}
+                    style={tags.buttonStyle}
                     primary={true}
                     onClick={this.onSend}/>;
     } else {
       sendButton = <RaisedButton
                     icon={this.props.sendButtonContent}
-                    style={buttonStyle}
+                    style={tags.buttonStyle}
                     primary={true}
                     onClick={this.onSend}/>;
     }
 
     return (
-      <Layout type='column' style={{ padding: '0 8px 8px 8px' }}>
+      <Layout type='column' style={tags.constentStyle}>
         <Fixed>
-          <RaisedButton
-            onClick={this.insertLink}
-            label={this.props.local.settings_link}
-            style={constrolButtonStyle} />
-          <RaisedButton
-            onClick={this.insertBold}
-            label={this.props.local.settings_bold}
-            style={constrolButtonStyle} />
-          <RaisedButton
-            onClick={this.insertItalic}
-            label={this.props.local.settings_italic}
-            style={constrolButtonStyle} />
-          <Divider style={{ marginTop: 10 }} />
-          
-          <TextField
+          <WPostWriteInput
             ref={this.onInputRef}
-            onChange={this.postTextChange}
-            value={this.state.postText}
-            multiLine={true}
-            rowsMax={11}
-            hintText={this.props.local.post_test}
-            fullWidth={true} />
+            text={this.props.text}
+            updatePreview={this.updatePreview}
+            checkParser={this.checkParser}
+            local={this.props.local}/>
         </Fixed>
         <Flex>
           <Layout type='column'>
-            <Flex style={{ height: 100 }}>
-              <Paper style={previewStyle} zDepth={1} rounded={false}>
+            <Flex style={tags.previewContainerStyle}>
+              <Paper style={tags.previewStyle} zDepth={1} rounded={false}>
                 <Layout type='column'>
                   <Fixed>
                     <Subheader>{this.props.local.preview}</Subheader>
                     <Divider />
                   </Fixed>
-                  <Flex style={{ height: 100 }}>
+                  <Flex style={tags.previewContainerStyle}>
                     <div className='preview-overflow'>
                       <pre
                         dangerouslySetInnerHTML={{ __html: this.state.preview }}
@@ -331,22 +210,22 @@ class WPostWrite extends React.Component {
             <Fixed>
               {sendButton}
               <RaisedButton label={this.props.local.post_save_draft}
-                style={buttonStyle}
+                style={tags.buttonStyle}
                 onClick={this.saveDraft}/>
               {this.props.onCancel && (
                 <RaisedButton label={this.props.local.post_cancel}
-                  style={buttonStyle}
+                  style={tags.buttonStyle}
                   onClick={this.props.onCancel}/>
               )}
               <RaisedButton label={this.props.local.settings}
-                style={{ margin: '8px 8px 0 0' }}
+                style={tags.settingsButtonStyle}
                 onClick={this.openSettingsDialog}/>
 
               <Dialog
                 title={this.props.local.post_settings}
                 actions={settingsActions}
                 modal={true}
-                contentStyle={{ width: 350 }}
+                contentStyle={tags.dialogStyle}
                 open={this.state.settingsDialog}>
                 <SelectField
                   floatingLabelText={this.props.local.settings_formatting_styles}
@@ -366,22 +245,6 @@ class WPostWrite extends React.Component {
                   value={this.state.disableNotification}
                   onCheck={(e, i) => this.checkboxChange('disableNotification', e, i)}
                   label={this.props.local.post_settings_disable_notification} />
-              </Dialog>
-
-              <Dialog
-                title={this.props.local.d_insert_link}
-                actions={linkActions}
-                modal={true}
-                contentStyle={{ width: 350 }}
-                open={this.state.insertLinkDialog}>
-                <TextField
-                  value={this.state.insertLinkTitle}
-                  onChange={(e) => this.fieldChange(e, 'insertLinkTitle')}
-                  floatingLabelText={this.props.local.d_insert_link_title}/>
-                <TextField
-                  value={this.state.insertLinkURL}
-                  onChange={(e) => this.fieldChange(e, 'insertLinkURL')}
-                  floatingLabelText={this.props.local.d_insert_link_url}/>
               </Dialog>
             </Fixed>
           </Layout>
