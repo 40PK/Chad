@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.1.0] - 2016-08-16
+### Added
+- "Post write" section default settings
+- Loading splash screen
+- New API method
+
+### Changed
+- Settings data structure migrating
+
+### Fixed
+- Fix "Posts" and "Drafts" sections overflow bug
+
 ## [3.0.0] - 2016-08-14
 ### Added
 - "Posts" section (Changing sent posts)
@@ -32,5 +44,6 @@
 ## 1.0.0 - 2016-07-30
 ### First release
 ---
+[3.1.0]: https://github.com/Perkovec/Chad/compare/v3.0...v3.1
 [3.0.0]: https://github.com/Perkovec/Chad/compare/v2.0...v3.0
 [2.0.0]: https://github.com/Perkovec/Chad/compare/v1.0...v2.0
