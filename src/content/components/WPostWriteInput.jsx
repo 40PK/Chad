@@ -61,7 +61,11 @@ class WPostWriteInput extends React.Component {
     this.setState({
       text: postText.substring(0, start) +
             text + postText.substring(end, postText.length),
-    }, () => this.props.updatePreview(this.state.text));
+    }, () => {
+      this.props.updatePreview(this.state.text);
+      this.inputRef.focus();
+      this.inputRef.setSelectionRange(start + text.length, start + text.length);
+    });
   }
 
   insertLink() {

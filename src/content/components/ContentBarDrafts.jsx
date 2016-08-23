@@ -155,7 +155,7 @@ class ContentBarDraft extends React.Component {
       let settings = {
         disableNotification: draft.disableNotification,
         disablePreview: draft.disablePreview,
-        parser: draft.parse_mode,
+        parser: draft.parser,
       };
       content = (
         <WPostWrite
