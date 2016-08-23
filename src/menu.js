@@ -109,7 +109,13 @@ if (process.platform === 'darwin') {
       {
         label: 'Check for updates',
         click(item, focusedWindow) {
-          if (focusedWindow) checkUpdates(focusedWindow);
+          if (focusedWindow) checkUpdates(focusedWindow, true);
+        },
+      },
+      {
+        label: 'Report bugs',
+        click() {
+          shell.openExternal('http://github.com/Perkovec/Chad/issues');
         },
       },
       {
@@ -157,6 +163,7 @@ if (process.platform === 'darwin') {
       ],
     }
   );
+
   // Window menu.
   template[3].submenu = [
     {
@@ -183,9 +190,15 @@ if (process.platform === 'darwin') {
   ];
 } else {
   template[template.length - 1].submenu.unshift({
+    label: 'Report bugs',
+    click() {
+      shell.openExternal('http://github.com/Perkovec/Chad/issues');
+    },
+  });
+  template[template.length - 1].submenu.unshift({
     label: 'Check for updates',
     click(item, focusedWindow) {
-      if (focusedWindow) checkUpdates(focusedWindow);
+      if (focusedWindow) checkUpdates(focusedWindow, true);
     },
   });
 }

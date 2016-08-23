@@ -8,7 +8,7 @@ const compare = require('semver-compare');
 
 const version = app.getVersion();
 
-module.exports = focusedWindow => {
+module.exports = (focusedWindow, notifyUpToDate) => {
   request.get('https://api.github.com/repos/Perkovec/Chad/releases/latest').end((err, res) => {
     const newVer = res.body.tag_name.substr(1);
     const hasUpdates = compare(newVer, version) === 1;
@@ -26,7 +26,7 @@ module.exports = focusedWindow => {
       if (answer === 0) {
         shell.openExternal(`https://github.com/Perkovec/Chad/releases/tag/v${newVer}`);
       }
-    } else {
+    } else if (notifyUpToDate) {
       answerDialog.push({
         type: 'info',
         message: 'No Updates',
