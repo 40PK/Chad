@@ -1,7 +1,12 @@
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const ipcMain = electron.ipcMain;
+const {
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  app,
+} = require('electron');
+const request = require('superagent');
+const checkUpdates = require('./checkUpdates');
+const menu = require('./menu');
 
 let mainWindow;
 
@@ -30,8 +35,8 @@ function createWindow() {
   mainWindow.setMenu(null);
   mainWindow.loadURL(`file://${__dirname}/content/index.html`);
 
-  ipcMain.once('show-window', () => {
-    mainWindow.show();
+  mainWindow.on('show', () => {
+    checkUpdates();
   });
 
   mainWindow.on('closed', () => {
@@ -39,7 +44,10 @@ function createWindow() {
   });
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  Menu.setApplicationMenu(menu);
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
