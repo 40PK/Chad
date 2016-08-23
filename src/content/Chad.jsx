@@ -1,5 +1,6 @@
 const { Paper, List, Snackbar } = require('material-ui');
 const { Layout, Fixed, Flex } = require('react-layout-pane');
+const { ipcRenderer } = require('electron');
 const { MuiThemeProvider, getMuiTheme } = require('material-ui/styles');
 const darkBaseTheme = require('material-ui/styles/baseThemes/darkBaseTheme').default;
 const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
@@ -43,6 +44,7 @@ class Chad extends React.Component {
     };
 
     this.local = langs[this.state.settings.lang];
+    ipcRenderer.send('build-menu', this.local);
     this.signal = new Signal();
 
     this.token = this.state.bot.token || null;
@@ -72,6 +74,7 @@ class Chad extends React.Component {
     localStorage.setItem('settings', JSON.stringify(state.settings));
     this.local = langs[value];
     this.setState(state);
+    ipcRenderer.send('build-menu', this.local);
   }
 
   darkThemeChange(value) {

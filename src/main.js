@@ -42,11 +42,14 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  ipcMain.on('build-menu', (event, locals) => {
+    Menu.setApplicationMenu(menu(locals));
+  });
 }
 
 app.on('ready', () => {
   createWindow();
-  Menu.setApplicationMenu(menu);
 });
 
 app.on('window-all-closed', () => {

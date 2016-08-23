@@ -6,201 +6,204 @@ const {
   app,
 } = require('electron');
 
-const template = [
-  {
-    label: 'Edit',
-    submenu: [
-      {
-        role: 'undo',
-      },
-      {
-        role: 'redo',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'cut',
-      },
-      {
-        role: 'copy',
-      },
-      {
-        role: 'paste',
-      },
-      {
-        role: 'pasteandmatchstyle',
-      },
-      {
-        role: 'delete',
-      },
-      {
-        role: 'selectall',
-      },
-    ],
-  },
-  {
-    label: 'View',
-    submenu: [
-      {
-        label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
-        click(item, focusedWindow) {
-          if (focusedWindow) focusedWindow.reload();
+module.exports = local => {
+  const template = [
+    {
+      label: local.tmenu_edit,
+      submenu: [
+        {
+          role: 'undo',
+          label: local.tmenu_edit_undo,
         },
-      },
-      {
-        label: 'Toggle Developer Tools',
-        accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-        click(item, focusedWindow) {
-          if (focusedWindow) focusedWindow.webContents.toggleDevTools();
+        {
+          role: 'redo',
+          label: local.tmenu_edit_redo,
         },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'cut',
+          label: local.tmenu_edit_cut,
+        },
+        {
+          role: 'copy',
+          label: local.tmenu_edit_copy,
+        },
+        {
+          role: 'paste',
+          label: local.tmenu_edit_paste,
+        },
+        {
+          role: 'delete',
+          label: local.tmenu_edit_delete,
+        },
+        {
+          role: 'selectall',
+          label: local.tmenu_edit_selectall,
+        },
+      ],
+    },
+    {
+      label: local.tmenu_view,
+      submenu: [
+        {
+          label: local.tmenu_view_reload,
+          accelerator: 'CmdOrCtrl+R',
+          click(item, focusedWindow) {
+            if (focusedWindow) focusedWindow.reload();
+          },
+        },
+        {
+          label: local.tmenu_view_toggledevtools,
+          accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+          click(item, focusedWindow) {
+            if (focusedWindow) focusedWindow.webContents.toggleDevTools();
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'resetzoom',
+          label: local.tmenu_view_resetzoom,
+        },
+        {
+          role: 'zoomin',
+          label: local.tmenu_view_zoomin,
+        },
+        {
+          role: 'zoomout',
+          label: local.tmenu_view_zoomout,
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'togglefullscreen',
+          label: local.tmenu_view_togglefullscreen,
+        },
+      ],
+    },
+    {
+      role: 'window',
+      label: local.tmenu_window,
+      submenu: [
+        {
+          role: 'minimize',
+          label: local.tmenu_window_minimize,
+        },
+        {
+          role: 'close',
+          label: local.tmenu_window_close,
+        },
+      ],
+    },
+    {
+      role: 'help',
+      label: local.tmenu_help,
+      submenu: [
+        {
+          label: local.tmenu_help_learnmore,
+          click() { shell.openExternal('https://perkovec.github.io/Chad'); },
+        },
+      ],
+    },
+  ];
+
+  if (process.platform === 'darwin') {
+    const name = app.getName();
+    template.unshift({
+      label: name,
+      submenu: [
+        {
+          label: local.tmenu_app_about,
+          role: 'about',
+        },
+        {
+          label: local.tmenu_app_checkforupdates,
+          click(item, focusedWindow) {
+            if (focusedWindow) checkUpdates(focusedWindow, true);
+          },
+        },
+        {
+          label: local.tmenu_app_reportbugs,
+          click() {
+            shell.openExternal('http://github.com/Perkovec/Chad/issues');
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'services',
+          label: local.tmenu_app_services,
+          submenu: [],
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'hide',
+          label: local.tmenu_app_hide,
+        },
+        {
+          role: 'hideothers',
+          label: local.tmenu_app_hideothers,
+        },
+        {
+          role: 'unhide',
+          label: local.tmenu_app_unhide,
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'quit',
+          label: local.tmenu_app_quit,
+        },
+      ],
+    });
+
+    // Window menu.
+    template[3].submenu = [
+      {
+        label: local.tmenu_window_close,
+        accelerator: 'CmdOrCtrl+W',
+        role: 'close',
       },
       {
-        type: 'separator',
-      },
-      {
-        role: 'resetzoom',
-      },
-      {
-        role: 'zoomin',
-      },
-      {
-        role: 'zoomout',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'togglefullscreen',
-      },
-    ],
-  },
-  {
-    role: 'window',
-    submenu: [
-      {
+        label: local.tmenu_window_minimize,
+        accelerator: 'CmdOrCtrl+M',
         role: 'minimize',
       },
       {
-        role: 'close',
-      },
-    ],
-  },
-  {
-    role: 'help',
-    submenu: [
-      {
-        label: 'Learn More',
-        click() { shell.openExternal('https://perkovec.github.io/Chad'); },
-      },
-    ],
-  },
-];
-
-if (process.platform === 'darwin') {
-  const name = app.getName();
-  template.unshift({
-    label: name,
-    submenu: [
-      {
-        role: 'about',
-      },
-      {
-        label: 'Check for updates',
-        click(item, focusedWindow) {
-          if (focusedWindow) checkUpdates(focusedWindow, true);
-        },
-      },
-      {
-        label: 'Report bugs',
-        click() {
-          shell.openExternal('http://github.com/Perkovec/Chad/issues');
-        },
+        label: local.tmenu_window_zoom,
+        role: 'zoom',
       },
       {
         type: 'separator',
       },
       {
-        role: 'services',
-        submenu: [],
+        label: local.tmenu_window_front,
+        role: 'front',
       },
-      {
-        type: 'separator',
+    ];
+  } else {
+    template[template.length - 1].submenu.unshift({
+      label: local.tmenu_app_reportbugs,
+      click() {
+        shell.openExternal('http://github.com/Perkovec/Chad/issues');
       },
-      {
-        role: 'hide',
+    });
+    template[template.length - 1].submenu.unshift({
+      label: local.tmenu_app_checkforupdates,
+      click(item, focusedWindow) {
+        if (focusedWindow) checkUpdates(focusedWindow, true);
       },
-      {
-        role: 'hideothers',
-      },
-      {
-        role: 'unhide',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'quit',
-      },
-    ],
-  });
+    });
+  }
 
-  // Edit menu.
-  template[1].submenu.push(
-    {
-      type: 'separator',
-    },
-    {
-      label: 'Speech',
-      submenu: [
-        {
-          role: 'startspeaking',
-        },
-        {
-          role: 'stopspeaking',
-        },
-      ],
-    }
-  );
+  return Menu.buildFromTemplate(template);
+};
 
-  // Window menu.
-  template[3].submenu = [
-    {
-      label: 'Close',
-      accelerator: 'CmdOrCtrl+W',
-      role: 'close',
-    },
-    {
-      label: 'Minimize',
-      accelerator: 'CmdOrCtrl+M',
-      role: 'minimize',
-    },
-    {
-      label: 'Zoom',
-      role: 'zoom',
-    },
-    {
-      type: 'separator',
-    },
-    {
-      label: 'Bring All to Front',
-      role: 'front',
-    },
-  ];
-} else {
-  template[template.length - 1].submenu.unshift({
-    label: 'Report bugs',
-    click() {
-      shell.openExternal('http://github.com/Perkovec/Chad/issues');
-    },
-  });
-  template[template.length - 1].submenu.unshift({
-    label: 'Check for updates',
-    click(item, focusedWindow) {
-      if (focusedWindow) checkUpdates(focusedWindow, true);
-    },
-  });
-}
-
-module.exports = Menu.buildFromTemplate(template);
