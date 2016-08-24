@@ -15,6 +15,7 @@ const tags = {
   constrolButtonStyle: { margin: '8px 0 0 8px' },
   dialogStyle: { width: 350 },
   dividerStyle: { marginTop: 10 },
+  submitStyle: { display: 'none' },
 };
 
 class WPostWriteInput extends React.Component {
@@ -93,7 +94,9 @@ class WPostWriteInput extends React.Component {
     }, this.openInsertLinkDialog);
   }
 
-  insertLinkInText() {
+  insertLinkInText(e) {
+    e.preventDefault();
+
     let selStart = this.inputRef.selectionStart;
     let selEnd = this.inputRef.selectionEnd;
 
@@ -108,6 +111,8 @@ class WPostWriteInput extends React.Component {
 
     this.replaceText(selStart, selEnd, res);
     this.closeInsertLinkDialog();
+
+    return false;
   }
 
   insertBold() {
@@ -227,16 +232,19 @@ class WPostWriteInput extends React.Component {
           modal={true}
           contentStyle={tags.dialogStyle}
           open={this.state.insertLinkDialog}>
-          <TextField
-            ref={ref => this.insertLinkTitleRef = ref}
-            value={this.state.insertLinkTitle}
-            onChange={this.titleFieldChange}
-            floatingLabelText={this.props.local.d_insert_link_title}/>
-          <TextField
-            ref={ref => this.insertLinkURLRef = ref}
-            value={this.state.insertLinkURL}
-            onChange={this.urlFieldChange}
-            floatingLabelText={this.props.local.d_insert_link_url}/>
+          <form onSubmit={this.insertLinkInText}>
+            <TextField
+              ref={ref => this.insertLinkTitleRef = ref}
+              value={this.state.insertLinkTitle}
+              onChange={this.titleFieldChange}
+              floatingLabelText={this.props.local.d_insert_link_title}/>
+            <TextField
+              ref={ref => this.insertLinkURLRef = ref}
+              value={this.state.insertLinkURL}
+              onChange={this.urlFieldChange}
+              floatingLabelText={this.props.local.d_insert_link_url}/>
+            <button style={tags.submitStyle} type="submit"></button>
+          </form>
         </Dialog>
       </div>
     );
