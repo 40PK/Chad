@@ -29,6 +29,8 @@ class WPostWriteInput extends React.Component {
     };
 
     this.inputRef = null;
+    this.insertLinkTitleRef = null;
+    this.insertLinkURLRef = null;
 
     // Binding context
     this.insertLink = this.insertLink.bind(this);
@@ -49,7 +51,15 @@ class WPostWriteInput extends React.Component {
   }
 
   openInsertLinkDialog() {
-    this.setState({ insertLinkDialog: true });
+    this.setState({
+      insertLinkDialog: true,
+    }, () => {
+      if (this.state.insertLinkTitle) {
+        this.insertLinkURLRef.focus();
+      } else {
+        this.insertLinkTitleRef.focus();
+      }
+    });
   }
 
   closeInsertLinkDialog() {
@@ -218,10 +228,12 @@ class WPostWriteInput extends React.Component {
           contentStyle={tags.dialogStyle}
           open={this.state.insertLinkDialog}>
           <TextField
+            ref={ref => this.insertLinkTitleRef = ref}
             value={this.state.insertLinkTitle}
             onChange={this.titleFieldChange}
             floatingLabelText={this.props.local.d_insert_link_title}/>
           <TextField
+            ref={ref => this.insertLinkURLRef = ref}
             value={this.state.insertLinkURL}
             onChange={this.urlFieldChange}
             floatingLabelText={this.props.local.d_insert_link_url}/>
