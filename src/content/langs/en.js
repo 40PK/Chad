@@ -108,4 +108,25 @@ module.exports = {
   tmenu_app_hideothers: 'Hide others',
   tmenu_app_unhide: 'Show all',
   tmenu_app_quit: 'Quit Chad',
+
+  alert_select_formatting_style: 'Select formatting style',
+  alert_select_channel_to_send: 'Select channel(s) to send post',
+  alert_add_admin_bot: 'Add Admin bot',
+  alert_post_text_empty: 'Post text is empty',
+  alert_something_wrong: 'Something went wrong',
+  alert_channel_name_short: 'Channel name is too short',
+  alert_invalid_channel_name: 'Invalid channel username',
+  alert_invalid_token: 'Invalid token',
+  alert_invalid_token_format: 'Invalid token format',
+  alert_cant_find_bot: 'Can\'t find bot with this token',
+
+  snackbar_draft_saved: 'Draft saved!',
+
+  update: 'Update',
+  update_new: 'A newer version $newVer is available!',
+  update_new_detail: 'Detail',
+  update_new_cancel: 'Cancel',
+  update_no: 'No Updates',
+  update_no_text: 'Current version $version is already up to date!',
+  update_no_ok: 'OK',
 };

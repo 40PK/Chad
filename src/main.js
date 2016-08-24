@@ -35,16 +35,16 @@ function createWindow() {
   mainWindow.setMenu(null);
   mainWindow.loadURL(`file://${__dirname}/content/index.html`);
 
-  mainWindow.on('show', () => {
-    checkUpdates();
-  });
-
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
 
   ipcMain.on('build-menu', (event, locals) => {
     Menu.setApplicationMenu(menu(locals));
+  });
+
+  ipcMain.on('check-updates', (event, locals) => {
+    checkUpdates(locals);
   });
 }
 

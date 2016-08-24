@@ -108,4 +108,25 @@ module.exports = {
   tmenu_app_hideothers: 'Скрыть другие',
   tmenu_app_unhide: 'Показать все',
   tmenu_app_quit: 'Выйти из Chad',
+
+  alert_select_formatting_style: 'Выберите стиль форматирования',
+  alert_select_channel_to_send: 'Выберите канал(ы) для отправки поста',
+  alert_add_admin_bot: 'Добавьте админ бота',
+  alert_post_text_empty: 'Текст поста пуст',
+  alert_something_wrong: 'Что-то пошло не так...',
+  alert_channel_name_short: 'Имя канала слишком короткое',
+  alert_invalid_channel_name: 'Неверный никнейм канала',
+  alert_invalid_token: 'Неверный ключ',
+  alert_invalid_token_format: 'Неверный формат ключа',
+  alert_cant_find_bot: 'Бот с этим ключом не найден',
+
+  snackbar_draft_saved: 'Черновик сохранен!',
+
+  update: 'Обновление',
+  update_new: 'Новая версия $newVer уже доступна!',
+  update_new_detail: 'Подробнее',
+  update_new_cancel: 'Отмена',
+  update_no: 'Нет обновлений',
+  update_no_text: 'Текущая версия $version самая новая!',
+  update_no_ok: 'OK',
 };

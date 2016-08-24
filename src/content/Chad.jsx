@@ -45,6 +45,7 @@ class Chad extends React.Component {
 
     this.local = langs[this.state.settings.lang];
     ipcRenderer.send('build-menu', this.local);
+    ipcRenderer.send('check-updates', this.local);
     this.signal = new Signal();
 
     this.token = this.state.bot.token || null;
@@ -114,13 +115,13 @@ class Chad extends React.Component {
     let listToSend = this.signal.call('SelectedChannels');
 
     if (listToSend.length < 1)
-      return alert('Select channel(s) to send post');
+      return alert(this.local.alert_select_channel_to_send);
 
     if (this.token === null)
-      return alert('Add Admin bot');
+      return alert(this.local.alert_add_admin_bot);
 
     if (data.text.length < 1)
-      return alert('Post text is empty');
+      return alert(this.local.alert_post_text_empty);
 
     data.onStart.apply(null);
 
@@ -154,7 +155,7 @@ class Chad extends React.Component {
             sendRec(list, onend);
           }
         } else {
-          alert('Something went wrong');
+          alert(this.local.alert_something_wrong);
           onend(success);
         }
 
@@ -183,10 +184,10 @@ class Chad extends React.Component {
 
   changePost(data) {
     if (this.token === null)
-      return alert('Add Admin bot');
+      return alert(this.local.alert_add_admin_bot);
 
     if (data.text.length < 1)
-      return alert('Post text is empty');
+      return alert(this.loca.alert_post_text_empty);
 
     data.onStart.apply(null);
 
@@ -214,7 +215,7 @@ class Chad extends React.Component {
             sendRec(list, onend);
           }
         } else {
-          alert('Something went wrong');
+          alert(this.local.alert_something_wrong);
           onend(success);
         }
 
@@ -258,10 +259,10 @@ class Chad extends React.Component {
 
   newChannel(data) {
     if (!data.name || data.name.length === 0)
-      return alert('Channel name is too short');
+      return alert(this.local.alert_channel_name_short);
 
     if (!data.username || !usernameRegex.test(data.username))
-      return alert('Invalid channel username');
+      return alert(this.local.alert_invalid_channel_name);
 
     let channels = this.state.channels;
     channels.push({
@@ -293,10 +294,10 @@ class Chad extends React.Component {
 
   setAdminBot(token, onPass) {
     if (!token || token.length < 30)
-      return alert('Invalid token');
+      return alert(this.loca.alert_invalid_token);
 
     if (!tokenRegex.test(token))
-      return alert('Invalid token format');
+      return alert(this.local.alert_invalid_token_format);
 
     if (onPass) onPass();
 
@@ -320,7 +321,7 @@ class Chad extends React.Component {
       }
     }, (err) => {
       signal.call('SetLoadState', [false]);
-      alert('Can\'t find bot with this token');
+      alert(this.local.alert_cant_find_bot);
     });
   }
 
@@ -380,20 +381,20 @@ class Chad extends React.Component {
 
   saveDraft(data) {
     if (data.text.length < 1)
-      return alert('Post text is empty');
+      return alert(this.local.alert_post_text_empty);
 
     data.uid = Utils.uid2();
     let drafts = this.state.drafts;
     drafts.unshift(data);
     this.setState({
       drafts: drafts,
-    }, () => this.makeSnackbar('Draft saved!'));
+    }, () => this.makeSnackbar(this.local.snackbar_draft_saved));
     localStorage.setItem('drafts', JSON.stringify(drafts));
   }
 
   changeDraft(data) {
     if (data.text.length < 1)
-      return alert('Post text is empty');
+      return alert(this.local.alert_post_text_empty);
 
     let drafts = this.state.drafts;
     drafts[this.getDraftIndexByUid(data.uid)] = data;

@@ -8,7 +8,7 @@ const compare = require('semver-compare');
 
 const version = app.getVersion();
 
-module.exports = (focusedWindow, notifyUpToDate) => {
+module.exports = (local, focusedWindow, notifyUpToDate) => {
   request.get('https://api.github.com/repos/Perkovec/Chad/releases/latest').end((err, res) => {
     const newVer = res.body.tag_name.substr(1);
     const hasUpdates = compare(newVer, version) === 1;
@@ -18,9 +18,9 @@ module.exports = (focusedWindow, notifyUpToDate) => {
     if (hasUpdates) {
       answerDialog.push({
         type: 'question',
-        message: 'Update',
-        detail: `A newer version ${newVer} is available!`,
-        buttons: ['Detail', 'Cancel'],
+        message: local.update,
+        detail: local.update_new.replace('$newVer', newVer),
+        buttons: [local.update_new_detail, local.update_new_cancel],
       });
       const answer = dialog.showMessageBox.apply(null, answerDialog);
       if (answer === 0) {
@@ -29,9 +29,9 @@ module.exports = (focusedWindow, notifyUpToDate) => {
     } else if (notifyUpToDate) {
       answerDialog.push({
         type: 'info',
-        message: 'No Updates',
-        detail: `Current version ${version} is already up to date!`,
-        buttons: ['OK'],
+        message: local.update_no,
+        detail: local.update_no_text.replace('$version', version),
+        buttons: [local.update_no_ok],
       });
       dialog.showMessageBox.apply(null, answerDialog);
     }

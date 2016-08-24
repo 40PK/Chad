@@ -78,7 +78,7 @@ class WPostWrite extends React.Component {
 
   checkParser() {
     if (this.state.parser === 'none')
-      return alert('Select formatting style.');
+      return alert(this.props.local.alert_select_formatting_style);
 
     return true;
   }

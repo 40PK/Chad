@@ -123,7 +123,7 @@ module.exports = local => {
         {
           label: local.tmenu_app_checkforupdates,
           click(item, focusedWindow) {
-            if (focusedWindow) checkUpdates(focusedWindow, true);
+            if (focusedWindow) checkUpdates(local, focusedWindow, true);
           },
         },
         {
