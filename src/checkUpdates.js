@@ -9,7 +9,7 @@ const compare = require('semver-compare');
 const version = app.getVersion();
 
 module.exports = (local, focusedWindow, notifyUpToDate) => {
-  request.get('https://api.github.com/repos/Perkovec/Chad/releases/latest').end((err, res) => {
+  request.get('https://api.github.com/repos/40PK/Chad/releases/latest').end((err, res) => {
     const newVer = res.body.tag_name.substr(1);
     const hasUpdates = compare(newVer, version) === 1;
     let answerDialog = [];
@@ -24,7 +24,7 @@ module.exports = (local, focusedWindow, notifyUpToDate) => {
       });
       const answer = dialog.showMessageBox.apply(null, answerDialog);
       if (answer === 0) {
-        shell.openExternal(`https://github.com/Perkovec/Chad/releases/tag/v${newVer}`);
+        shell.openExternal(`https://github.com/40PK/Chad/releases/tag/v${newVer}`);
       }
     } else if (notifyUpToDate) {
       answerDialog.push({

@@ -41,8 +41,8 @@ class SideBar extends React.Component {
     this.darkThemeChange = this.darkThemeChange.bind(this);
     this.formattingStyleChange = this.formattingStyleChange.bind(this);
 
-    this.openGithub = () => this.openBrowser('https://github.com/Perkovec/Chad');
-    this.openSite = () => this.openBrowser('https://perkovec.github.io/Chad/');
+    this.openGithub = () => this.openBrowser('https://github.com/40PK/Chad');
+    this.openSite = () => this.openBrowser('https://40pk.github.io/Chad/');
     this.openTelegram = () => this.openBrowser('https://telegram.me/perkovec/');
     this.openVK = () => this.openBrowser('https://vk.com/id120146182');
     this.openEmail = () => this.openBrowser('mailto:perkovec24@gmail.com');

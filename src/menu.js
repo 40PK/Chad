@@ -129,7 +129,7 @@ module.exports = local => {
         {
           label: local.tmenu_app_reportbugs,
           click() {
-            shell.openExternal('http://github.com/Perkovec/Chad/issues');
+            shell.openExternal('http://github.com/40PK/Chad/issues');
           },
         },
         {
@@ -193,7 +193,7 @@ module.exports = local => {
     template[template.length - 1].submenu.unshift({
       label: local.tmenu_app_reportbugs,
       click() {
-        shell.openExternal('http://github.com/Perkovec/Chad/issues');
+        shell.openExternal('http://github.com/40PK/Chad/issues');
       },
     });
     template[template.length - 1].submenu.unshift({
