@@ -1,7 +1,11 @@
 {
+  "extends": "airbnb",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     }
+  },
+  "env": {
+    "browser": true
   }
 }
