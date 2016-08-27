@@ -1,3 +1,4 @@
+const React = require('react');
 const {
   RaisedButton,
   TextField,
@@ -51,59 +52,72 @@ class WPostWriteInput extends React.Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  openInsertLinkDialog() {
+  onInputRef(ref) {
+    if (this.inputRef === null) this.inputRef = ref.input.refs.input;
+  }
+
+  getText() {
+    return this.state.text;
+  }
+
+  clearText() {
     this.setState({
-      insertLinkDialog: true,
-    }, () => {
-      if (this.state.insertLinkTitle) {
-        this.insertLinkURLRef.focus();
-      } else {
-        this.insertLinkTitleRef.focus();
-      }
-    });
+      text: '',
+    }, () => this.props.updatePreview(''));
   }
 
-  closeInsertLinkDialog() {
-    this.setState({ insertLinkDialog: false });
-  }
-
-  replaceText(start, end, text) {
-    let postText = this.state.text;
-    this.setState({
-      text: postText.substring(0, start) +
-            text + postText.substring(end, postText.length),
-    }, () => {
-      this.props.updatePreview(this.state.text);
-      this.inputRef.focus();
-      this.inputRef.setSelectionRange(start + text.length, start + text.length);
-    });
-  }
-
-  insertLink() {
+  insertItalic() {
     if (!this.props.checkParser()) return;
 
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
 
-    let title = (selStart === selEnd) ? '' : this.state.text.substring(selStart, selEnd);
-    let state = this.state;
+    let text = this.state.text.substring(selStart, selEnd);
+    if (text.length === 0) text = 'italic';
 
-    this.setState({
-      insertLinkTitle: title,
-      insertLinkURL: '',
-    }, this.openInsertLinkDialog);
+    const parser = this.props.getParser();
+
+    let res;
+    if (parser === 'markdown') {
+      res = `_${text}_`;
+    } else if (parser === 'HTML') {
+      res = `<i>${text}</i>`;
+    }
+
+    this.replaceText(selStart, selEnd, res);
+  }
+
+  insertBold() {
+    if (!this.props.checkParser()) return;
+
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
+
+    let text = this.state.text.substring(selStart, selEnd);
+    if (text.length === 0) text = 'bold';
+
+    const parser = this.props.getParser();
+
+    let res;
+    if (parser === 'markdown') {
+      res = `*${text}*`;
+    } else if (parser === 'HTML') {
+      res = `<b>${text}</b>`;
+    }
+
+    this.replaceText(selStart, selEnd, res);
   }
 
   insertLinkInText(e) {
     e.preventDefault();
 
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
 
-    let parser = this.props.getParser();
+    const parser = this.props.getParser();
 
     let res;
-    if (parser === 'markdown')  {
+    if (parser === 'markdown') {
       res = `[${this.state.insertLinkTitle}](${this.state.insertLinkURL})`;
     } else if (parser === 'HTML') {
       res = `<a href="${this.state.insertLinkURL}">${this.state.insertLinkTitle}</a>`;
@@ -115,62 +129,46 @@ class WPostWriteInput extends React.Component {
     return false;
   }
 
-  insertBold() {
+  insertLink() {
     if (!this.props.checkParser()) return;
 
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
 
-    let state = this.state;
-    let text = this.state.text.substring(selStart, selEnd);
-    if (text.length === 0) text = 'bold';
+    const title = (selStart === selEnd) ? '' : this.state.text.substring(selStart, selEnd);
 
-    let parser = this.props.getParser();
-
-    let res;
-    if (parser === 'markdown')  {
-      res = `*${text}*`;
-    } else if (parser === 'HTML') {
-      res = `<b>${text}</b>`;
-    }
-
-    this.replaceText(selStart, selEnd, res);
-  }
-
-  insertItalic() {
-    if (!this.props.checkParser()) return;
-
-    let selStart = this.inputRef.selectionStart;
-    let selEnd = this.inputRef.selectionEnd;
-
-    let state = this.state;
-    let text = this.state.text.substring(selStart, selEnd);
-    if (text.length === 0) text = 'italic';
-
-    let parser = this.props.getParser();
-
-    let res;
-    if (parser === 'markdown')  {
-      res = `_${text}_`;
-    } else if (parser === 'HTML') {
-      res = `<i>${text}</i>`;
-    }
-
-    this.replaceText(selStart, selEnd, res);
-  }
-
-  onInputRef(ref) {
-    if (this.inputRef === null) this.inputRef = ref.input.refs.input;
-  }
-
-  clearText() {
     this.setState({
-      text: '',
-    }, () => this.props.updatePreview(''));
+      insertLinkTitle: title,
+      insertLinkURL: '',
+    }, this.openInsertLinkDialog);
   }
 
-  getText() {
-    return this.state.text;
+  replaceText(start, end, text) {
+    const postText = this.state.text;
+    this.setState({
+      text: postText.substring(0, start) +
+            text + postText.substring(end, postText.length),
+    }, () => {
+      this.props.updatePreview(this.state.text);
+      this.inputRef.focus();
+      this.inputRef.setSelectionRange(start + text.length, start + text.length);
+    });
+  }
+
+  closeInsertLinkDialog() {
+    this.setState({ insertLinkDialog: false });
+  }
+
+  openInsertLinkDialog() {
+    this.setState({
+      insertLinkDialog: true,
+    }, () => {
+      if (this.state.insertLinkTitle) {
+        this.insertLinkURLRef.focus();
+      } else {
+        this.insertLinkTitleRef.focus();
+      }
+    });
   }
 
   postTextChange(event) {
@@ -188,15 +186,15 @@ class WPostWriteInput extends React.Component {
   }
 
   render() {
-    let linkActions = [
+    const linkActions = [
       <FlatButton
         label={this.props.local.d_insert_link_cancel}
-        primary={true}
+        primary
         onClick={this.closeInsertLinkDialog}
       />,
       <FlatButton
         label={this.props.local.d_insert_link_save}
-        primary={true}
+        primary
         onClick={this.insertLinkInText}
       />,
     ];
@@ -206,49 +204,62 @@ class WPostWriteInput extends React.Component {
         <RaisedButton
           onClick={this.insertLink}
           label={this.props.local.settings_link}
-          style={tags.constrolButtonStyle} />
+          style={tags.constrolButtonStyle}
+        />
         <RaisedButton
           onClick={this.insertBold}
           label={this.props.local.settings_bold}
-          style={tags.constrolButtonStyle} />
+          style={tags.constrolButtonStyle}
+        />
         <RaisedButton
           onClick={this.insertItalic}
           label={this.props.local.settings_italic}
-          style={tags.constrolButtonStyle} />
+          style={tags.constrolButtonStyle}
+        />
         <Divider style={tags.dividerStyle} />
-          
         <TextField
           ref={this.onInputRef}
           onChange={this.postTextChange}
-          multiLine={true}
+          multiLine
           value={this.state.text}
           rowsMax={11}
           hintText={this.props.local.post_test}
-          fullWidth={true} />
+          fullWidth
+        />
 
         <Dialog
           title={this.props.local.d_insert_link}
           actions={linkActions}
-          modal={true}
+          modal
           contentStyle={tags.dialogStyle}
-          open={this.state.insertLinkDialog}>
+          open={this.state.insertLinkDialog}
+        >
           <form onSubmit={this.insertLinkInText}>
             <TextField
-              ref={ref => this.insertLinkTitleRef = ref}
+              ref={ref => { this.insertLinkTitleRef = ref; }}
               value={this.state.insertLinkTitle}
               onChange={this.titleFieldChange}
-              floatingLabelText={this.props.local.d_insert_link_title}/>
+              floatingLabelText={this.props.local.d_insert_link_title}
+            />
             <TextField
-              ref={ref => this.insertLinkURLRef = ref}
+              ref={ref => { this.insertLinkURLRef = ref; }}
               value={this.state.insertLinkURL}
               onChange={this.urlFieldChange}
-              floatingLabelText={this.props.local.d_insert_link_url}/>
-            <button style={tags.submitStyle} type="submit"></button>
+              floatingLabelText={this.props.local.d_insert_link_url}
+            />
+            <button style={tags.submitStyle} type="submit" />
           </form>
         </Dialog>
       </div>
     );
   }
 }
+WPostWriteInput.propTypes = {
+  text: React.PropTypes.string,
+  local: React.PropTypes.object,
+  updatePreview: React.PropTypes.func,
+  checkParser: React.PropTypes.func,
+  getParser: React.PropTypes.func,
+};
 
 module.exports = WPostWriteInput;

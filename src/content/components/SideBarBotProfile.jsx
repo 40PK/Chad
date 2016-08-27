@@ -1,3 +1,4 @@
+const React = require('react');
 const {
   Divider,
   Avatar,
@@ -48,6 +49,14 @@ class SideBarBotProfile extends React.Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
+  setAdminBot() {
+    this.props.signal.call('SetAdminBot', [this.state.token, this.closeSetAdminBotDialog]);
+  }
+
+  removeAdminBot() {
+    this.props.signal.call('RemoveAdminBot');
+  }
+
   openSetAdminBotDialog() {
     this.setState({ setAdminBotDialog: true });
   }
@@ -60,89 +69,98 @@ class SideBarBotProfile extends React.Component {
     this.setState({ token: event.target.value });
   }
 
-  removeAdminBot() {
-    this.props.signal.call('RemoveAdminBot');
-  }
-
-  setAdminBot() {
-    this.props.signal.call('SetAdminBot', [this.state.token, this.closeSetAdminBotDialog]);
-  }
-
   render() {
     let BotProfile;
 
-    let BotAvatar = this.state.avatarLoad ?
-      (<CircularProgress style={tags.circProgressStyle} size={.5} />) :
+    const BotAvatar = this.state.avatarLoad ?
+      (<CircularProgress style={tags.circProgressStyle} size={0.5} />) :
       (<Avatar src={this.props.avatar} />);
 
     if (this.state.load) {
-      BotProfile = <ListItem
+      BotProfile = (<ListItem
         primaryText={this.props.local.loading}
-        leftAvatar={<CircularProgress style={tags.circProgressStyle} size={.5}/>} />;
+        leftAvatar={<CircularProgress style={tags.circProgressStyle} size={0.5} />}
+      />);
     } else if (this.props.name) {
       BotProfile = (
         <ListItem
           leftAvatar={BotAvatar}
-          primaryText={<div className='ellipsis'>{this.props.name}</div>}
+          primaryText={<div className="ellipsis">{this.props.name}</div>}
           secondaryText={this.props.username}
           rightIconButton={
             <IconMenu
               iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
               targetOrigin={tags.origin}
-              anchorOrigin={tags.origin} >
+              anchorOrigin={tags.origin}
+            >
               <MenuItem
                 leftIcon={<RefreshIcon />}
                 onClick={this.setAdminBot}
-                primaryText={this.props.local.bot_refresh} />
+                primaryText={this.props.local.bot_refresh}
+              />
               <MenuItem
                 leftIcon={<ChangeIcon />}
                 onClick={this.openSetAdminBotDialog}
-                primaryText={this.props.local.bot_change} />
+                primaryText={this.props.local.bot_change}
+              />
               <MenuItem
                 leftIcon={<RemoveIcon />}
                 onClick={this.removeAdminBot}
-                primaryText={this.props.local.bot_remove} />
+                primaryText={this.props.local.bot_remove}
+              />
             </IconMenu>
-        }/>);
+          }
+        />);
     } else {
       BotProfile = (
         <ListItem
           onClick={this.openSetAdminBotDialog}
           leftAvatar={<Avatar src={this.props.avatar} />}
-          primaryText={<div className='ellipsis'>{this.props.local.bot_set}</div>} />);
+          primaryText={<div className="ellipsis">{this.props.local.bot_set}</div>}
+        />);
     }
 
-    let actions = [
+    const actions = [
       <FlatButton
         label={this.props.local.d_set_admin_bot_cancel}
         onClick={this.closeSetAdminBotDialog}
       />,
       <FlatButton
         label={this.props.local.d_set_admin_bot_save}
-        primary={true}
+        primary
         onClick={this.setAdminBot}
       />,
     ];
 
     return (
       <div>
-        <Divider/>
+        <Divider />
         {BotProfile}
         <Dialog
           title={this.props.local.d_set_admin_bot}
           actions={actions}
-          modal={true}
+          modal
           contentStyle={tags.dialogStyle}
-          open={this.state.setAdminBotDialog}>
+          open={this.state.setAdminBotDialog}
+        >
           <TextField
             value={this.state.token}
             onChange={this.tokenChange}
             floatingLabelText={this.props.local.d_set_admin_bot_token}
-            hintText='123456:ABC-DEF1234ghIk...'/>
+            hintText="123456:ABC-DEF1234ghIk..."
+          />
         </Dialog>
       </div>
     );
   }
 }
+SideBarBotProfile.propTypes = {
+  token: React.PropTypes.string,
+  avatar: React.PropTypes.string,
+  name: React.PropTypes.string,
+  username: React.PropTypes.string,
+  local: React.PropTypes.object,
+  signal: React.PropTypes.func,
+};
 
 module.exports = SideBarBotProfile;

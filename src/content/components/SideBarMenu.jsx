@@ -1,3 +1,4 @@
+const React = require('react');
 const { ListItem } = require('material-ui');
 const shallowCompare = require('react-addons-shallow-compare');
 
@@ -35,7 +36,7 @@ class SideBarMenu extends React.Component {
   }
 
   render() {
-    let nestedItems = [];
+    const nestedItems = [];
 
     this.items.map((item) => {
       nestedItems.push(
@@ -49,11 +50,15 @@ class SideBarMenu extends React.Component {
     return (
       <ListItem
         primaryText={this.props.local.menu}
-        primaryTogglesNestedList={true}
+        primaryTogglesNestedList
         nestedItems={nestedItems}
-        />
+      />
     );
   }
 }
+SideBarMenu.propTypes = {
+  signal: React.PropTypes.func,
+  local: React.PropTypes.object,
+};
 
 module.exports = SideBarMenu;

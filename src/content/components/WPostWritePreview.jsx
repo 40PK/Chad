@@ -1,3 +1,4 @@
+const React = require('react');
 const {
   Paper,
   Subheader,
@@ -42,16 +43,17 @@ class WPostWritePreview extends React.Component {
   render() {
     return (
       <Paper style={tags.previewStyle} zDepth={1} rounded={false}>
-        <Layout type='column'>
+        <Layout type="column">
           <Fixed>
             <Subheader>{this.props.local.preview}</Subheader>
             <Divider />
           </Fixed>
           <Flex style={tags.previewContainerStyle}>
-            <div className='preview-overflow'>
+            <div className="preview-overflow">
               <pre
                 dangerouslySetInnerHTML={{ __html: this.state.preview }}
-                className='preview'></pre>
+                className="preview"
+              />
             </div>
           </Flex>
         </Layout>
@@ -59,5 +61,10 @@ class WPostWritePreview extends React.Component {
     );
   }
 }
+WPostWritePreview.propTypes = {
+  text: React.PropTypes.string,
+  parser: React.PropTypes.string,
+  local: React.PropTypes.object,
+};
 
 module.exports = WPostWritePreview;

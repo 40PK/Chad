@@ -1,3 +1,4 @@
+const React = require('react');
 const {
   List,
   Divider,
@@ -54,13 +55,13 @@ class SideBar extends React.Component {
   }
 
   formattingStyleChange(event, index, value) {
-    let data = this.props.data.postWriteDefaults;
+    const data = this.props.data.postWriteDefaults;
     data.parser = value;
     this.props.signal.call('PostWriteDefaultsChange', [data]);
   }
 
   checkboxChange(type, event, isInputChecked) {
-    let data = this.props.data.postWriteDefaults;
+    const data = this.props.data.postWriteDefaults;
     data[type] = isInputChecked;
     this.props.signal.call('PostWriteDefaultsChange', [data]);
   }
@@ -86,37 +87,37 @@ class SideBar extends React.Component {
   }
 
   render() {
-    let BotProfileStyle = { height: 100, width: '100%' };
-
-    let actionsPreferences = [
+    const actionsPreferences = [
       <FlatButton
         label={this.props.local.d_preferences_ok}
-        primary={true}
+        primary
         onClick={this.closePreferencesDialog}
       />,
     ];
 
-    let actionsAbout = [
+    const actionsAbout = [
       <FlatButton
         label={this.props.local.d_about_close}
-        primary={true}
+        primary
         onClick={this.closeAboutDialog}
       />,
     ];
 
     return (
-      <Layout type='column'>
+      <Layout type="column">
         <Flex style={tags.topSideBarStyle}>
           <List style={tags.listStyle}>
             <SideBarMenu
               signal={this.props.signal}
-              local={this.props.local}/>
-            <Divider/>
+              local={this.props.local}
+            />
+            <Divider />
             <SideBarChannels
               signal={this.props.signal}
               channels={this.props.data.channels}
-              local={this.props.local}/>
-            <Divider/>
+              local={this.props.local}
+            />
+            <Divider />
           </List>
         </Flex>
         <Fixed>
@@ -126,68 +127,80 @@ class SideBar extends React.Component {
             name={this.props.data.bot.name}
             username={this.props.data.bot.username}
             signal={this.props.signal}
-            local={this.props.local}/>
+            local={this.props.local}
+          />
         </Fixed>
 
         <Dialog
           title={this.props.local.d_preferences}
           actions={actionsPreferences}
-          modal={true}
+          modal
           contentStyle={tags.dialogStyle}
-          open={this.state.preferencesDialog}>
+          open={this.state.preferencesDialog}
+        >
           <h4 style={tags.h4Style}>{this.props.local.d_preferences_general}:</h4>
           <SelectField
             floatingLabelText={this.props.local.d_preferences_language}
             value={this.props.data.lang}
-            onChange={this.languageChange}>
-            <MenuItem value='en' primaryText='English' />
-            <MenuItem value='ru' primaryText='Русский' />
+            onChange={this.languageChange}
+          >
+            <MenuItem value="en" primaryText="English" />
+            <MenuItem value="ru" primaryText="Русский" />
           </SelectField>
           <Toggle
             onToggle={this.darkThemeChange}
             toggled={this.props.data.darkTheme}
-            label={this.props.local.d_preferences_dark_theme} />
-          
-          <br/>
+            label={this.props.local.d_preferences_dark_theme}
+          />
+          <br />
           <h4 style={tags.h4Style}>{this.props.local.d_preferences_default_postwrite}:</h4>
           <SelectField
             floatingLabelText={this.props.local.settings_formatting_styles}
             value={this.props.data.postWriteDefaults.parser}
-            onChange={this.formattingStyleChange}>
-            <MenuItem value='none' primaryText={this.props.local.settings_none} />
-            <MenuItem value='markdown' primaryText={this.props.local.settings_markdown} />
-            <MenuItem value='HTML' primaryText={this.props.local.settings_html} />
+            onChange={this.formattingStyleChange}
+          >
+            <MenuItem value="none" primaryText={this.props.local.settings_none} />
+            <MenuItem value="markdown" primaryText={this.props.local.settings_markdown} />
+            <MenuItem value="HTML" primaryText={this.props.local.settings_html} />
           </SelectField>
           <Checkbox
             checked={this.props.data.postWriteDefaults.disablePreview}
             value={this.props.data.postWriteDefaults.disablePreview}
             onCheck={(e, i) => this.checkboxChange('disablePreview', e, i)}
-            label={this.props.local.post_settings_disable_link_preview} />
+            label={this.props.local.post_settings_disable_link_preview}
+          />
           <Checkbox
             checked={this.props.data.postWriteDefaults.disableNotification}
             value={this.props.data.postWriteDefaults.disableNotification}
             onCheck={(e, i) => this.checkboxChange('disableNotification', e, i)}
-            label={this.props.local.post_settings_disable_notification} />
+            label={this.props.local.post_settings_disable_notification}
+          />
         </Dialog>
 
         <Dialog
           title={this.props.local.d_about}
           actions={actionsAbout}
-          modal={true}
+          modal
           contentStyle={tags.dialogStyle}
-          open={this.state.aboutDialog}>
-          Source code: <a href="#" onClick={this.openGithub}>Github</a><br/>
-          Site: <a href="#" onClick={this.openSite}>perkovec.github.io/Chad</a><br/>
-          <br/>
-          Developed by Perkovec:<br/>
-          Telegram: <a href="#" onClick={this.openTelegram}>@Perkovec</a><br/>
-          VK: <a href="#" onClick={this.openVK}>Ilya Perkovec</a><br/>
-          E-mail: <a href="#" onClick={this.openEmail}>perkovec24@gmail.com</a><br/>
-          LinkedIn: <a href="#" onClick={this.openLinkedIn}>Ilya Perkovec</a>
+          open={this.state.aboutDialog}
+        >
+          Source code: <a onClick={this.openGithub}>Github</a><br />
+          Site: <a onClick={this.openSite}>perkovec.github.io/Chad</a><br />
+          <br />
+          Developed by Perkovec:<br />
+          Telegram: <a onClick={this.openTelegram}>@Perkovec</a><br />
+          VK: <a onClick={this.openVK}>Ilya Perkovec</a><br />
+          E-mail: <a onClick={this.openEmail}>perkovec24@gmail.com</a><br />
+          LinkedIn: <a onClick={this.openLinkedIn}>Ilya Perkovec</a>
         </Dialog>
       </Layout>
     );
   }
 }
+SideBar.propTypes = {
+  signal: React.PropTypes.func,
+  data: React.PropTypes.object,
+  local: React.PropTypes.object,
+};
 
 module.exports = SideBar;

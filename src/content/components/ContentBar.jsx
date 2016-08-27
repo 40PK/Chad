@@ -1,3 +1,4 @@
+const React = require('react');
 const ContentBarPostWrite = require('./ContentBarPostWrite');
 const ContentBarPosts = require('./ContentBarPosts');
 const ContentBarDrafts = require('./ContentBarDrafts');
@@ -23,28 +24,36 @@ class ContentBar extends React.Component {
   render() {
     let content;
     if (this.state.content === 'PostWrite') {
-      content = <ContentBarPostWrite
-                  defaults={this.props.data.postWriteDefaults}
-                  signal={this.props.signal}
-                  local={this.props.local} />;
+      content = (<ContentBarPostWrite
+        defaults={this.props.data.postWriteDefaults}
+        signal={this.props.signal}
+        local={this.props.local}
+      />);
     } else if (this.state.content === 'Posts') {
-      content = <ContentBarPosts
-                  posts={this.props.data.posts}
-                  signal={this.props.signal}
-                  local={this.props.local} />;
+      content = (<ContentBarPosts
+        posts={this.props.data.posts}
+        signal={this.props.signal}
+        local={this.props.local}
+      />);
     } else if (this.state.content === 'Drafts') {
-      content = <ContentBarDrafts
-                  drafts={this.props.data.drafts}
-                  signal={this.props.signal}
-                  local={this.props.local} />;
+      content = (<ContentBarDrafts
+        drafts={this.props.data.drafts}
+        signal={this.props.signal}
+        local={this.props.local}
+      />);
     }
 
     return (
-      <div className='content-bar'>
+      <div className="content-bar">
         {content}
       </div>
     );
   }
 }
+ContentBar.propTypes = {
+  signal: React.PropTypes.func,
+  data: React.PropTypes.object,
+  local: React.PropTypes.object,
+};
 
 module.exports = ContentBar;

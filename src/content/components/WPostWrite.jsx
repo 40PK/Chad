@@ -1,10 +1,9 @@
+/* eslint-disable no-alert */
+const React = require('react');
 const {
   SelectField,
   MenuItem,
   RaisedButton,
-  Paper,
-  Subheader,
-  Divider,
   FlatButton,
   Dialog,
   Checkbox,
@@ -29,7 +28,7 @@ class WPostWrite extends React.Component {
   constructor(props) {
     super(props);
 
-    let state = {
+    const state = {
       parser: 'none',
       disablePreview: false,
       disableNotification: false,
@@ -61,12 +60,8 @@ class WPostWrite extends React.Component {
     this.getParser = this.getParser.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
   componentWillReceiveProps(newProps) {
-    let state = this.state;
+    const state = this.state;
     if (newProps.settings) {
       if (newProps.settings.parser) state.parser = newProps.settings.parser;
       if (newProps.settings.disablePreview) state.disablePreview = true;
@@ -76,58 +71,12 @@ class WPostWrite extends React.Component {
     this.setState(state, () => this.updatePreview(this.inputRef.getText()));
   }
 
-  checkParser() {
-    if (this.state.parser === 'none')
-      return alert(this.props.local.alert_select_formatting_style);
-
-    return true;
-  }
-
-  // DIALOGS - START
-
-  openSettingsDialog() {
-    this.setState({ settingsDialog: true });
-  }
-
-  closeSettingsDialog() {
-    this.setState({ settingsDialog: false });
-  }
-
-  // DIALOGS - END
-
-  fieldChange(event, type) {
-    let state = {};
-    state[type] = event.target.value;
-    this.setState(state);
-  }
-
-  formattingStyleChange(event, index, value) {
-    this.setState({
-      parser: value,
-    }, () => this.updatePreview(this.inputRef.getText()));
-  }
-
-  updatePreview(text) {
-    this.previewRef.updatePreview(text, this.state.parser);
-  }
-
-  checkboxChange(type, event, isInputChecked) {
-    let state = {};
-    state[type] = isInputChecked;
-    this.setState(state);
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   onSend() {
     this.props.onSend({
-      text: this.inputRef.getText(),
-      parser: this.state.parser,
-      disablePreview: this.state.disablePreview,
-      disableNotification: this.state.disableNotification,
-    });
-  }
-
-  saveDraft() {
-    this.props.onSaveDraft({
       text: this.inputRef.getText(),
       parser: this.state.parser,
       disablePreview: this.state.disablePreview,
@@ -143,40 +92,89 @@ class WPostWrite extends React.Component {
     this.previewRef = ref;
   }
 
-  clearText() {
-    this.inputRef.clearText();
-  }
-
   getParser() {
     return this.state.parser;
   }
 
+  clearText() {
+    this.inputRef.clearText();
+  }
+
+  saveDraft() {
+    this.props.onSaveDraft({
+      text: this.inputRef.getText(),
+      parser: this.state.parser,
+      disablePreview: this.state.disablePreview,
+      disableNotification: this.state.disableNotification,
+    });
+  }
+
+  checkboxChange(type, event, isInputChecked) {
+    const state = {};
+    state[type] = isInputChecked;
+    this.setState(state);
+  }
+
+  updatePreview(text) {
+    this.previewRef.updatePreview(text, this.state.parser);
+  }
+
+  formattingStyleChange(event, index, value) {
+    this.setState({
+      parser: value,
+    }, () => this.updatePreview(this.inputRef.getText()));
+  }
+
+  fieldChange(event, type) {
+    const state = {};
+    state[type] = event.target.value;
+    this.setState(state);
+  }
+
+  closeSettingsDialog() {
+    this.setState({ settingsDialog: false });
+  }
+
+  openSettingsDialog() {
+    this.setState({ settingsDialog: true });
+  }
+
+  checkParser() {
+    if (this.state.parser === 'none') {
+      return alert(this.props.local.alert_select_formatting_style);
+    }
+
+    return true;
+  }
+
   render() {
-    let settingsActions = [
+    const settingsActions = [
       <FlatButton
         label={this.props.local.post_settings_ok}
-        primary={true}
+        primary
         onClick={this.closeSettingsDialog}
       />,
     ];
 
     let sendButton;
     if (typeof this.props.sendButtonContent === 'string') {
-      sendButton = <RaisedButton
-                    label={this.props.sendButtonContent}
-                    style={tags.buttonStyle}
-                    primary={true}
-                    onClick={this.onSend}/>;
+      sendButton = (<RaisedButton
+        label={this.props.sendButtonContent}
+        style={tags.buttonStyle}
+        primary
+        onClick={this.onSend}
+      />);
     } else {
-      sendButton = <RaisedButton
-                    icon={this.props.sendButtonContent}
-                    style={tags.buttonStyle}
-                    primary={true}
-                    onClick={this.onSend}/>;
+      sendButton = (<RaisedButton
+        icon={this.props.sendButtonContent}
+        style={tags.buttonStyle}
+        primary
+        onClick={this.onSend}
+      />);
     }
 
     return (
-      <Layout type='column' style={tags.constentStyle}>
+      <Layout type="column" style={tags.constentStyle}>
         <Fixed>
           <WPostWriteInput
             ref={this.onInputRef}
@@ -184,55 +182,67 @@ class WPostWrite extends React.Component {
             updatePreview={this.updatePreview}
             checkParser={this.checkParser}
             getParser={this.getParser}
-            local={this.props.local}/>
+            local={this.props.local}
+          />
         </Fixed>
         <Flex>
-          <Layout type='column'>
+          <Layout type="column">
             <Flex style={tags.previewContainerStyle}>
               <WPostWritePreview
                 ref={this.onPreviewRef}
                 parser={this.state.parser}
                 text={this.props.text || ''}
-                local={this.props.local} />
+                local={this.props.local}
+              />
             </Flex>
             <Fixed>
               {sendButton}
-              <RaisedButton label={this.props.local.post_save_draft}
+              <RaisedButton
+                label={this.props.local.post_save_draft}
                 style={tags.buttonStyle}
-                onClick={this.saveDraft}/>
+                onClick={this.saveDraft}
+              />
               {this.props.onCancel && (
-                <RaisedButton label={this.props.local.post_cancel}
+                <RaisedButton
+                  label={this.props.local.post_cancel}
                   style={tags.buttonStyle}
-                  onClick={this.props.onCancel}/>
+                  onClick={this.props.onCancel}
+                />
               )}
-              <RaisedButton label={this.props.local.settings}
+              <RaisedButton
+                label={this.props.local.settings}
                 style={tags.settingsButtonStyle}
-                onClick={this.openSettingsDialog}/>
+                onClick={this.openSettingsDialog}
+              />
 
               <Dialog
                 title={this.props.local.post_settings}
                 actions={settingsActions}
-                modal={true}
+                modal
                 contentStyle={tags.dialogStyle}
-                open={this.state.settingsDialog}>
+                open={this.state.settingsDialog}
+              >
                 <SelectField
                   floatingLabelText={this.props.local.settings_formatting_styles}
                   value={this.state.parser}
-                  onChange={this.formattingStyleChange}>
-                  <MenuItem value='none' primaryText={this.props.local.settings_none} />
-                  <MenuItem value='markdown' primaryText={this.props.local.settings_markdown} />
-                  <MenuItem value='HTML' primaryText={this.props.local.settings_html} />
+                  onChange={this.formattingStyleChange}
+                >
+                  <MenuItem value="none" primaryText={this.props.local.settings_none} />
+                  <MenuItem value="markdown" primaryText={this.props.local.settings_markdown} />
+                  <MenuItem value="HTML" primaryText={this.props.local.settings_html} />
                 </SelectField>
                 <Checkbox
                   checked={this.state.disablePreview}
                   value={this.state.disablePreview}
                   onCheck={(e, i) => this.checkboxChange('disablePreview', e, i)}
-                  label={this.props.local.post_settings_disable_link_preview} />
+                  label={this.props.local.post_settings_disable_link_preview}
+                />
                 <Checkbox
                   checked={this.state.disableNotification}
                   value={this.state.disableNotification}
                   onCheck={(e, i) => this.checkboxChange('disableNotification', e, i)}
-                  label={this.props.local.post_settings_disable_notification} />
+                  label={this.props.local.post_settings_disable_notification}
+                />
               </Dialog>
             </Fixed>
           </Layout>
@@ -241,5 +251,17 @@ class WPostWrite extends React.Component {
     );
   }
 }
+WPostWrite.propTypes = {
+  settings: React.PropTypes.object,
+  local: React.PropTypes.object,
+  text: React.PropTypes.string,
+  sendButtonContent: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element,
+  ]),
+  onSend: React.PropTypes.func,
+  onSaveDraft: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
+};
 
 module.exports = WPostWrite;

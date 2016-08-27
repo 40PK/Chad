@@ -1,3 +1,4 @@
+const React = require('react');
 const WPostWrite = require('./WPostWrite');
 const { CircularProgress } = require('material-ui');
 const shallowCompare = require('react-addons-shallow-compare');
@@ -22,14 +23,14 @@ class ContentBarPostWrite extends React.Component {
     this.onWPostRef = this.onWPostRef.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       sendButtonContent: nextProps.local.post_send,
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   onSendEnd() {
@@ -40,16 +41,18 @@ class ContentBarPostWrite extends React.Component {
   }
 
   onSend(data) {
-    data.onEnd = () => this.onSendEnd();
-    data.onStart = () => this.setState({
+    const postData = data;
+    postData.onEnd = () => this.onSendEnd();
+    postData.onStart = () => this.setState({
       sendButtonContent:
         <CircularProgress
           style={tags.circProgressStyle}
           size={0.4}
-          color='#FFFFFF' />,
+          color="#FFFFFF"
+        />,
     });
 
-    this.props.signal.call('SendPost', [data]);
+    this.props.signal.call('SendPost', [postData]);
   }
 
   onSaveDraft(data) {
@@ -69,10 +72,16 @@ class ContentBarPostWrite extends React.Component {
           sendButtonContent={this.state.sendButtonContent}
           onSend={this.onSend}
           onSaveDraft={this.onSaveDraft}
-          local={this.props.local}/>
+          local={this.props.local}
+        />
       </div>
     );
   }
 }
+ContentBarPostWrite.propTypes = {
+  local: React.PropTypes.object,
+  signal: React.PropTypes.func,
+  defaults: React.propTypes.object,
+};
 
 module.exports = ContentBarPostWrite;

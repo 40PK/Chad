@@ -1,3 +1,4 @@
+const React = require('react');
 const {
   ListItem,
   Checkbox,
@@ -51,7 +52,7 @@ class SideBarChannels extends React.Component {
   }
 
   selectedChannels() {
-    let checked = [];
+    const checked = [];
     for (let i = 0; i < this.props.channels.length; ++i) {
       if (this.checkboxRefs[this.props.channels[i].uid].state.switched) {
         checked.push(this.props.channels[i].username);
@@ -62,7 +63,7 @@ class SideBarChannels extends React.Component {
   }
 
   textFieldChange(type, event) {
-    let state = {};
+    const state = {};
     state[type] = event.target.value;
     this.setState(state);
   }
@@ -89,16 +90,16 @@ class SideBarChannels extends React.Component {
   }
 
   render() {
-    let nestedItems = [];
+    const nestedItems = [];
 
-    let actions = [
+    const actions = [
       <FlatButton
         label={this.props.local.d_add_channel_cancel}
         onClick={this.closeNewChannelDialog}
       />,
       <FlatButton
         label={this.props.local.d_add_channel_save}
-        primary={true}
+        primary
         onClick={this.newChannel}
       />,
     ];
@@ -107,54 +108,59 @@ class SideBarChannels extends React.Component {
       nestedItems.push(
         <ListItem
           rightIconButton={
-            <IconMenu iconButtonElement={
-              <IconButton>
-                <MoreVertIcon color={grey400}/>
-              </IconButton>
-            }>
+            <IconMenu iconButtonElement={<IconButton><MoreVertIcon color={grey400} /></IconButton>}>
               <MenuItem onClick={() => this.removeChannel(channel.uid)}>Remove</MenuItem>
             </IconMenu>
           }
-          leftCheckbox={<Checkbox ref={(ref) => this.checkboxRefs[channel.uid] = ref} />}
+          leftCheckbox={<Checkbox ref={ref => { this.checkboxRefs[channel.uid] = ref; }} />}
           key={channel.uid}
           primaryText={channel.name}
         />);
+      return null;
     });
 
-    nestedItems.push(
-        <ListItem
-          onClick={this.openNewChannelDialog}
-          leftIcon={<ContentAdd/>}
-          key={100500}
-          primaryText={this.props.local.channels_add_channel}
-        />);
+    nestedItems.push(<ListItem
+      onClick={this.openNewChannelDialog}
+      leftIcon={<ContentAdd />}
+      key={100500}
+      primaryText={this.props.local.channels_add_channel}
+    />);
 
     return (
       <div>
         <ListItem
           primaryText={this.props.local.channels}
-          primaryTogglesNestedList={true}
-          nestedItems={nestedItems} />
+          primaryTogglesNestedList
+          nestedItems={nestedItems}
+        />
         <Dialog
           title={this.props.local.d_add_channel}
           actions={actions}
-          modal={true}
+          modal
           contentStyle={tags.dialogStyle}
-          open={this.state.newChannelDialog}>
+          open={this.state.newChannelDialog}
+        >
           <TextField
             value={this.state.newChannelName}
             onChange={(e) => this.textFieldChange('newChannelName', e)}
             floatingLabelText={this.props.local.d_add_channel_name}
-            hintText={this.props.local.d_add_channel_name_placeholder}/>
+            hintText={this.props.local.d_add_channel_name_placeholder}
+          />
           <TextField
             value={this.state.newChannelUsername}
             onChange={(e) => this.textFieldChange('newChannelUsername', e)}
             floatingLabelText={this.props.local.d_add_channel_username}
-            hintText='@mychannel'/>
+            hintText="@mychannel"
+          />
         </Dialog>
       </div>
     );
   }
 }
+SideBarChannels.propTypes = {
+  signal: React.PropTypes.func,
+  channels: React.PropTypes.array,
+  local: React.PropTypes.object,
+};
 
 module.exports = SideBarChannels;

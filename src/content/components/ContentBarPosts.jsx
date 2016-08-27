@@ -1,3 +1,4 @@
+const React = require('react');
 const {
   Card,
   CardHeader,
@@ -40,24 +41,6 @@ class ContentBarPosts extends React.Component {
     return shallowCompare(this, nextProps, nextState);
   }
 
-  deletePost(uid) {
-    this.props.signal.call('DeletePost', [uid, () => this.forceUpdate()]);
-  }
-
-  cancelEditPost() {
-    this.setState({
-      change: null,
-    });
-  }
-
-  editPost(uid) {
-    this.setState({
-      change: {
-        uid: uid,
-      },
-    });
-  }
-
   onChangeEnd() {
     this.setState({
       change: null,
@@ -66,23 +49,44 @@ class ContentBarPosts extends React.Component {
   }
 
   onChange(data) {
-    data.onEnd = () => this.onChangeEnd();
-    data.onStart = () => this.setState({
+    const postData = data;
+    postData.onEnd = () => this.onChangeEnd();
+    postData.onStart = () => this.setState({
       sendButtonContent:
         <CircularProgress
           style={tags.circProgressStyle}
           size={0.4}
-          color='#FFFFFF' />,
+          color="#FFFFFF"
+        />,
     });
-    data.post = this.getPostByUid(this.state.change.uid);
+    postData.post = this.getPostByUid(this.state.change.uid);
 
-    this.props.signal.call('ChangePost', [data]);
+    this.props.signal.call('ChangePost', [postData]);
   }
 
   getPostByUid(uid) {
     for (let i = 0; i < this.props.posts.length; ++i) {
       if (this.props.posts[i].uid === uid) return this.props.posts[i];
     }
+    return null;
+  }
+
+  editPost(uid) {
+    this.setState({
+      change: {
+        uid,
+      },
+    });
+  }
+
+  cancelEditPost() {
+    this.setState({
+      change: null,
+    });
+  }
+
+  deletePost(uid) {
+    this.props.signal.call('DeletePost', [uid, () => this.forceUpdate()]);
   }
 
   render() {
@@ -91,8 +95,8 @@ class ContentBarPosts extends React.Component {
     if (this.state.change === null) {
       if (this.props.posts.length > 0) {
         content = [];
-        this.props.posts.map((post) => {
-          let html = parser({
+        this.props.posts.map(post => {
+          const html = parser({
             mode: post.parse_mode,
             data: post.text,
           });
@@ -101,33 +105,37 @@ class ContentBarPosts extends React.Component {
             <Card key={post.uid} style={tags.cardStyle}>
               <CardHeader
                 title={post.chats.map((chat) => <Chip key={chat.chat_id}>{chat.name}</Chip>)}
-                subtitle={Utils.getDateString(new Date(post.date * 1000))}/>
+                subtitle={Utils.getDateString(new Date(post.date * 1000))}
+              />
               <CardText>
-                <pre dangerouslySetInnerHTML={{ __html: html }} className='preview'></pre>
+                <pre dangerouslySetInnerHTML={{ __html: html }} className="preview" />
               </CardText>
               <CardActions>
                 <FlatButton
                   onClick={() => this.deletePost(post.uid)}
-                  secondary={true}
-                  label={this.props.local.posts_delete} />
+                  secondary
+                  label={this.props.local.posts_delete}
+                />
                 <FlatButton
                   onClick={() => this.editPost(post.uid)}
-                  label={this.props.local.posts_edit} />
+                  label={this.props.local.posts_edit}
+                />
               </CardActions>
             </Card>
           );
+          return null;
         });
       } else {
         content = (
-          <div className='empty-placeholder'>
-            <EmptyIcon color={grey300} style={tags.emptyStyle}/>
+          <div className="empty-placeholder">
+            <EmptyIcon color={grey300} style={tags.emptyStyle} />
             <h1 style={tags.h1Style}>{this.props.local.posts_empty}</h1>
           </div>
         );
       }
     } else {
-      let post = this.getPostByUid(this.state.change.uid);
-      let settings = {
+      const post = this.getPostByUid(this.state.change.uid);
+      const settings = {
         disableNotification: post.disableNotification,
         disablePreview: post.disablePreview,
         parser: post.parse_mode,
@@ -139,7 +147,8 @@ class ContentBarPosts extends React.Component {
           sendButtonContent={this.state.sendButtonContent}
           onCancel={this.cancelEditPost}
           onSend={this.onChange}
-          local={this.props.local}/>);
+          local={this.props.local}
+        />);
     }
 
     return (
@@ -149,5 +158,10 @@ class ContentBarPosts extends React.Component {
     );
   }
 }
+ContentBarPosts.propTypes = {
+  signal: React.PropTypes.func,
+  local: React.PropTypes.object,
+  posts: React.PropTypes.array,
+};
 
 module.exports = ContentBarPosts;
