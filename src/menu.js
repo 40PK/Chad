@@ -2,7 +2,6 @@ const checkUpdates = require('./checkUpdates');
 const {
   shell,
   Menu,
-  remote,
   app,
 } = require('electron');
 

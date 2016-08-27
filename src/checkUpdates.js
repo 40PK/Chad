@@ -12,7 +12,7 @@ module.exports = (local, focusedWindow, notifyUpToDate) => {
   request.get('https://api.github.com/repos/40PK/Chad/releases/latest').end((err, res) => {
     const newVer = res.body.tag_name.substr(1);
     const hasUpdates = compare(newVer, version) === 1;
-    let answerDialog = [];
+    const answerDialog = [];
     if (focusedWindow) answerDialog.push(focusedWindow);
 
     if (hasUpdates) {

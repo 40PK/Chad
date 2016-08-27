@@ -4,9 +4,9 @@ const {
   Menu,
   app,
 } = require('electron');
-const request = require('superagent');
 const checkUpdates = require('./checkUpdates');
 const menu = require('./menu');
+const path = require('path');
 
 let mainWindow;
 
@@ -28,7 +28,7 @@ function createWindow() {
     minHeight: 600,
 
     'title-bar-style': 'hidden',
-    icon: __dirname + '/icons/chad.png',
+    icon: path.join(__dirname, '/icons/chad.png'),
     show: true,
   });
 
