@@ -28,7 +28,7 @@ class TelegramAPI {
   getBlobFile(path) {
     return new Promise(resolve => {
       const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function () {
+      xhr.onreadystatechange = () => {
         if (this.readyState === 4 && this.status === 200) {
           resolve(this.response);
         }

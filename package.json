@@ -4,6 +4,8 @@
   "description": "Telegram channel administration tool",
   "main": "main.js",
   "scripts": {
+    "test": "npm run lint",
+    "lint": "eslint src/**/*.js src/**/*.jsx",
     "start": "electron ./package",
     "package-darwin": "electron-packager ./package Chad --platform=darwin --arch=all --icon=./src/icons/chad --out=./builds --overwrite",
     "package-linux": "electron-packager ./package Chad --platform=linux --arch=all --icon=./src/icons/chad --out=./builds --overwrite",
