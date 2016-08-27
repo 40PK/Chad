@@ -3,8 +3,8 @@ const request = require('superagent');
 class TelegramAPI {
   constructor(token) {
     this.token = token;
-    this.methodURL = 'https://api.telegram.org/bot' + token + '/';
-    this.fileURL = 'https://api.telegram.org/file/bot' + token + '/';
+    this.methodURL = `https://api.telegram.org/bot${token}/`;
+    this.fileURL = `https://api.telegram.org/file/bot${token}/`;
   }
 
   post(methodName, params) {
@@ -26,15 +26,13 @@ class TelegramAPI {
   }
 
   getBlobFile(path) {
-    return new Promise((resolve, reject) => {
-      var xhr = new XMLHttpRequest();
+    return new Promise(resolve => {
+      const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          //this.response is what you're looking for
+        if (this.readyState === 4 && this.status === 200) {
           resolve(this.response);
         }
       };
-
       xhr.open('GET', this.fileURL + path);
       xhr.responseType = 'blob';
       xhr.send();
@@ -42,29 +40,39 @@ class TelegramAPI {
   }
 
   getBase64Avatar(id) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.getUserProfilePhotos({
         user_id: id,
         limit: 1,
-      }).then((photos) => {
-        photos = photos.body;
+      })
+      .then(res => {
+        const photos = res.body;
         if (photos.ok && photos.result.photos.length > 0) {
           return photos.result.photos[0];
+        }
+        resolve(null);
+        return null;
+      })
+      .then(photo => {
+        if (photo) {
+          this.getFile({
+            file_id: photo[photo.length - 1].file_id,
+          });
         } else {
           resolve(null);
         }
-      }).then((photo) => this.getFile({
-        file_id: photo[photo.length - 1].file_id,
-      })).then((file) => {
-        file = file.body;
+      })
+      .then(res => {
+        const file = res.body;
         if (file.ok) {
           return this.getBlobFile(file.result.file_path);
-        } else {
-          resolve(null);
         }
-      }).then((blob) => {
+        resolve(null);
+        return null;
+      })
+      .then(blob => {
         if (blob) {
-          var reader = new FileReader();
+          const reader = new FileReader();
           reader.onloadend = () => resolve(reader.result);
           reader.readAsDataURL(blob);
         } else {

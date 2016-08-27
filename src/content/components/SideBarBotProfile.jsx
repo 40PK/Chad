@@ -160,7 +160,7 @@ SideBarBotProfile.propTypes = {
   name: React.PropTypes.string,
   username: React.PropTypes.string,
   local: React.PropTypes.object,
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
 };
 
 module.exports = SideBarBotProfile;

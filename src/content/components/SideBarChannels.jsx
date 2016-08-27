@@ -158,7 +158,7 @@ class SideBarChannels extends React.Component {
   }
 }
 SideBarChannels.propTypes = {
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
   channels: React.PropTypes.array,
   local: React.PropTypes.object,
 };

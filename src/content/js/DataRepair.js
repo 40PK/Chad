@@ -20,7 +20,7 @@ const defaultSettings = {
 };
 
 class DataRepair {
-  static repair () {
+  static repair() {
     let lastVersion = localStorage.getItem('data_version');
     if (!lastVersion) {
       lastVersion = initialVersions;
@@ -28,8 +28,10 @@ class DataRepair {
       lastVersion = JSON.parse(lastVersion);
     }
 
-    let currentVersion = remote.getGlobal('data_version');
-    let newSettingsVer = DataRepair.processSettings(lastVersion.settings, currentVersion.settings);
+    const currentVersion = remote.getGlobal('data_version');
+    const newSettingsVer = DataRepair.processSettings(
+      lastVersion.settings,
+      currentVersion.settings);
 
     lastVersion.settings = newSettingsVer;
 
@@ -42,9 +44,8 @@ class DataRepair {
       settings = defaultSettings;
       localStorage.setItem('settings', JSON.stringify(settings));
       return newVer;
-    } else {
-      settings = JSON.parse(settings);
     }
+    settings = JSON.parse(settings);
 
     if (oldVer === newVer) return newVer;
 

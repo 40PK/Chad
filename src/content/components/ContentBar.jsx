@@ -51,7 +51,7 @@ class ContentBar extends React.Component {
   }
 }
 ContentBar.propTypes = {
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
   data: React.PropTypes.object,
   local: React.PropTypes.object,
 };

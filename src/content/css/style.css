@@ -149,3 +149,8 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.aboutLink {
+    color: blue;
+    cursor: pointer;
+}

@@ -9,25 +9,25 @@ const linkRegex = /\((.*)\)/g;
 const titleRegex = /\[(.*)\]/g;
 
 function escapeHtml(str) {
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
 }
 
-function parser(params={ mode: 'markdown', data: '' }) {
-  let mode = params.mode;
+function parser(params = { mode: 'markdown', data: '' }) {
+  const mode = params.mode;
   let data = params.data;
 
   if (mode === 'markdown') {
     data = escapeHtml(data);
     data = data
       .replace(blockcodeRegex, (sub) => {
-        let code = sub.substring(3, sub.length - 4);
+        const code = sub.substring(3, sub.length - 4);
 
         return `<pre class="preview-code">${code}</pre>`;
       })
       .replace(inlinecodeRegex, (sub) => {
-        let code = sub.substring(1, sub.length - 1);
+        const code = sub.substring(1, sub.length - 1);
 
         return `<pre class="preview-code-inline">${code}</pre>`;
       })
@@ -41,12 +41,12 @@ function parser(params={ mode: 'markdown', data: '' }) {
         return `<a href="${link}">${title}</a>`;
       })
       .replace(italicRegex, (sub) => {
-        let text = sub.substring(1, sub.length - 1);
+        const text = sub.substring(1, sub.length - 1);
 
         return `<i>${text}</i>`;
       })
       .replace(strongRegex, (sub) => {
-        let text = sub.substring(1, sub.length - 1);
+        const text = sub.substring(1, sub.length - 1);
 
         return `<b>${text}</b>`;
       });
@@ -65,9 +65,9 @@ function parser(params={ mode: 'markdown', data: '' }) {
         a: ['href'],
       },
     });
-  } else {
-    return escapeHtml(data);
   }
+
+  return escapeHtml(data);
 }
 
 module.exports = parser;

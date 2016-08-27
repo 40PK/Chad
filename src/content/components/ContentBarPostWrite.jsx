@@ -80,8 +80,8 @@ class ContentBarPostWrite extends React.Component {
 }
 ContentBarPostWrite.propTypes = {
   local: React.PropTypes.object,
-  signal: React.PropTypes.func,
-  defaults: React.propTypes.object,
+  signal: React.PropTypes.object,
+  defaults: React.PropTypes.object,
 };
 
 module.exports = ContentBarPostWrite;

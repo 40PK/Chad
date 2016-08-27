@@ -187,7 +187,7 @@ class ContentBarDraft extends React.Component {
   }
 }
 ContentBarDraft.propTypes = {
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
   local: React.PropTypes.object,
   drafts: React.PropTypes.array,
 };

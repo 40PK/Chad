@@ -159,7 +159,7 @@ class ContentBarPosts extends React.Component {
   }
 }
 ContentBarPosts.propTypes = {
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
   local: React.PropTypes.object,
   posts: React.PropTypes.array,
 };

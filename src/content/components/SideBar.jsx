@@ -184,21 +184,21 @@ class SideBar extends React.Component {
           contentStyle={tags.dialogStyle}
           open={this.state.aboutDialog}
         >
-          Source code: <a onClick={this.openGithub}>Github</a><br />
-          Site: <a onClick={this.openSite}>perkovec.github.io/Chad</a><br />
+          Source code: <a className="aboutLink" onClick={this.openGithub}>Github</a><br />
+          Site: <a className="aboutLink" onClick={this.openSite}>perkovec.github.io/Chad</a><br />
           <br />
           Developed by Perkovec:<br />
-          Telegram: <a onClick={this.openTelegram}>@Perkovec</a><br />
-          VK: <a onClick={this.openVK}>Ilya Perkovec</a><br />
-          E-mail: <a onClick={this.openEmail}>perkovec24@gmail.com</a><br />
-          LinkedIn: <a onClick={this.openLinkedIn}>Ilya Perkovec</a>
+          Telegram: <a className="aboutLink" onClick={this.openTelegram}>@Perkovec</a><br />
+          VK: <a className="aboutLink" onClick={this.openVK}>Ilya Perkovec</a><br />
+          E-mail: <a className="aboutLink" onClick={this.openEmail}>perkovec24@gmail.com</a><br />
+          LinkedIn: <a className="aboutLink" onClick={this.openLinkedIn}>Ilya Perkovec</a>
         </Dialog>
       </Layout>
     );
   }
 }
 SideBar.propTypes = {
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
   data: React.PropTypes.object,
   local: React.PropTypes.object,
 };

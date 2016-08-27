@@ -45,6 +45,7 @@ class SideBarMenu extends React.Component {
           onClick={item.onClick}
           primaryText={this.props.local[item.text]}
         />);
+      return null;
     });
 
     return (
@@ -57,7 +58,7 @@ class SideBarMenu extends React.Component {
   }
 }
 SideBarMenu.propTypes = {
-  signal: React.PropTypes.func,
+  signal: React.PropTypes.object,
   local: React.PropTypes.object,
 };
 
