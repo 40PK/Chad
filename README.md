@@ -1,4 +1,4 @@
-# Chad
+# Chad [![version](https://img.shields.io/github/release/40PK/Chad.svg?style=flat-square)](https://github.com/40PK/Chad/releases) [![build](https://img.shields.io/circleci/project/40PK/Chad.svg?style=flat-square)](https://circleci.com/gh/40PK/Chad) [![downloads](https://img.shields.io/github/downloads/40PK/Chad/total.svg?style=flat-square)](https://github.com/40PK/Chad/releases) [![download latest](https://img.shields.io/github/downloads/40PK/Chad/latest/total.svg?style=flat-square)](https://github.com/40PK/Chad/releases/latest) [![Dependency Status](https://www.versioneye.com/user/projects/57c2a38c939fc60037ebcb7f/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57c2a38c939fc60037ebcb7f)
 
 Cross-platform tool for writing posts in telegram channels with markdown and HTML supporting.
 
