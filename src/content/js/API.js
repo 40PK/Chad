@@ -28,9 +28,9 @@ class TelegramAPI {
   getBlobFile(path) {
     return new Promise(resolve => {
       const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = () => {
-        if (this.readyState === 4 && this.status === 200) {
-          resolve(this.response);
+      xhr.onreadystatechange = res => {
+        if (res.target.readyState === 4 && res.target.status === 200) {
+          resolve(res.target.response);
         }
       };
       xhr.open('GET', this.fileURL + path);
@@ -55,17 +55,19 @@ class TelegramAPI {
       })
       .then(photo => {
         if (photo) {
-          this.getFile({
+          return this.getFile({
             file_id: photo[photo.length - 1].file_id,
           });
-        } else {
-          resolve(null);
         }
+        resolve(null);
+        return null;
       })
       .then(res => {
-        const file = res.body;
-        if (file.ok) {
-          return this.getBlobFile(file.result.file_path);
+        if (res) {
+          const file = res.body;
+          if (file.ok) {
+            return this.getBlobFile(file.result.file_path);
+          }
         }
         resolve(null);
         return null;
