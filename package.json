@@ -1,15 +1,13 @@
 {
   "name": "chad",
+  "productName": "Chad",
   "version": "3.1.0",
   "description": "Telegram channel administration tool",
   "main": "main.js",
   "scripts": {
     "test": "npm run lint",
     "lint": "eslint src/**/*.js src/**/*.jsx",
-    "start": "electron ./package",
-    "package-darwin": "electron-packager ./package Chad --platform=darwin --arch=all --icon=./src/icons/chad --out=./builds --overwrite",
-    "package-linux": "electron-packager ./package Chad --platform=linux --arch=all --icon=./src/icons/chad --out=./builds --overwrite",
-    "package-win": "electron-packager ./package Chad --platform=win32 --arch=all --icon=./src/icons/chad --out=./builds --overwrite"
+    "start": "electron ./package"
   },
   "repository": {
     "type": "git",
@@ -30,6 +28,7 @@
   "homepage": "https://github.com/Perkovec/Chad#readme",
   "devDependencies": {
     "del": "^2.2.1",
+    "electron-packager": "^7.7.0",
     "electron-prebuilt": "^1.3.1",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
@@ -48,7 +47,6 @@
     "gulp-useref": "^3.1.0",
     "gulp-watch": "^4.3.9",
     "run-sequence": "^1.2.2",
-    "spawn-sync": "^1.0.15",
     "uglify-js-harmony": "^2.6.2"
   },
   "dependencies": {
