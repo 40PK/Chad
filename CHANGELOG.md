@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0] - 2016-08-28
+### Added
+- Menu bar
+
+### Fixed
+- Full multilanguage support
+
 ## [3.1.0] - 2016-08-16
 ### Added
 - "Post write" section default settings
@@ -44,6 +51,7 @@
 ## 1.0.0 - 2016-07-30
 ### First release
 ---
+[3.2.0]: https://github.com/Perkovec/Chad/compare/v3.1...v3.2
 [3.1.0]: https://github.com/Perkovec/Chad/compare/v3.0...v3.1
 [3.0.0]: https://github.com/Perkovec/Chad/compare/v2.0...v3.0
 [2.0.0]: https://github.com/Perkovec/Chad/compare/v1.0...v2.0

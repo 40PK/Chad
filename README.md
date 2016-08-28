@@ -45,17 +45,17 @@ If you have bot token in telegram, you can start from step 4
 - [XSS](https://github.com/leizongmin/js-xss) - HTML sanitizer
 - [electron-contextmenu-middleware](https://github.com/parro-it/electron-contextmenu-middleware) - `Electron` context menu
 - [electron-input-menu](https://github.com/parro-it/electron-input-menu) - Context menu for `Electron` input elements
-- [universal-analytics](https://github.com/peaksandpies/universal-analytics) - Module for Google's Universal Analytics tracking
 - [react-layout-pane](https://github.com/tomkp/react-layout-pane) - React layout component using flexbox
 - [superagent](https://github.com/visionmedia/superagent) - small progressive client-side HTTP request library
 - [velocity-animate](https://github.com/julianshapiro/velocity) - accelerated JavaScript animation
 - [react-deep-force-update](https://github.com/gaearon/react-deep-force-update) - force-updates React component tree recursively
+- [semver-compare](https://github.com/substack/semver-compare) - compare two semver version strings
 
 
 ## How to build
-#### 1. Install `electron-packager` and `gulp`:
+#### 1. Install `gulp`:
 ```
-npm install electron-packager gulp -g
+npm install gulp -g
 ```
 #### 2. Install dependencies:
 ```
@@ -66,18 +66,18 @@ npm install
 # Debug
 gulp build-debug
 
-# Relese
-gulp build-relese
+# Release
+gulp build-release
 ```
-#### 4. Run build script:
+#### 4. Run build tasks:
 ```
 # OS X
-npm run package-darwin
+gulp package:mac
 
 # Linux
-npm run package-linux
+gulp package:linux
 
 # Windows
-npm run package-win
+gulp package:windows
 ```
 Builds destionation folder - `'builds'`
