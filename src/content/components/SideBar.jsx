@@ -20,7 +20,7 @@ const tags = {
   topSideBarStyle: { height: '100%', overflow: 'auto' },
   listStyle: { width: '100%' },
   h4Style: { margin: 0 },
-  dialogStyle: { width: 300 },
+  dialogStyle: { width: 310 },
 };
 
 class SideBar extends React.Component {

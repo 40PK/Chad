@@ -15,7 +15,7 @@ const MoreVertIcon = require('material-ui/svg-icons/navigation/more-vert').defau
 const shallowCompare = require('react-addons-shallow-compare');
 
 const tags = {
-  dialogStyle: { width: 300 },
+  dialogStyle: { width: 310 },
 };
 
 class SideBarChannels extends React.Component {

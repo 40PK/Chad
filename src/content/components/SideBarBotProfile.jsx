@@ -20,7 +20,7 @@ const shallowCompare = require('react-addons-shallow-compare');
 const tags = {
   circProgressStyle: { marginTop: -5 },
   origin: { horizontal: 'right', vertical: 'top' },
-  dialogStyle: { width: 300 },
+  dialogStyle: { width: 310 },
 };
 
 class SideBarBotProfile extends React.Component {
