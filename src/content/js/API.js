@@ -26,9 +26,9 @@ class TelegramAPI {
   }
 
   getBlobFile(path) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = res => {
+      xhr.onreadystatechange = (res) => {
         if (res.target.readyState === 4 && res.target.status === 200) {
           resolve(res.target.response);
         }
@@ -40,12 +40,12 @@ class TelegramAPI {
   }
 
   getBase64Avatar(id) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.getUserProfilePhotos({
         user_id: id,
         limit: 1,
       })
-      .then(res => {
+      .then((res) => {
         const photos = res.body;
         if (photos.ok && photos.result.photos.length > 0) {
           return photos.result.photos[0];
@@ -53,7 +53,7 @@ class TelegramAPI {
         resolve(null);
         return null;
       })
-      .then(photo => {
+      .then((photo) => {
         if (photo) {
           return this.getFile({
             file_id: photo[photo.length - 1].file_id,
@@ -62,7 +62,7 @@ class TelegramAPI {
         resolve(null);
         return null;
       })
-      .then(res => {
+      .then((res) => {
         if (res) {
           const file = res.body;
           if (file.ok) {
@@ -72,7 +72,7 @@ class TelegramAPI {
         resolve(null);
         return null;
       })
-      .then(blob => {
+      .then((blob) => {
         if (blob) {
           const reader = new FileReader();
           reader.onloadend = () => resolve(reader.result);

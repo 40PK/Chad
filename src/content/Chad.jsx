@@ -8,6 +8,7 @@ const darkBaseTheme = require('material-ui/styles/baseThemes/darkBaseTheme').def
 const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
 const SideBar = require('./components/SideBar');
 const ContentBar = require('./components/ContentBar');
+
 const langs = {
   /* eslint-disable global-require */
   ru: require('./langs/ru'),
@@ -52,33 +53,33 @@ class Chad extends React.Component {
     this.token = this.state.bot.token || null;
     this.API = this.token !== null ? new TGAPI(this.token) : null;
 
-    this.signal.register('LanguageChange', (v) => this.languageChange(v));
-    this.signal.register('DarkThemeChange', (v) => this.darkThemeChange(v));
-    this.signal.register('PostWriteDefaultsChange', (v) => this.postWriteDefaultsChange(v));
-    this.signal.register('SendPost', (d) => this.sendPost(d));
-    this.signal.register('NewChannel', (d) => this.newChannel(d));
+    this.signal.register('LanguageChange', v => this.languageChange(v));
+    this.signal.register('DarkThemeChange', v => this.darkThemeChange(v));
+    this.signal.register('PostWriteDefaultsChange', v => this.postWriteDefaultsChange(v));
+    this.signal.register('SendPost', d => this.sendPost(d));
+    this.signal.register('NewChannel', d => this.newChannel(d));
     this.signal.register('RemoveChannel', (i, h) => this.removeChannel(i, h));
     this.signal.register('SetAdminBot', (t, o) => this.setAdminBot(t, o));
     this.signal.register('RemoveAdminBot', () => this.removeAdminBot());
     this.signal.register('DeletePost', (i, h) => this.deletePost(i, h));
-    this.signal.register('ChangePost', (d) => this.changePost(d));
+    this.signal.register('ChangePost', d => this.changePost(d));
     this.signal.register('DeleteDraft', (i, h) => this.deleteDraft(i, h));
-    this.signal.register('SaveDraft', (d) => this.saveDraft(d));
-    this.signal.register('ChangeDraft', (d) => this.changeDraft(d));
+    this.signal.register('SaveDraft', d => this.saveDraft(d));
+    this.signal.register('ChangeDraft', d => this.changeDraft(d));
 
     // Binding context
     this.closeSnackbar = this.closeSnackbar.bind(this);
   }
 
   getPostIndexByUid(uid) {
-    for (let i = 0; i < this.state.posts.length; ++i) {
+    for (let i = 0; i < this.state.posts.length; i += 1) {
       if (this.state.posts[i].uid === uid) return i;
     }
     return null;
   }
 
   getDraftIndexByUid(uid) {
-    for (let i = 0; i < this.state.drafts.length; ++i) {
+    for (let i = 0; i < this.state.drafts.length; i += 1) {
       if (this.state.drafts[i].uid === uid) return i;
     }
     return null;
@@ -101,7 +102,7 @@ class Chad extends React.Component {
     const signal = this.signal;
     signal.call('SetLoadState', [true]);
 
-    API.getMe().then(res => {
+    API.getMe().then((res) => {
       const getMe = res.body;
       if (getMe.ok) {
         getMe.result.token = token;
@@ -124,7 +125,7 @@ class Chad extends React.Component {
   removeChannel(id, onRemove) {
     const channels = this.state.channels;
 
-    for (let i = 0; i < channels.length; ++i) {
+    for (let i = 0; i < channels.length; i += 1) {
       if (channels[i].uid === id) {
         channels.splice(i, 1);
         return this.setState({
@@ -190,7 +191,7 @@ class Chad extends React.Component {
         params.chat_id = `@${params.chat_id}`;
       }
 
-      API.editMessageText(params).then(res => {
+      API.editMessageText(params).then((res) => {
         const success = res.body;
         if (success.ok) {
           list.splice(0, 1);
@@ -261,7 +262,7 @@ class Chad extends React.Component {
     function sendRec(list, onend) {
       params.chat_id = list[0];
 
-      API.sendMessage(params).then(res => {
+      API.sendMessage(params).then((res) => {
         const success = res.body;
         if (success.ok) {
           post.chats.push({
@@ -349,7 +350,7 @@ class Chad extends React.Component {
     const API = this.API;
 
     this.signal.call('SetAvatarLoadState', [true]);
-    API.getBase64Avatar(userId).then(res => {
+    API.getBase64Avatar(userId).then((res) => {
       const botavatar = res === null ? './assets/botavatar.png' : res;
       localStorage.setItem('botavatar', botavatar);
       this.setState({
@@ -369,7 +370,7 @@ class Chad extends React.Component {
 
   deletePost(uid, onDelete) {
     const posts = this.state.posts;
-    for (let i = 0; i < posts.length; ++i) {
+    for (let i = 0; i < posts.length; i += 1) {
       if (posts[i].uid === uid) {
         posts.splice(i, 1);
         return this.setState({
@@ -385,7 +386,7 @@ class Chad extends React.Component {
 
   deleteDraft(uid, onDelete) {
     const drafts = this.state.drafts;
-    for (let i = 0; i < drafts.length; ++i) {
+    for (let i = 0; i < drafts.length; i += 1) {
       if (drafts[i].uid === uid) {
         drafts.splice(i, 1);
         return this.setState({
@@ -485,9 +486,17 @@ class Chad extends React.Component {
     );
   }
 }
+
+/* eslint-disable react/no-unused-prop-types */
 Chad.propTypes = {
   deepForceUpdate: React.PropTypes.func,
-  bot: React.PropTypes.object,
+  bot: React.PropTypes.shape({
+    id: React.PropTypes.number,
+    first_name: React.PropTypes.string,
+    last_name: React.PropTypes.string,
+    username: React.PropTypes.string,
+  }),
 };
+/* eslint-enable react/no-unused-prop-types */
 
 module.exports = Chad;

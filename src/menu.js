@@ -5,7 +5,7 @@ const {
   app,
 } = require('electron');
 
-module.exports = local => {
+module.exports = (local) => {
   const template = [
     {
       label: local.tmenu_edit,
