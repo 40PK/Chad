@@ -22,6 +22,7 @@ module.exports = {
   settings_link: 'Link',
   settings_bold: 'Bold',
   settings_italic: 'Italic',
+  settings_hidden_link: 'Hidden link',
 
   post_test: 'Post text',
   post_send: 'Send',
@@ -119,6 +120,7 @@ module.exports = {
   alert_invalid_token: 'Invalid token',
   alert_invalid_token_format: 'Invalid token format',
   alert_cant_find_bot: 'Can\'t find bot with this token',
+  alert_hidden_link_not_allowed: 'Hidden link are allowed only with "HTML" formatting style',
 
   snackbar_draft_saved: 'Draft saved!',
 

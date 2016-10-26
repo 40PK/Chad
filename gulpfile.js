@@ -6,13 +6,12 @@ const autoprefixer = require('gulp-autoprefixer');
 const changed = require('gulp-changed');
 const cleanCSS = require('gulp-clean-css');
 const extReplace = require('gulp-ext-replace');
-const react = require('gulp-react');
 const sass = require('gulp-sass');
-const minifier = require('gulp-uglify/minifier');
+const uglify = require('gulp-uglify');
 const useref = require('gulp-useref');
 const watch = require('gulp-watch');
+const babel = require('gulp-babel');
 const runSequence = require('run-sequence');
-const uglifyjs = require('uglify-js-harmony');
 const packager = require('electron-packager');
 
 const pkg = require('./package.json');
@@ -22,40 +21,50 @@ gulp.task('clean', () => del.sync(['package/**', '!package', '!package/node_modu
 
 gulp.task('build:jsx-release', ['clean'], () => gulp.src('src/**/*.jsx')
   .pipe(changed('package'))
-  .pipe(react({ harmony: false, es6module: true }))
-  .pipe(minifier({ mangle: true }, uglifyjs))
+  .pipe(babel({
+    presets: ['es2015', 'react'],
+  }))
+  .pipe(uglify({ mangle: true }))
   .pipe(extReplace('.js'))
   .pipe(gulp.dest('package')));
 
 gulp.task('build:jsx-debug', ['clean'], () => gulp.src('src/**/*.jsx')
   .pipe(changed('package'))
-  .pipe(react({ harmony: false, es6module: true }))
-  .pipe(minifier({
+  .pipe(babel({
+    presets: ['es2015', 'react'],
+  }))
+  .pipe(uglify({
     mangle: false,
     compress: false,
     output: {
       beautify: true,
       indent_level: 2,
     },
-  }, uglifyjs))
+  }))
   .pipe(extReplace('.js'))
   .pipe(gulp.dest('package')));
 
 gulp.task('build:js-release', ['build:jsx-release'], () => gulp.src('src/**/*.js')
   .pipe(changed('package'))
-  .pipe(minifier({ mangle: true }, uglifyjs))
+  .pipe(babel({
+    presets: ['es2015', 'react'],
+  }))
+  .pipe(uglify({ mangle: true }))
   .pipe(gulp.dest('package')));
 
 gulp.task('build:js-debug', ['build:jsx-debug'], () => gulp.src('src/**/*.js')
   .pipe(changed('package'))
-  .pipe(minifier({
+  .pipe(babel({
+    presets: ['es2015', 'react'],
+  }))
+  .pipe(uglify({
     mangle: false,
     compress: false,
     output: {
       beautify: true,
       indent_level: 2,
     },
-  }, uglifyjs))
+  }))
   .pipe(gulp.dest('package')));
 
 gulp.task('build:html-release', () => gulp.src('src/**/*.html')
@@ -97,7 +106,7 @@ gulp.task('run', ['build-debug'], () => {
   });
 });
 
-gulp.task('build-release', cb => {
+gulp.task('build-release', (cb) => {
   runSequence(
     'clean',
     'build:js-release',
@@ -110,7 +119,7 @@ gulp.task('build-release', cb => {
     cb);
 });
 
-gulp.task('build-debug', cb => {
+gulp.task('build-debug', (cb) => {
   runSequence(
     'clean',
     'build:js-debug',

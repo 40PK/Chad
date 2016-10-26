@@ -47,7 +47,8 @@ class ContentBarPostWrite extends React.Component {
       sendButtonContent:
         <CircularProgress
           style={tags.circProgressStyle}
-          size={0.4}
+          size={40}
+          thickness={5}
           color="#FFFFFF"
         />,
     });

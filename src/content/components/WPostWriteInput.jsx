@@ -38,6 +38,7 @@ class WPostWriteInput extends React.Component {
     this.insertLink = this.insertLink.bind(this);
     this.insertBold = this.insertBold.bind(this);
     this.insertItalic = this.insertItalic.bind(this);
+    this.insertHiddenLink = this.insertHiddenLink.bind(this);
     this.onInputRef = this.onInputRef.bind(this);
     this.postTextChange = this.postTextChange.bind(this);
     this.titleFieldChange = this.titleFieldChange.bind(this);
@@ -78,13 +79,16 @@ class WPostWriteInput extends React.Component {
     const parser = this.props.getParser();
 
     let res;
+    let padLeft;
     if (parser === 'markdown') {
       res = `_${text}_`;
+      padLeft = 1;
     } else if (parser === 'HTML') {
       res = `<i>${text}</i>`;
+      padLeft = 3;
     }
 
-    this.replaceText(selStart, selEnd, res);
+    this.replaceText(selStart, selEnd, padLeft, text.length, res);
   }
 
   insertBold() {
@@ -99,13 +103,16 @@ class WPostWriteInput extends React.Component {
     const parser = this.props.getParser();
 
     let res;
+    let padLeft;
     if (parser === 'markdown') {
       res = `*${text}*`;
+      padLeft = 1;
     } else if (parser === 'HTML') {
       res = `<b>${text}</b>`;
+      padLeft = 3;
     }
 
-    this.replaceText(selStart, selEnd, res);
+    this.replaceText(selStart, selEnd, padLeft, text.length, res);
   }
 
   insertLinkInText(e) {
@@ -117,13 +124,16 @@ class WPostWriteInput extends React.Component {
     const parser = this.props.getParser();
 
     let res;
+    let padLeft;
     if (parser === 'markdown') {
       res = `[${this.state.insertLinkTitle}](${this.state.insertLinkURL})`;
+      padLeft = 1;
     } else if (parser === 'HTML') {
       res = `<a href="${this.state.insertLinkURL}">${this.state.insertLinkTitle}</a>`;
+      padLeft = 9;
     }
 
-    this.replaceText(selStart, selEnd, res);
+    this.replaceText(selStart, selEnd, padLeft, this.state.insertLinkTitle.length, res);
     this.closeInsertLinkDialog();
 
     return false;
@@ -143,7 +153,24 @@ class WPostWriteInput extends React.Component {
     }, this.openInsertLinkDialog);
   }
 
-  replaceText(start, end, text) {
+  insertHiddenLink() {
+    const parser = this.props.getParser();
+    if (parser != "HTML") 
+      return alert(this.props.local.alert_hidden_link_not_allowed);
+
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
+
+    let text = this.state.text.substring(selStart, selEnd);
+    if (text.length === 0) text = 'your_link';
+
+    const res = `<a href="${text}">&#8203;</a>`;
+    const padLeft = 9;
+
+    this.replaceText(selStart, selEnd, padLeft, text.length, res);
+  }
+
+  replaceText(start, end, paddingLeft, dataLength, text) {
     const postText = this.state.text;
     this.setState({
       text: postText.substring(0, start) +
@@ -151,7 +178,8 @@ class WPostWriteInput extends React.Component {
     }, () => {
       this.props.updatePreview(this.state.text);
       this.inputRef.focus();
-      this.inputRef.setSelectionRange(start + text.length, start + text.length);
+      let padLeft = start + paddingLeft;
+      this.inputRef.setSelectionRange(padLeft, padLeft + dataLength);
     });
   }
 
@@ -214,6 +242,11 @@ class WPostWriteInput extends React.Component {
         <RaisedButton
           onClick={this.insertItalic}
           label={this.props.local.settings_italic}
+          style={tags.constrolButtonStyle}
+        />
+        <RaisedButton
+          onClick={this.insertHiddenLink}
+          label={this.props.local.settings_hidden_link}
           style={tags.constrolButtonStyle}
         />
         <Divider style={tags.dividerStyle} />

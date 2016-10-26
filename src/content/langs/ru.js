@@ -22,6 +22,7 @@ module.exports = {
   settings_link: 'Ссылка',
   settings_bold: 'Жирный',
   settings_italic: 'Курсив',
+  settings_hidden_link: 'Скрытая ссылка',
 
   post_test: 'Текст поста',
   post_send: 'Отправить',
@@ -119,6 +120,7 @@ module.exports = {
   alert_invalid_token: 'Неверный ключ',
   alert_invalid_token_format: 'Неверный формат ключа',
   alert_cant_find_bot: 'Бот с этим ключом не найден',
+  alert_hidden_link_not_allowed: 'Скрытые ссылки доступны только с "HTML" стилем форматирования',
 
   snackbar_draft_saved: 'Черновик сохранен!',
 
