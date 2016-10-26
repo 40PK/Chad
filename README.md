@@ -31,7 +31,6 @@ If you have bot token in telegram, you can start from step 4
 - Link preview
 - Sync scroll
 - Two-column writing design
-- Auto update
 - Autosave
 - Hotkeys and other user settings
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0] - 2016-10-26
+### Added
+- Hidden links (only HTML formatting style)
+
+### Fixed
+- Links in «About» screen are barely visible with Dark theme enabled ([#4](https://github.com/40PK/Chad/issues/4))
+
 ## [3.2.0] - 2016-08-28
 ### Added
 - Menu bar
@@ -51,6 +58,7 @@
 ## 1.0.0 - 2016-07-30
 ### First release
 ---
+[3.3.0]: https://github.com/Perkovec/Chad/compare/v3.2...v3.3
 [3.2.0]: https://github.com/Perkovec/Chad/compare/v3.1...v3.2
 [3.1.0]: https://github.com/Perkovec/Chad/compare/v3.0...v3.1
 [3.0.0]: https://github.com/Perkovec/Chad/compare/v2.0...v3.0
