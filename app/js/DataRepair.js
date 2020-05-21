@@ -1,4 +1,4 @@
-const { remote } = require('electron');
+const { remote } = window;
 
 const initialVersions = {
   settings: '3.0',

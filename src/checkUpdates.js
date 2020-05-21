@@ -9,7 +9,9 @@ const compare = require('semver-compare');
 const version = app.getVersion();
 
 module.exports = (local, focusedWindow, notifyUpToDate) => {
-  request.get('https://api.github.com/repos/40PK/Chad/releases/latest').end((err, res) => {
+  request.get('https://api.github.com/repos/40PK/Chad/releases/latest')
+  .set('User-Agent', "Chad")
+  .end((err, res) => {
     const newVer = res.body.tag_name.substr(1);
     const hasUpdates = compare(newVer, version) === 1;
     const answerDialog = [];

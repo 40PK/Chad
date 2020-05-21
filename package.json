@@ -1,17 +1,19 @@
 {
   "name": "chad",
   "productName": "Chad",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "Telegram channel administration tool",
-  "main": "main.js",
   "scripts": {
-    "test": "npm run lint",
-    "lint": "eslint src/**/*.js src/**/*.jsx",
-    "start": "electron ./package"
+    "build:app": "parcel build app/index.html --out-dir package/app --public-url ./",
+    "build:package": "rm -rf package && npm run build:app && cp -r src/* package && cd package && npm i",
+    "electron": "cd package && electron index.js",
+    "package:linux": "electron-packager ./package --overwrite --platform linux --arch x64 --app-bundle-id com.perkovec.chad --icon ./src/icons/chad.png --out ./builds",
+    "package:windows": "electron-packager ./package --overwrite --platform win32 --arch x64 --win32metadata.ProductName=\"Chad\" --icon ./src/icons/chad.ico --out ./builds",
+    "package:mac": "electron-packager ./package --overwrite --platform darwin --arch x64 --app-bundle-id com.perkovec.chad --icon ./src/icons/chad.icns --out ./builds"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Perkovec/Chad.git"
+    "url": "git+https://github.com/40PK/Chad.git"
   },
   "keywords": [
     "Telegram",
@@ -23,44 +25,26 @@
   "license": "GNU GPLv3",
   "author": "Perkovec",
   "bugs": {
-    "url": "https://github.com/Perkovec/Chad/issues"
+    "url": "https://github.com/40PK/Chad/issues"
   },
-  "homepage": "https://github.com/Perkovec/Chad#readme",
+  "homepage": "https://github.com/40PK/Chad#readme",
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
-    "del": "^2.2.1",
-    "electron": "^1.3.1",
-    "electron-packager": "^8.1.0",
-    "eslint": "^3.4.0",
-    "eslint-config-airbnb": "^12.0.0",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-jsx-a11y": "^2.2.0",
-    "eslint-plugin-react": "^6.1.2",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-babel": "^6.1.2",
-    "gulp-changed": "^1.3.2",
-    "gulp-clean-css": "^2.0.12",
-    "gulp-ext-replace": "^0.3.0",
-    "gulp-sass": "^2.3.2",
-    "gulp-uglify": "^2.0.0",
-    "gulp-useref": "^3.1.0",
-    "gulp-watch": "^4.3.9",
-    "run-sequence": "^1.2.2"
+    "electron": "^9.0.0",
+    "electron-packager": "^14.2.1",
+    "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "electron": "^1.3.4",
-    "material-ui": "^0.16.0",
-    "react": "^15.3.0",
-    "react-addons-shallow-compare": "^15.3.0",
-    "react-deep-force-update": "^2.0.1",
-    "react-dom": "^15.3.0",
+    "material-ui": "^0.20.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-addons-shallow-compare": "^15.6.2",
+    "react-deep-force-update": "^2.1.3",
+    "react-dom": "^16.13.1",
     "react-layout-pane": "^0.1.16",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "^3.0.3",
     "semver-compare": "^1.0.0",
-    "superagent": "^2.1.0",
-    "velocity-animate": "^1.2.3",
-    "xss": "^0.2.13"
+    "superagent": "^5.2.2",
+    "velocity-animate": "^1.5.2",
+    "xss": "^1.0.6"
   }
 }

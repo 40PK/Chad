@@ -1,9 +1,0 @@
-// Place your settings in this file to overwrite default and user settings.
-{
-  "eslint.options": {
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module"
-    }
-  }
-}

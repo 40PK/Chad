@@ -7,6 +7,7 @@ const {
   Dialog,
 } = require('material-ui');
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   buttonStyle: {
@@ -38,6 +39,8 @@ class WPostWriteInput extends React.Component {
     this.insertLink = this.insertLink.bind(this);
     this.insertBold = this.insertBold.bind(this);
     this.insertItalic = this.insertItalic.bind(this);
+    this.insertStrikethrough = this.insertStrikethrough.bind(this);
+    this.insertUnderline = this.insertUnderline.bind(this);
     this.insertHiddenLink = this.insertHiddenLink.bind(this);
     this.onInputRef = this.onInputRef.bind(this);
     this.postTextChange = this.postTextChange.bind(this);
@@ -65,6 +68,54 @@ class WPostWriteInput extends React.Component {
     this.setState({
       text: '',
     }, () => this.props.updatePreview(''));
+  }
+
+  insertUnderline() {
+    if (!this.props.checkParser()) return;
+
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
+
+    let text = this.state.text.substring(selStart, selEnd);
+    if (text.length === 0) text = 'underline';
+
+    const parser = this.props.getParser();
+
+    let res;
+    let padLeft;
+    if (parser === 'markdown') {
+      res = `__${text}__`;
+      padLeft = 2;
+    } else if (parser === 'HTML') {
+      res = `<u>${text}</u>`;
+      padLeft = 3;
+    }
+
+    this.replaceText(selStart, selEnd, padLeft, text.length, res);
+  }
+
+  insertStrikethrough() {
+    if (!this.props.checkParser()) return;
+
+    const selStart = this.inputRef.selectionStart;
+    const selEnd = this.inputRef.selectionEnd;
+
+    let text = this.state.text.substring(selStart, selEnd);
+    if (text.length === 0) text = 'strikethrough';
+
+    const parser = this.props.getParser();
+
+    let res;
+    let padLeft;
+    if (parser === 'markdown') {
+      res = `~${text}~`;
+      padLeft = 1;
+    } else if (parser === 'HTML') {
+      res = `<s>${text}</s>`;
+      padLeft = 3;
+    }
+
+    this.replaceText(selStart, selEnd, padLeft, text.length, res);
   }
 
   insertItalic() {
@@ -245,6 +296,16 @@ class WPostWriteInput extends React.Component {
           style={tags.constrolButtonStyle}
         />
         <RaisedButton
+          onClick={this.insertStrikethrough}
+          label={this.props.local.settings_strikethrough}
+          style={tags.constrolButtonStyle}
+        />
+        <RaisedButton
+          onClick={this.insertUnderline}
+          label={this.props.local.settings_underline}
+          style={tags.constrolButtonStyle}
+        />
+        <RaisedButton
           onClick={this.insertHiddenLink}
           label={this.props.local.settings_hidden_link}
           style={tags.constrolButtonStyle}
@@ -288,11 +349,11 @@ class WPostWriteInput extends React.Component {
   }
 }
 WPostWriteInput.propTypes = {
-  text: React.PropTypes.string,
-  local: React.PropTypes.object,
-  updatePreview: React.PropTypes.func,
-  checkParser: React.PropTypes.func,
-  getParser: React.PropTypes.func,
+  text: PropTypes.string,
+  local: PropTypes.object,
+  updatePreview: PropTypes.func,
+  checkParser: PropTypes.func,
+  getParser: PropTypes.func,
 };
 
 module.exports = WPostWriteInput;

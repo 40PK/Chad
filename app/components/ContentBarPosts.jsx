@@ -14,6 +14,7 @@ const WPostWrite = require('./WPostWrite');
 const parser = require('../js/parser');
 const Utils = require('../js/Utils');
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   circProgressStyel: { marginTop: -8 },
@@ -159,9 +160,9 @@ class ContentBarPosts extends React.Component {
   }
 }
 ContentBarPosts.propTypes = {
-  signal: React.PropTypes.object,
-  local: React.PropTypes.object,
-  posts: React.PropTypes.array,
+  signal: PropTypes.object,
+  local: PropTypes.object,
+  posts: PropTypes.array,
 };
 
 module.exports = ContentBarPosts;

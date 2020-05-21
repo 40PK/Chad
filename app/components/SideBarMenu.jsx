@@ -1,6 +1,7 @@
 const React = require('react');
 const { ListItem } = require('material-ui');
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 class SideBarMenu extends React.Component {
   constructor(props) {
@@ -58,8 +59,8 @@ class SideBarMenu extends React.Component {
   }
 }
 SideBarMenu.propTypes = {
-  signal: React.PropTypes.object,
-  local: React.PropTypes.object,
+  signal: PropTypes.object,
+  local: PropTypes.object,
 };
 
 module.exports = SideBarMenu;

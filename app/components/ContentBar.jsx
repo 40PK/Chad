@@ -3,6 +3,7 @@ const ContentBarPostWrite = require('./ContentBarPostWrite');
 const ContentBarPosts = require('./ContentBarPosts');
 const ContentBarDrafts = require('./ContentBarDrafts');
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 class ContentBar extends React.Component {
   constructor(props) {
@@ -51,9 +52,9 @@ class ContentBar extends React.Component {
   }
 }
 ContentBar.propTypes = {
-  signal: React.PropTypes.object,
-  data: React.PropTypes.object,
-  local: React.PropTypes.object,
+  signal: PropTypes.object,
+  data: PropTypes.object,
+  local: PropTypes.object,
 };
 
 module.exports = ContentBar;

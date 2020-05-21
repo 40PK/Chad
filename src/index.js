@@ -30,10 +30,14 @@ function createWindow() {
     'title-bar-style': 'hidden',
     icon: path.join(__dirname, '/icons/chad.png'),
     show: true,
+    webPreferences: {
+      nodeIntegration: true,
+      preload: __dirname + '/preload.js'
+    }
   });
 
   mainWindow.setMenu(null);
-  mainWindow.loadURL(`file://${__dirname}/content/index.html`);
+  mainWindow.loadFile('app/index.html');
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -48,9 +52,7 @@ function createWindow() {
   });
 }
 
-app.on('ready', () => {
-  createWindow();
-});
+app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -59,7 +61,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
+ if (BrowserWindow.getAllWindows().length === 0) {
+   createWindow()
+ }
+})

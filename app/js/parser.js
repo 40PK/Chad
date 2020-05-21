@@ -2,6 +2,8 @@ const xss = require('xss');
 
 const strongRegex = /\*([\s\S]+?)\*(?!\*)/g;
 const italicRegex = /_([\s\S]+?)_(?!_)/g;
+const underlineRegex = /__([\s\S]+?)__(?!__)/g;
+const strikethroughRegex = /~([\s\S]+?)~(?!~)/g;
 const urlRegex = /\[([\s\S]+?)\](?!\])\(([\s\S]+?)\)(?!\))/g;
 const inlinecodeRegex = /(`)\s*([\s\S]*?[^`])\s*\1(?!`)/g;
 const blockcodeRegex = /(```)\s*([\s\S]*?[^`])\s*\1(?!```)\n?/g;
@@ -40,6 +42,11 @@ function parser(params = { mode: 'markdown', data: '' }) {
 
         return `<a href="${link}">${title}</a>`;
       })
+      .replace(underlineRegex, (sub) => {
+        const text = sub.substring(2, sub.length - 2);
+
+        return `<u>${text}</u>`;
+      })
       .replace(italicRegex, (sub) => {
         const text = sub.substring(1, sub.length - 1);
 
@@ -49,12 +56,17 @@ function parser(params = { mode: 'markdown', data: '' }) {
         const text = sub.substring(1, sub.length - 1);
 
         return `<b>${text}</b>`;
+      })
+      .replace(strikethroughRegex, (sub) => {
+        const text = sub.substring(1, sub.length - 1);
+
+        return `<strike>${text}</strike>`;
       });
 
     return data;
   } else if (mode === 'HTML') {
     return xss(data, {
-      allowedTags: ['b', 'i', 'em', 'strong', 'a', 'code', 'pre'],
+      allowedTags: ['b', 'i', 'em', 'strong', 'a', 'code', 'pre', 's', 'u'],
       whiteList: {
         b: [],
         i: [],
@@ -62,6 +74,8 @@ function parser(params = { mode: 'markdown', data: '' }) {
         strong: [],
         code: [],
         pre: [],
+        s: [],
+        u: [],
         a: ['href'],
       },
     });
