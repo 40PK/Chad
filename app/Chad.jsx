@@ -2,12 +2,14 @@
 const React = require('react');
 const { Paper, Snackbar } = require('material-ui');
 const { Layout, Fixed, Flex } = require('react-layout-pane');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = window;
 const { MuiThemeProvider, getMuiTheme } = require('material-ui/styles');
 const darkBaseTheme = require('material-ui/styles/baseThemes/darkBaseTheme').default;
 const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
 const SideBar = require('./components/SideBar');
 const ContentBar = require('./components/ContentBar');
+const PropTypes = require('prop-types');
+const botavatarURL = require('./assets/botavatar.png');
 
 const langs = {
   /* eslint-disable global-require */
@@ -36,7 +38,7 @@ class Chad extends React.Component {
       posts: JSON.parse(localStorage.getItem('posts') || '[]'),
       drafts: JSON.parse(localStorage.getItem('drafts') || '[]'),
       settings: JSON.parse(localStorage.getItem('settings')),
-      botavatar: (localStorage.getItem('botavatar') || './assets/botavatar.png'),
+      botavatar: (localStorage.getItem('botavatar') || botavatarURL),
       bot: JSON.parse(localStorage.getItem('bot') || '{}'),
       channels: JSON.parse(localStorage.getItem('channels') || '[]'),
       snackbar: {
@@ -351,7 +353,7 @@ class Chad extends React.Component {
 
     this.signal.call('SetAvatarLoadState', [true]);
     API.getBase64Avatar(userId).then((res) => {
-      const botavatar = res === null ? './assets/botavatar.png' : res;
+      const botavatar = res === null ? botavatarURL : res;
       localStorage.setItem('botavatar', botavatar);
       this.setState({
         botavatar,
@@ -364,7 +366,7 @@ class Chad extends React.Component {
     localStorage.removeItem('botavatar');
     this.setState({
       bot: {},
-      botavatar: './assets/botavatar.png',
+      botavatar: botavatarURL,
     });
   }
 
@@ -489,12 +491,12 @@ class Chad extends React.Component {
 
 /* eslint-disable react/no-unused-prop-types */
 Chad.propTypes = {
-  deepForceUpdate: React.PropTypes.func,
-  bot: React.PropTypes.shape({
-    id: React.PropTypes.number,
-    first_name: React.PropTypes.string,
-    last_name: React.PropTypes.string,
-    username: React.PropTypes.string,
+  deepForceUpdate: PropTypes.func,
+  bot: PropTypes.shape({
+    id: PropTypes.number,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    username: PropTypes.string,
   }),
 };
 /* eslint-enable react/no-unused-prop-types */

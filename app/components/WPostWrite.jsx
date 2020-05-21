@@ -12,6 +12,7 @@ const { Layout, Fixed, Flex } = require('react-layout-pane');
 const shallowCompare = require('react-addons-shallow-compare');
 const WPostWriteInput = require('./WPostWriteInput');
 const WPostWritePreview = require('./WPostWritePreview');
+const PropTypes = require('prop-types');
 
 const tags = {
   buttonStyle: {
@@ -252,16 +253,16 @@ class WPostWrite extends React.Component {
   }
 }
 WPostWrite.propTypes = {
-  settings: React.PropTypes.object,
-  local: React.PropTypes.object,
-  text: React.PropTypes.string,
-  sendButtonContent: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.element,
+  settings: PropTypes.object,
+  local: PropTypes.object,
+  text: PropTypes.string,
+  sendButtonContent: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
   ]),
-  onSend: React.PropTypes.func,
-  onSaveDraft: React.PropTypes.func,
-  onCancel: React.PropTypes.func,
+  onSend: PropTypes.func,
+  onSaveDraft: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 module.exports = WPostWrite;

@@ -13,6 +13,7 @@ const { grey400 } = require('material-ui/styles/colors');
 const ContentAdd = require('material-ui/svg-icons/content/add').default;
 const MoreVertIcon = require('material-ui/svg-icons/navigation/more-vert').default;
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   dialogStyle: { width: 310 },
@@ -158,9 +159,9 @@ class SideBarChannels extends React.Component {
   }
 }
 SideBarChannels.propTypes = {
-  signal: React.PropTypes.object,
-  channels: React.PropTypes.array,
-  local: React.PropTypes.object,
+  signal: PropTypes.object,
+  channels: PropTypes.array,
+  local: PropTypes.object,
 };
 
 module.exports = SideBarChannels;

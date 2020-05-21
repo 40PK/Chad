@@ -22,6 +22,8 @@ module.exports = {
   settings_link: 'Link',
   settings_bold: 'Bold',
   settings_italic: 'Italic',
+  settings_strikethrough: 'Strikethrough',
+  settings_underline: 'Underline',
   settings_hidden_link: 'Hidden link',
 
   post_test: 'Post text',

@@ -7,6 +7,7 @@ const {
 const { Layout, Fixed, Flex } = require('react-layout-pane');
 const previewParser = require('../js/parser');
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   previewStyle: { width: '100%', height: '100%' },
@@ -62,9 +63,9 @@ class WPostWritePreview extends React.Component {
   }
 }
 WPostWritePreview.propTypes = {
-  text: React.PropTypes.string,
-  parser: React.PropTypes.string,
-  local: React.PropTypes.object,
+  text: PropTypes.string,
+  parser: PropTypes.string,
+  local: PropTypes.object,
 };
 
 module.exports = WPostWritePreview;

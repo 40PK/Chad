@@ -2,3 +2,4 @@ node_modules
 builds
 package
 .vscode
+.cache

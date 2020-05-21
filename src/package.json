@@ -1,0 +1,33 @@
+{
+  "name": "chad",
+  "productName": "Chad",
+  "version": "4.0.0",
+  "description": "Telegram channel administration tool",
+  "scripts": {
+    "build:app": "parcel build app/index.html --out-dir package/app --public-url ./",
+    "build:package": "npm run build:app && cp -r src/* package && cp package.json package",
+    "electron": "cd package && electron index.js",
+    "package:linux": "electron-packager ./package --platform linux --arch all --app-bundle-id com.perkovec.chad --icon ./src/icons/chad.png --out ./builds"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/40PK/Chad.git"
+  },
+  "keywords": [
+    "Telegram",
+    "tool",
+    "administration",
+    "channel",
+    "Electron"
+  ],
+  "license": "GNU GPLv3",
+  "author": "Perkovec",
+  "bugs": {
+    "url": "https://github.com/40PK/Chad/issues"
+  },
+  "homepage": "https://github.com/40PK/Chad#readme",
+  "dependencies": {
+    "semver-compare": "^1.0.0",
+    "superagent": "^5.2.2"
+  }
+}

@@ -13,8 +13,9 @@ const { Layout, Fixed, Flex } = require('react-layout-pane');
 const SideBarMenu = require('./SideBarMenu');
 const SideBarChannels = require('./SideBarChannels');
 const SideBarBotProfile = require('./SideBarBotProfile');
-const { shell } = require('electron');
+const { shell } = window;
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   topSideBarStyle: { height: '100%', overflow: 'auto' },
@@ -198,9 +199,9 @@ class SideBar extends React.Component {
   }
 }
 SideBar.propTypes = {
-  signal: React.PropTypes.object,
-  data: React.PropTypes.object,
-  local: React.PropTypes.object,
+  signal: PropTypes.object,
+  data: PropTypes.object,
+  local: PropTypes.object,
 };
 
 module.exports = SideBar;

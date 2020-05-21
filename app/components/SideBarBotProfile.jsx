@@ -16,6 +16,7 @@ const RefreshIcon = require('material-ui/svg-icons/navigation/refresh').default;
 const ChangeIcon = require('material-ui/svg-icons/editor/mode-edit').default;
 const RemoveIcon = require('material-ui/svg-icons/action/delete').default;
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   circProgressStyle: { marginTop: -5 },
@@ -155,12 +156,12 @@ class SideBarBotProfile extends React.Component {
   }
 }
 SideBarBotProfile.propTypes = {
-  token: React.PropTypes.string,
-  avatar: React.PropTypes.string,
-  name: React.PropTypes.string,
-  username: React.PropTypes.string,
-  local: React.PropTypes.object,
-  signal: React.PropTypes.object,
+  token: PropTypes.string,
+  avatar: PropTypes.string,
+  name: PropTypes.string,
+  username: PropTypes.string,
+  local: PropTypes.object,
+  signal: PropTypes.object,
 };
 
 module.exports = SideBarBotProfile;

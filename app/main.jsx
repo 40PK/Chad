@@ -11,7 +11,7 @@ setTimeout(() => {
   require('./js/DataRepair')();
   /* eslint-enable global-require */
 
-  injectTapEventPlugin();
+  // injectTapEventPlugin();
 
   function deepUpdate() {
     deepForceUpdate(instance);

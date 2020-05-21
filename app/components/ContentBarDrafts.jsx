@@ -11,6 +11,7 @@ const EmptyIcon = require('material-ui/svg-icons/action/assignment-late').defaul
 const WPostWrite = require('./WPostWrite');
 const parser = require('../js/parser');
 const shallowCompare = require('react-addons-shallow-compare');
+const PropTypes = require('prop-types');
 
 const tags = {
   circProgressStyle: { marginTop: -8 },
@@ -187,9 +188,9 @@ class ContentBarDraft extends React.Component {
   }
 }
 ContentBarDraft.propTypes = {
-  signal: React.PropTypes.object,
-  local: React.PropTypes.object,
-  drafts: React.PropTypes.array,
+  signal: PropTypes.object,
+  local: PropTypes.object,
+  drafts: PropTypes.array,
 };
 
 module.exports = ContentBarDraft;

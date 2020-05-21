@@ -22,6 +22,8 @@ module.exports = {
   settings_link: 'Ссылка',
   settings_bold: 'Жирный',
   settings_italic: 'Курсив',
+  settings_strikethrough: 'Зачеркнутый',
+  settings_underline: 'Подчеркнутый',
   settings_hidden_link: 'Скрытая ссылка',
 
   post_test: 'Текст поста',
