@@ -1,0 +1,8 @@
+{
+  "src": "builds/Chad-linux-x64",
+  "dest": "builds",
+  "icon": "src/icons/chad.png",
+  "categories": [
+    "Utility"
+  ]
+}

@@ -7,7 +7,7 @@
     "build:app": "parcel build app/index.html --out-dir package/app --public-url ./",
     "build:package": "rm -rf package && npm run build:app && cp -r src/* package && cd package && npm i",
     "electron": "cd package && electron index.js",
-    "package:linux": "electron-packager ./package --overwrite --platform linux --arch x64 --app-bundle-id com.perkovec.chad --icon ./src/icons/chad.png --out ./builds",
+    "package:linux": "electron-packager ./package --overwrite --platform linux --arch x64 --app-bundle-id com.perkovec.chad --icon ./src/icons/chad.png --out ./builds --executable-name chad",
     "package:windows": "electron-packager ./package --overwrite --platform win32 --arch x64 --win32metadata.ProductName=\"Chad\" --icon ./src/icons/chad.ico --out ./builds",
     "package:mac": "electron-packager ./package --overwrite --platform darwin --arch x64 --app-bundle-id com.perkovec.chad --icon ./src/icons/chad.icns --out ./builds"
   },
