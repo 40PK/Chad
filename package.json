@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/40PK/Chad#readme",
   "devDependencies": {
-    "electron": "^9.0.0",
+    "electron": "^9.4.0",
     "electron-packager": "^14.2.1",
     "parcel-bundler": "^1.12.4"
   },
